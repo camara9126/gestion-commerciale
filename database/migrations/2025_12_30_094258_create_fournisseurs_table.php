@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('fournisseurs', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('entreprise_id')->constrained()->cascadeOnDelete();
+            $table->string('nom');
+            $table->string('telephone')->nullable();
+            $table->string('email')->nullable();
+            $table->string('adresse')->nullable();
+            $table->boolean('statut')->default(true);
             $table->timestamps();
         });
     }

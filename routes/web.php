@@ -31,4 +31,23 @@ Route::middleware(['auth'])->group(function () {
     Route::get('entreprise/create', [EntrepriseControleer::class, 'create'])->name('entreprise.create');
     Route::post('entreprise/store', [EntrepriseControleer::class, 'store'])->name('entreprise.store');
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 require __DIR__.'/auth.php';
