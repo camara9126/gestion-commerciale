@@ -1,44 +1,44 @@
-<nav id="sidebar" class="sidebar col-md-3 col-lg-2 d-md-block bg-dark text-white p-0">
+<nav class="sidebar col-md-3 col-lg-2 d-md-block bg-dark text-white p-0">
                 <div class="position-sticky">
                     <div class="p-4">
                         <h1 class="h4 mb-4">
-                            <i class="fas fa-chart-line me-2"></i>
-                            <span class="fw-bold">Ges-Com</span>
+                            <i class="fas fa-house me-2"></i>
+                            <span class="fw-bold">{{Auth::user()->entreprise->nom}}</span>
                         </h1>
                         
                         <ul class="nav flex-column">
                             <li class="nav-item mb-2">
-                                <a href="#" class="nav-link text-white active" data-section="dashboard">
-                                    <i class="fas fa-home me-2"></i> Tableau de bord
+                                <a href="{{route('dashboard')}}" class="nav-link text-white active">
+                                     Tableau de bord
                                 </a>
                             </li>
                             <li class="nav-item mb-2">
-                                <a href="#" class="nav-link text-white" data-section="clients">
+                                <a href="#" class="nav-link text-white">
                                     <i class="fas fa-users me-2"></i> Clients
                                 </a>
                             </li>
                             <li class="nav-item mb-2">
-                                <a href="#" class="nav-link text-white" data-section="products">
-                                    <i class="fas fa-box me-2"></i> Produits
+                                <a href="{{route('fournisseurs.index')}}" class="nav-link text-white" >
+                                    <i class="fas fa-box me-2"></i> Inventaire
                                 </a>
                             </li>
                             <li class="nav-item mb-2">
-                                <a href="#" class="nav-link text-white" data-section="ventes">
+                                <a href="#" class="nav-link text-white">
                                     <i class="fas fa-shopping-cart me-2"></i> Commandes
                                 </a>
                             </li>
                             <li class="nav-item mb-2">
-                                <a href="#" class="nav-link text-white" data-section="invoices">
+                                <a href="#" class="nav-link text-white">
                                     <i class="fas fa-file-invoice me-2"></i> Factures
                                 </a>
                             </li>
                             <li class="nav-item mb-2">
-                                <a href="#" class="nav-link text-white" data-section="reports">
+                                <a href="#" class="nav-link text-white">
                                     <i class="fas fa-chart-bar me-2"></i> Rapports
                                 </a>
                             </li>
                             <li class="nav-item mb-2">
-                                <a href="#" class="nav-link text-white" data-section="settings">
+                                <a href="#" class="nav-link text-white">
                                     <i class="fas fa-cog me-2"></i> Paramètres
                                 </a>
                             </li>

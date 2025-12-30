@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\EntrepriseControleer;
+use App\Http\Controllers\Inventaire\FournisseurController;
+use App\Http\Controllers\Inventaire\ProduitController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,7 +34,15 @@ Route::middleware(['auth'])->group(function () {
     Route::post('entreprise/store', [EntrepriseControleer::class, 'store'])->name('entreprise.store');
 });
 
+// Route Inventaire/Fournisseur
+Route::middleware(['auth', 'entreprise.exists'])->group(function () {
+    Route::resource('fournisseurs', FournisseurController::class)->except(['show']);
+});
 
+// Route Inventaire/Produits
+Route::middleware(['auth', 'entreprise.exists'])->group(function () {
+    Route::resource('produits', ProduitController::class)->except(['show']);
+});
 
 
 

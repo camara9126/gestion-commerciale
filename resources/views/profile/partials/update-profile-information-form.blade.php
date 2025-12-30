@@ -47,6 +47,12 @@
             @endif
         </div>
 
+        <div>
+            <x-input-label for="entreprise" :value="__('Entreprise')" />
+            <x-text-input id="" name="" type="text" class="mt-1 block w-full" :value="old('name', $user->entreprise->nom)" required autofocus autocomplete="name" />
+            <x-input-error class="mt-2" :messages="$errors->get('name')" />
+        </div>
+
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 

@@ -34,15 +34,15 @@
                 <!-- Barre de navigation supérieure -->
                 <header class="d-flex flex-wrap justify-content-between align-items-center py-3 mb-4 border-bottom bg-white shadow-sm">
                     <div class="d-flex align-items-center">
-                        <button class="btn btn-outline-secondary me-3 d-md-none">
+                        <button id="sidebarToggle" class="btn btn-outline-secondary me-3 d-md-none">
                             <i class="fas fa-bars"></i>
                         </button>
-                        <h2 class="h5 mb-0 text-gray-800">Tableau de bord</h2>
+                        <h2 class="h5 mb-0 text-gray-800" id="pageTitle">Tableau de bord</h2>
                     </div>
                     
                     <div class="d-flex align-items-center">
                         <div class="dropdown me-3">
-                            <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <button class="btn btn-light dropdown-toggle" type="button" id="notificationsDropdown" data-bs-toggle="dropdown">
                                 <i class="fas fa-bell"></i>
                                 <span class="badge bg-danger rounded-pill">3</span>
                             </button>
@@ -61,7 +61,7 @@
                             </button>
                         </div>
                         <div class="dropdown me-3">
-                            <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <button class="btn btn-light dropdown-toggle" type="button" id="notificationsDropdown" data-bs-toggle="dropdown">
                                 <i class="fas fa-user"></i>
                                 <span class="badge bg-success rounded-pill">{{ Auth::user()->name }}</span>
                             </button>
@@ -84,9 +84,9 @@
                 </header>
                 
                 <!-- Contenu dynamique -->
-                <div>
+                <div id="contentArea">
                     <!-- Section Tableau de bord (par défaut) -->
-                    <section  class="content-section active">
+                    <section id="dashboard" class="content-section active">
                         <div class="row mb-4">
                             <div class="col-xl-3 col-md-6 mb-4">
                                 <div class="stat-card bg-white p-4 shadow-sm border-start border-primary border-4">
@@ -159,150 +159,84 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-lg-8 mb-4">
-                                <div class="card shadow-sm h-100">
-                                    <div class="card-header bg-white">
-                                        <h5 class="mb-0">Top produits</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="list-group list-group-flush">
-                                            <div class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
-                                                <div>
-                                                    <h6 class="mb-1">Smartphone X</h6>
-                                                    <small class="text-muted">Électronique</small>
-                                                </div>
-                                                <span class="badge bg-primary rounded-pill">24 ventes</span>
-                                            </div>
-                                            <div class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
-                                                <div>
-                                                    <h6 class="mb-1">Chaise ergonomique</h6>
-                                                    <small class="text-muted">Bureau</small>
-                                                </div>
-                                                <span class="badge bg-primary rounded-pill">18 ventes</span>
-                                            </div>
-                                            <div class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
-                                                <div>
-                                                    <h6 class="mb-1">Livre "Business"</h6>
-                                                    <small class="text-muted">Éducation</small>
-                                                </div>
-                                                <span class="badge bg-primary rounded-pill">15 ventes</span>
-                                            </div>
-                                            <div class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
-                                                <div>
-                                                    <h6 class="mb-1">Cafetière premium</h6>
-                                                    <small class="text-muted">Cuisine</small>
-                                                </div>
-                                                <span class="badge bg-primary rounded-pill">12 ventes</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                        </div>   
+
+                        @if(Session::has('success'))
+                            <div class="alert alert-success" role="alert">
+                                {{ Session::get('success') }}
                             </div>
-                            <div class="col-lg-4 mb-4">
-                                <div class="card shadow-sm h-100">
-                                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                                        <h5 class="mb-0">Ventes mensuelles</h5>
-                                        <select class="form-select form-select-sm w-auto">
-                                            <option>2023</option>
-                                            <option>2022</option>
-                                            <option>2021</option>
-                                        </select>
-                                    </div>
-                                    <div class="card-body">
-                                        <canvas  height="250"></canvas>
-                                    </div>
-                                </div>
-                            </div>                           
+                        @elseif(Session::has('danger'))
+                            <div class="alert alert-danger" role="alert">
+                                {{ Session::get('danger') }}
+                            </div>
+                        @endif
+                        <!-- Section Produits -->
+                         <div class="d-flex justify-content-between align-items-center mb-4">                          
+                            <h3 class="mb-0">Produits</h3>
+                            <a href="{{route('produits.create')}}" class="btn btn-primary">
+                                <i class="fas fa-plus me-1"></i> Nouveau produit
+                            </a>
                         </div>
-                        
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card shadow-sm">
-                                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                                        <h5 class="mb-0">Dernières commandes</h5>
-                                        <a href="#" class="btn btn-sm btn-primary">Voir tout</a>
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nom</th>
+                                                    <th>Code</th>
+                                                    <th>Fournisseur</th>
+                                                    <th>Prix de vente</th>
+                                                    <th>Stock</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($produits as $p)
+                                                <tr>
+                                                    <td>{{$p->nom}}</td>
+                                                    <td>{{$p->code}}</td>
+                                                    <td>{{$p->fournisseur->nom}}</td>
+                                                    <td>{{number_format($p->prix_vente, 0,'','')}} XOF</td>
+                                                    <td>{{$p->stock}}</td>
+                                                    <td>
+                                                        <a href="{{route('produits.edit', $p->id)}}">
+                                                            <i class="fa fa-eye text-primary"></i>
+                                                        </a>
+                                                    </td>                                                        
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
                                     </div>
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-hover">
-                                                <thead>
-                                                    <tr>
-                                                        <th>N° Commande</th>
-                                                        <th>Client</th>
-                                                        <th>Date</th>
-                                                        <th>Montant</th>
-                                                        <th>Statut</th>
-                                                        <th>Actions</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>#ORD-001</td>
-                                                        <td>Marie Dubois</td>
-                                                        <td>15/05/2023</td>
-                                                        <td>€450</td>
-                                                        <td><span class="badge bg-success">Payé</span></td>
-                                                        <td>
-                                                            <button class="btn btn-sm btn-outline-primary">
-                                                                <i class="fas fa-eye"></i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>#ORD-002</td>
-                                                        <td>Jean Martin</td>
-                                                        <td>14/05/2023</td>
-                                                        <td>€890</td>
-                                                        <td><span class="badge bg-warning">En attente</span></td>
-                                                        <td>
-                                                            <button class="btn btn-sm btn-outline-primary">
-                                                                <i class="fas fa-eye"></i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>#ORD-003</td>
-                                                        <td>Sophie Bernard</td>
-                                                        <td>13/05/2023</td>
-                                                        <td>€320</td>
-                                                        <td><span class="badge bg-success">Payé</span></td>
-                                                        <td>
-                                                            <button class="btn btn-sm btn-outline-primary">
-                                                                <i class="fas fa-eye"></i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
+                                </div>                                    
+                            
                             </div>
                         </div>
                     </section>
-                    
-           
-                
-                <!-- Pied de page -->
-                <footer class="mt-5 pt-4 border-top">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <p class="text-muted">© 2023 BizManager. Application de gestion commerciale.</p>
-                        </div>
-                        <div class="col-md-6 text-end">
-                            <p class="text-muted">Version 1.0.0</p>
-                        </div>
-                    </div>
-                </footer>
+
+                </div>
             </main>
         </div>
     </div>
+
+     <!-- Pied de page -->
+    <footer class="mt-5 pt-4 border-top">
+        <div class="row">
+            <div class="col-md-6">
+                <p class="text-muted">© 2023 BizManager. Application de gestion commerciale.</p>
+            </div>
+            <div class="col-md-6 text-end">
+                <p class="text-muted">Version 1.0.0</p>
+            </div>
+        </div>
+    </footer>
+        </main>
+    </div>
+</div>
     <!-- Scripts JS -->
     <!--<script src="{{asset('asset/main.js')}}"></script>-->
-    
     <!-- Bootstrap JS avec Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     
