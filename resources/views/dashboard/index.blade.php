@@ -174,7 +174,7 @@ use Illuminate\Support\Facades\Auth;
             
             <!-- Section Inventaire -->
             <section id="inventaire" class="content-section d-none">
-                <div class="stat-card">
+                
 
                     @if(Session::has('success'))
                         <div class="alert alert-success" role="alert">
@@ -187,56 +187,58 @@ use Illuminate\Support\Facades\Auth;
                     @endif
                     <!-- Section Fournisseurs -->
                     <div class="row mb-5">
-                        <div class="col-lg-10">
-                            <div class="d-flex justify-content-between align-items-center mb-0">                          
-                                <h5 class="mb-0">Fournisseurs</h5>
-                                <a href="{{route('fournisseurs.index')}}" class="btn btn-primary">
-                                        Voir plus
-                                </a>
-                            </div>
-                            <div class="card shadow-sm">
-                                <div class="card-body">
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-hover">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Nom</th>
-                                                        <th>Adresse</th>
-                                                        <th>Telephone</th>
-                                                        <th>Email</th>
-                                                        <th>Statut</th>
-                                                        <th>Actions</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach($fournisseurs as $f)
-                                                    <tr>
-                                                        <td>{{$f->nom}}</td>
-                                                        <td>{{$f->adresse}}</td>
-                                                        <td>{{$f->telephone}}</td>
-                                                        <td>{{$f->email}}</td>
-                                                        <td>
-                                                            @if($f->adresse)
-                                                                <span class="badge bg-success">Activé</span>
-                                                                @else
-                                                                <span class="badge bg-warning">Desactivé</span>
-                                                            @endif
-                                                        </td>
-                                                        <td>
-                                                            <a href="{{route('fournisseurs.edit', $f->id)}}">
-                                                                <i class="fa fa-eye text-primary"></i>
-                                                            </a>
-                                                        </td>                                                        
-                                                    </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>                                    
-                                
+                        <div class="stat-card">
+                            <div class="col-lg-10">
+                                <div class="d-flex justify-content-between align-items-center mb-0">                          
+                                    <h5 class="mb-0">Fournisseurs</h5>
+                                    <a href="{{route('fournisseurs.index')}}" class="btn btn-primary">
+                                            Voir plus
+                                    </a>
                                 </div>
-                            </div>                                
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Nom</th>
+                                                            <th>Adresse</th>
+                                                            <th>Telephone</th>
+                                                            <th>Email</th>
+                                                            <th>Statut</th>
+                                                            <th>Actions</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($fournisseurs as $f)
+                                                        <tr>
+                                                            <td>{{$f->nom}}</td>
+                                                            <td>{{$f->adresse}}</td>
+                                                            <td>{{$f->telephone}}</td>
+                                                            <td>{{$f->email}}</td>
+                                                            <td>
+                                                                @if($f->adresse)
+                                                                    <span class="badge bg-success">Activé</span>
+                                                                    @else
+                                                                    <span class="badge bg-warning">Desactivé</span>
+                                                                @endif
+                                                            </td>
+                                                            <td>
+                                                                <a href="{{route('fournisseurs.edit', $f->id)}}">
+                                                                    <i class="fa fa-eye text-primary"></i>
+                                                                </a>
+                                                            </td>                                                        
+                                                        </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>                                    
+                                    
+                                    </div>
+                                </div>                                
+                            </div>
                         </div>
                     </div>
 
@@ -250,52 +252,126 @@ use Illuminate\Support\Facades\Auth;
                                 @endforeach
                             </div>
                         @endif
-                        <div class="col-lg-6">
-                            <div class="d-flex justify-content-between align-items-center mb-0">                          
-                                <h5 class="mb-0">Produits</h5>
-                                <a href="{{route('produits.index')}}" class="btn btn-primary">
-                                        Voir plus
-                                </a>
-                            </div>
-                            <div class="card shadow-sm">
-                                <div class="card-body">
+                        <div class="stat-card">
+                            <div class="col-lg-10">
+                                <div class="d-flex justify-content-between align-items-center mb-0">                          
+                                    <h5 class="mb-0">Produits</h5>
+                                    <a href="{{route('produits.index')}}" class="btn btn-primary">
+                                            Voir plus
+                                    </a>
+                                </div>
+                                <div class="card shadow-sm">
                                     <div class="card-body">
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Nom</th>
+                                                            <th>Code</th>
+                                                            <th>Fournisseur</th>
+                                                            <th>Prix de vente</th>
+                                                            <th>Stock</th>
+                                                            <th>Actions</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($produits as $p)
+                                                        <tr>
+                                                            <td>{{$p->nom}}</td>
+                                                            <td>{{$p->code}}</td>
+                                                            <td>{{$p->fournisseur->nom}}</td>
+                                                            <td>{{number_format($p->prix_vente, 0,'','')}} XOF</td>
+                                                            <td>{{$p->stock}}</td>
+                                                            <td>
+                                                                <a href="{{route('produits.edit', $p->id)}}">
+                                                                    <i class="fa fa-eye text-primary"></i>
+                                                                </a>
+                                                            </td>                                                        
+                                                        </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>                                    
+                                    
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </section>
+
+
+            <!-- Mouvements -->
+            <section id="mouvements" class="content-section d-none">
+                <div class="stat-card">
+                    <!-- Historiques Mouvements -->
+                    <div class="row mb-4">
+                        <h5 class="mb-4">Historique des mouvements</h5>
+                        <div class="col-lg-6">
+                            <h5 class="text-white bg-success">Entree</h5>
+                            <div class="stat-card">
+                                <div class="list-group list-group-flush">
+                                    <div class="table-responsive">
+                                        <table class="table data-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Reference</th>
+                                                    <th>Produit</th>
+                                                    <th>Quantite</th>
+                                                    <th>Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($mouvements_ent as $m)
+                                                <tr>
+                                                    <td><strong>{{$m->reference}}</strong></td>
+                                                    <td>{{$m->produit->nom}}</td>
+                                                    <td>{{$m->quantite}}</td>
+                                                    <td>{{$m->created_at}}</td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <h5 class=" text-white bg-danger">Sortie</h5>
+                            <div class="stat-card">
+                                    <div class="list-group list-group-flush">
                                         <div class="table-responsive">
-                                            <table class="table table-hover">
+                                            <table class="table data-table">
                                                 <thead>
                                                     <tr>
-                                                        <th>Nom</th>
-                                                        <th>Code</th>
-                                                        <th>Fournisseur</th>
-                                                        <th>Prix de vente</th>
-                                                        <th>Stock</th>
-                                                        <th>Actions</th>
+                                                        <th>Reference</th>
+                                                        <th>Produit</th>
+                                                        <th>Quantite</th>
+                                                        <th>Date</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach($produits as $p)
+                                                    @foreach($mouvements_sor as $m)
                                                     <tr>
-                                                        <td>{{$p->nom}}</td>
-                                                        <td>{{$p->code}}</td>
-                                                        <td>{{$p->fournisseur->nom}}</td>
-                                                        <td>{{number_format($p->prix_vente, 0,'','')}} XOF</td>
-                                                        <td>{{$p->stock}}</td>
-                                                        <td>
-                                                            <a href="{{route('produits.edit', $p->id)}}">
-                                                                <i class="fa fa-eye text-primary"></i>
-                                                            </a>
-                                                        </td>                                                        
+                                                        <td><strong>{{$m->reference}}</strong></td>
+                                                        <td>{{$m->produit->nom}}</td>
+                                                        <td>{{$m->quantite}}</td>
+                                                        <td>{{$m->created_at}}</td>
                                                     </tr>
                                                     @endforeach
                                                 </tbody>
                                             </table>
                                         </div>
-                                    </div>                                    
-                                
-                                </div>
+                                    </div>
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                    </div>
+                    <hr>
+                    <!-- Mouvements Entree/Sortie -->
+                    <div class="row">
+                        <div class="col-lg-6">
                             <div class="stat-card">
                                 <h5>Mouvements Entree</h5>
                                 <form method="post" action="{{route('stock.entree')}}">
@@ -317,7 +393,7 @@ use Illuminate\Support\Facades\Auth;
                                 </form>
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-6">
                             <div class="stat-card">
                                 <h5>Mouvements Sortie</h5>
                                 <form method="post" action="{{route('stock.sortie')}}">
@@ -340,99 +416,86 @@ use Illuminate\Support\Facades\Auth;
                             </div>  
                         </div>
                     </div>
-                        
-                    <hr>
-
-                    <!-- Section Stock -->
-                     <div class="row">
-                        <div class="col-lg-6">
-                            <div class="stat-card">
-                                    
-                                <div class="list-group list-group-flush">
-                                    <div class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-3">
-                                        <div class="d-flex align-items-center">
-                                            <div class="bg-primary bg-opacity-10 text-primary rounded p-2 me-3">
-                                                <i class="fas fa-mobile-alt"></i>
-                                            </div>
-                                            <div>
-                                                <h6 class="mb-1">Smartphone X</h6>
-                                                <small class="text-muted">Électronique</small>
-                                            </div>
-                                        </div>
-                                        <span class="badge bg-primary rounded-pill">24</span>
-                                    </div>
-                                    <div class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-3">
-                                        <div class="d-flex align-items-center">
-                                            <div class="bg-success bg-opacity-10 text-success rounded p-2 me-3">
-                                                <i class="fas fa-chair"></i>
-                                            </div>
-                                            <div>
-                                                <h6 class="mb-1">Chaise ergonomique</h6>
-                                                <small class="text-muted">Bureau</small>
-                                            </div>
-                                        </div>
-                                        <span class="badge bg-primary rounded-pill">18</span>
-                                    </div>
-                                    <div class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-3">
-                                        <div class="d-flex align-items-center">
-                                            <div class="bg-warning bg-opacity-10 text-warning rounded p-2 me-3">
-                                                <i class="fas fa-book"></i>
-                                            </div>
-                                            <div>
-                                                <h6 class="mb-1">Livre "Business"</h6>
-                                                <small class="text-muted">Éducation</small>
-                                            </div>
-                                        </div>
-                                        <span class="badge bg-primary rounded-pill">15</span>
-                                    </div>
-                                    <div class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-3">
-                                        <div class="d-flex align-items-center">
-                                            <div class="bg-info bg-opacity-10 text-info rounded p-2 me-3">
-                                                <i class="fas fa-coffee"></i>
-                                            </div>
-                                            <div>
-                                                <h6 class="mb-1">Cafetière premium</h6>
-                                                <small class="text-muted">Cuisine</small>
-                                            </div>
-                                        </div>
-                                        <span class="badge bg-primary rounded-pill">12</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="stat-card">
-                                                       
-                                
-                                <div class="list-group list-group-flush">
-                                    <div class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-3">
-                                        <div class="d-flex align-items-center">
-                                            <div class="bg-primary bg-opacity-10 text-primary rounded p-2 me-3">
-                                                <i class="fas fa-mobile-alt"></i>
-                                            </div>
-                                            <div>
-                                                <h6 class="mb-1">Smartphone X</h6>
-                                                <small class="text-muted">Électronique</small>
-                                            </div>
-                                        </div>
-                                        <span class="badge bg-primary rounded-pill">24</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                     </div>
                 </div>
             </section>
-            
-            <section id="commercial" class="content-section d-none">
-                <div class="stat-card">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h3>Gestion des produits</h3>
-                        <button class="btn btn-primary">
-                            <i class="fas fa-plus me-2"></i> Nouveau produit
-                        </button>
+
+            <!-- Ventes -->
+             <section id="clients" class="content-section d-none">
+                <div class="row">
+                    <div class="col-10">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="mb-0">Liste des ventes</h5>
+                                <a href="{{route('clients.index')}}" class="btn btn-sm btn-primary">Voir plus</a>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nom</th>
+                                            <th>Telephone</th>
+                                            <th>Email</th>
+                                            <th>Adresse</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($clients as $c)
+                                        <tr>
+                                            <td>{{$c->nom}}</td>
+                                            <td>{{$c->telephone}}</td>
+                                            <td>{{$c->email}}</td>
+                                            <td>
+                                                <a href="{{route('clients.edit', $c->id)}}">
+                                                    <i class="fa fa-eye text-primary"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
-                    <p class="text-muted">Cette section permet de gérer votre catalogue de produits, les stocks, les prix, etc.</p>
+                </div>
+            </section>
+
+            <!-- Clients -->
+            <section id="clients" class="content-section d-none">
+                <div class="row">
+                    <div class="col-10">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="mb-0">Liste des clients</h5>
+                                <a href="{{route('clients.index')}}" class="btn btn-sm btn-primary">Voir plus</a>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nom</th>
+                                            <th>Telephone</th>
+                                            <th>Email</th>
+                                            <th>Adresse</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($clients as $c)
+                                        <tr>
+                                            <td>{{$c->nom}}</td>
+                                            <td>{{$c->telephone}}</td>
+                                            <td>{{$c->email}}</td>
+                                            <td>
+                                                <a href="{{route('clients.edit', $c->id)}}">
+                                                    <i class="fa fa-eye text-primary"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
             

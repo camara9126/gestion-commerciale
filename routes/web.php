@@ -1,12 +1,15 @@
 <?php
 
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\EntrepriseControleer;
 use App\Http\Controllers\Inventaire\FournisseurController;
 use App\Http\Controllers\Inventaire\ProduitController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StockController;
+use App\Models\Client;
 use App\Models\Fournisseur;
 use App\Models\Produit;
+use App\Models\StockMouvement;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,7 +41,12 @@ Route::middleware(['auth', 'entreprise.exists'])->group(function () {
     $fournisseurs = Fournisseur::where('entreprise_id', Auth::user()->entreprise_id)->latest()->get();
     $produits = Produit::with('fournisseur')->where('entreprise_id', Auth::user()->entreprise_id)->latest()->get();
 
-    return view('dashboard.index', compact('produits','fournisseurs'));        
+    $mouvements_ent = StockMouvement::where('entreprise_id', request()->user()->entreprise_id)->where('type', 'entree')->latest()->get();
+    $mouvements_sor = StockMouvement::where('entreprise_id', request()->user()->entreprise_id)->where('type', 'sortie')->latest()->get();
+
+    $clients = Client::where('entreprise_id', request()->user()->entreprise_id)->latest()->get();
+
+    return view('dashboard.index', compact('produits','fournisseurs','mouvements_ent','mouvements_sor','clients'));        
 })->name('dashboard');
 });
 
@@ -55,13 +63,16 @@ Route::middleware(['auth', 'entreprise.exists'])->group(function () {
     // Produits
     Route::resource('produits', ProduitController::class)->except(['show']);
     // Stock
-});
-
-// Route Stock Mouvement
-Route::middleware('auth')->group(function () {
     Route::post('/stock/entree', [StockController::class, 'entree'])->name('stock.entree');
     Route::post('/stock/sortie', [StockController::class, 'sortie'])->name('stock.sortie');
 });
+
+// Route Commercial
+Route::middleware('auth', 'entreprise.exists')->group(function () {
+    Route::resource('clients', ClientController::class);
+});
+
+
 
 
 

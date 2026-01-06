@@ -12,21 +12,33 @@
         
         <div class="px-3 py-4">
             <ul class="nav flex-column">
-                <li class="nav-item mb-2">
+                <!--<li class="nav-item mb-2">
                     <a href="{{ route('dashboard') }}" class="nav-link active" data-section="dashboard">
                         <i class="fas fa-home"></i> Tableau de bord
                     </a>
-                </li>
+                </li>-->
                 <li class="nav-item mb-2">
                     <a href="#" class="nav-link" data-section="inventaire">
                         <i class="fas fa-users"></i> Inventaire
                     </a>
                 </li>
                 <li class="nav-item mb-2">
-                    <a href="#" class="nav-link" data-section="commercial">
-                        <i class="fas fa-box"></i> Commercial
+                    <a href="#" class="nav-link" data-section="mouvements">
+                        <i class="fas fa-file-invoice"></i> Mouvements
                     </a>
                 </li>
+                <hr>
+                <li class="nav-item mb-2">
+                    <a href="#" class="nav-link" data-section="ventes">
+                        <i class="fas fa-box"></i> Ventes
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a href="#" class="nav-link" data-section="clients">
+                        <i class="fas fa-box"></i> Clients
+                    </a>
+                </li>
+                <hr>
                 <li class="nav-item mb-2">
                     <a href="#" class="nav-link" data-section="finance">
                         <i class="fas fa-shopping-cart"></i> Finance
