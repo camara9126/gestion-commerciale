@@ -32,13 +32,24 @@ class EntrepriseControleer extends Controller
             'nom' => 'required|string',
             'telephone' => 'nullable|string|max:50',
             'adresse' => 'nullable|string',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:2048',
         ]);
+
+        // Gestion des logo
+        if ($request->hasFile('logo')) {
+            $filename = time().$request->file('logo')->getClientOriginalName();
+            $path = $request->file('logo')->storeAs('logo', $filename, 'public');
+            $request['logo'] = '/storage/' . $path;
+        } else {
+            dd('Aucun fichier image reçu');
+        }
 
         $entreprise= Entreprise::create([
             'nom' =>$request->nom,
             'telephone' => $request->telephone,
             'adresse' => $request->adresse,
             'devise' => 'XOF',
+            'logo' => $path,
         ]);
         // Lier l'utilisateur a l'entreprise
         $user= $request->user();

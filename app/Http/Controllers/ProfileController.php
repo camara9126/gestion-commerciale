@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
@@ -56,5 +58,34 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    /**
+     * Ajout user par l'admin.
+     */
+    public function addUser()
+    {
+        return view('profile.addUser');
+    }
+
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users',
+            'role' => 'required|in:commercial,comptable',
+        ]);
+        //dd($request);
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'role' => $request->role,
+            'entreprise_id' => $request->user()->entreprise_id,
+            'password' => Hash::make('passe123'), // temporaire
+        ]);
+
+        return redirect()->route('profile.adduser')
+            ->with('success', 'Utilisateur ajouté avec succès');
     }
 }

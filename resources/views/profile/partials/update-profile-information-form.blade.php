@@ -49,7 +49,7 @@
 
         <div>
             <x-input-label for="entreprise" :value="__('Entreprise')" />
-            <x-text-input id="" name="" type="text" class="mt-1 block w-full" :value="old('name', $user->entreprise->nom)" required autofocus autocomplete="name" />
+            <x-text-input id="" name="" type="readOnly" class="mt-1 block w-full" :value="old('name', $user->entreprise->nom)" autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 

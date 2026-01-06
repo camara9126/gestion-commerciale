@@ -10,7 +10,7 @@
                 @endforeach
             </div>
         @endif
-        <form method="post" action="{{route('entreprise.store')}}">
+        <form method="post" action="{{route('entreprise.store')}}" enctype="multipart/form-data">
             @csrf
             <div class="mb-4">
                 <label class="block">Nom de l'enytreprise</label>
@@ -24,7 +24,11 @@
                 <label class="block">Adresse</label>
                 <input type="text" name="adresse" class="w-full border-rounded p-2">
             </div>
-            <button type="submit" class="bg-blue-600 px-4 py-2 rounded">Creer</button>
+             <div class="mb-4">
+                <label class="block">Logo entreprise</label>
+                <input type="file" name="logo" accept="image/*" class="w-full border-rounded p-2">
+            </div>
+            <button type="submit" class="px-4 py-2 border-rounded">Creer</button>
         </form>        
     </div>
 

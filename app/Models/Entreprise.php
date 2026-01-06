@@ -14,6 +14,7 @@ class Entreprise extends Model
         'telephone',
         'adresse',
         'devise',
+        'logo',
         'statut',
     ];
 
