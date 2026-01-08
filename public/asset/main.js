@@ -1,59 +1,58 @@
-        // Toggle sidebar sur mobile
-        document.getElementById('sidebarToggle').addEventListener('click', function() {
-            document.getElementById('sidebar').classList.toggle('active');
-            document.querySelector('.overlay').classList.toggle('active');
+        // Toggle sidebar on mobile
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const mainContent = document.getElementById('mainContent');
+        
+        menuToggle.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
         });
         
-        // Fermer sidebar quand on clique sur l'overlay
-        document.querySelector('.overlay').addEventListener('click', function() {
-            document.getElementById('sidebar').classList.remove('active');
-            this.classList.remove('active');
+        overlay.addEventListener('click', function() {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
         });
         
-        // Navigation entre sections
-        document.querySelectorAll('.nav-link').forEach(link => {
+        // Navigation between sections
+        //document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
                 
-                // Récupérer la section cible
                 const targetSection = this.getAttribute('data-section');
                 
-                // Mettre à jour le titre de la page
+                // Update page title
                 document.getElementById('pageTitle').textContent = this.textContent.trim();
                 
-                // Désactiver tous les liens
+                // Update active nav link
                 document.querySelectorAll('.nav-link').forEach(navLink => {
                     navLink.classList.remove('active');
                 });
-                
-                // Activer le lien cliqué
                 this.classList.add('active');
                 
-                // Masquer toutes les sections
-                document.querySelectorAll('.content-section').forEach(section => {
-                    section.classList.add('d-none');
-                    section.classList.remove('active');
-                });
                 
-                // Afficher la section cible
                 document.getElementById(targetSection).classList.remove('d-none');
-                document.getElementById(targetSection).classList.add('active');
                 
-                // Fermer sidebar sur mobile
-                if (window.innerWidth < 768) {
-                    document.getElementById('sidebar').classList.remove('active');
-                    document.querySelector('.overlay').classList.remove('active');
+                // Close sidebar on mobile
+                if (window.innerWidth < 992) {
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
                 }
             });
-        });
+        //});
         
-       
+        // Mobile search functionality
+        const mobileSearchBtn = document.getElementById('mobileSearchBtn');
+        if (mobileSearchBtn) {
+            mobileSearchBtn.addEventListener('click', function() {
+                const searchQuery = prompt("Entrez votre recherche :");
+                if (searchQuery) {
+                    alert("Recherche de : " + searchQuery);
+                    // Implement search functionality here
+                }
+            });
+        }
         
-        // Gestion responsive
-        window.addEventListener('resize', function() {
-            // Si on passe en mode desktop, s'assurer que la sidebar est visible
-            if (window.innerWidth >= 768) {
-                document.getElementById('sidebar').classList.remove('active');
-                document.querySelector('.overlay').classList.remove('active');
-            }
-        });
+        
+        // Make sure chart resizes properly on load
+        window.dispatchEvent(new Event('resize'));

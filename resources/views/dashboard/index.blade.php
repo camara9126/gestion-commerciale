@@ -113,10 +113,42 @@ use Illuminate\Support\Facades\Auth;
                         <div class="stat-card">
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <h5 class="mb-0">Dernières commandes</h5>
-                                <a href="#" class="btn btn-sm btn-primary">Voir tout</a>
+                                <a href="{{route('ventes.index')}}" class="btn btn-sm btn-primary">Voir tout</a>
                             </div>
                             <div class="table-responsive">
-                                <table class="table data-table">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Reference</th>
+                                            <th>Client</th>
+                                            <th>Total</th>
+                                            <th>Date</th>
+                                            <th>Statut</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse($ventes as $v)
+                                        <tr>
+                                            <td>{{$v->reference}}</td>
+                                            <td>{{$v->client->nom ?? 'Client supprimee'}}</td>
+                                            <td>{{number_format($v->total, 0, ',','')}}</td>
+                                            <td>{{$v->created_at->format('d/m/y')}}</td>
+                                            <td>
+                                                @if($v->statut == 'payee')
+                                                    <span class="status-badge badge-paid">{{$v->statut}}</span>
+                                                @else
+                                                    <span class="status-badge badge-pending">{{$v->statut}}</span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="7" align="center">Donnee vide !</td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                                <!--<table class="table data-table">
                                     <thead>
                                         <tr>
                                             <th>N° Commande</th>
@@ -165,305 +197,15 @@ use Illuminate\Support\Facades\Auth;
                                             </td>
                                         </tr>
                                     </tbody>
-                                </table>
+                                </table>-->
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
-            
-            <!-- Section Inventaire -->
-            <section id="inventaire" class="content-section d-none">
-                
-
-                    @if(Session::has('success'))
-                        <div class="alert alert-success" role="alert">
-                            {{ Session::get('success') }}
-                        </div>
-                    @elseif(Session::has('danger'))
-                        <div class="alert alert-danger" role="alert">
-                            {{ Session::get('danger') }}
-                        </div>
-                    @endif
-                    <!-- Section Fournisseurs -->
-                    <div class="row mb-5">
-                        <div class="stat-card">
-                            <div class="col-lg-10">
-                                <div class="d-flex justify-content-between align-items-center mb-0">                          
-                                    <h5 class="mb-0">Fournisseurs</h5>
-                                    <a href="{{route('fournisseurs.index')}}" class="btn btn-primary">
-                                            Voir plus
-                                    </a>
-                                </div>
-                                <div class="card shadow-sm">
-                                    <div class="card-body">
-                                        <div class="card-body">
-                                            <div class="table-responsive">
-                                                <table class="table table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Nom</th>
-                                                            <th>Adresse</th>
-                                                            <th>Telephone</th>
-                                                            <th>Email</th>
-                                                            <th>Statut</th>
-                                                            <th>Actions</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach($fournisseurs as $f)
-                                                        <tr>
-                                                            <td>{{$f->nom}}</td>
-                                                            <td>{{$f->adresse}}</td>
-                                                            <td>{{$f->telephone}}</td>
-                                                            <td>{{$f->email}}</td>
-                                                            <td>
-                                                                @if($f->adresse)
-                                                                    <span class="badge bg-success">Activé</span>
-                                                                    @else
-                                                                    <span class="badge bg-warning">Desactivé</span>
-                                                                @endif
-                                                            </td>
-                                                            <td>
-                                                                <a href="{{route('fournisseurs.edit', $f->id)}}">
-                                                                    <i class="fa fa-eye text-primary"></i>
-                                                                </a>
-                                                            </td>                                                        
-                                                        </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>                                    
-                                    
-                                    </div>
-                                </div>                                
-                            </div>
-                        </div>
-                    </div>
-
-                    <hr>
-                    <!-- Section Produits -->
-                    <div class="row mb-5">
-                        @if ($errors->any())
-                            <div style="color: red; margin-bottom: 10px;">
-                                @foreach ($errors->all() as $error)
-                                    <p>{{ $error }}</p>
-                                @endforeach
-                            </div>
-                        @endif
-                        <div class="stat-card">
-                            <div class="col-lg-10">
-                                <div class="d-flex justify-content-between align-items-center mb-0">                          
-                                    <h5 class="mb-0">Produits</h5>
-                                    <a href="{{route('produits.index')}}" class="btn btn-primary">
-                                            Voir plus
-                                    </a>
-                                </div>
-                                <div class="card shadow-sm">
-                                    <div class="card-body">
-                                        <div class="card-body">
-                                            <div class="table-responsive">
-                                                <table class="table table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Nom</th>
-                                                            <th>Code</th>
-                                                            <th>Fournisseur</th>
-                                                            <th>Prix de vente</th>
-                                                            <th>Stock</th>
-                                                            <th>Actions</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach($produits as $p)
-                                                        <tr>
-                                                            <td>{{$p->nom}}</td>
-                                                            <td>{{$p->code}}</td>
-                                                            <td>{{$p->fournisseur->nom}}</td>
-                                                            <td>{{number_format($p->prix_vente, 0,'','')}} XOF</td>
-                                                            <td>{{$p->stock}}</td>
-                                                            <td>
-                                                                <a href="{{route('produits.edit', $p->id)}}">
-                                                                    <i class="fa fa-eye text-primary"></i>
-                                                                </a>
-                                                            </td>                                                        
-                                                        </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>                                    
-                                    
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-            </section>
-
-
-            <!-- Mouvements -->
-            <section id="mouvements" class="content-section d-none">
-                <div class="stat-card">
-                    <!-- Historiques Mouvements -->
-                    <div class="row mb-4">
-                        <h5 class="mb-4">Historique des mouvements</h5>
-                        <div class="col-lg-6">
-                            <h5 class="text-white bg-success">Entree</h5>
-                            <div class="stat-card">
-                                <div class="list-group list-group-flush">
-                                    <div class="table-responsive">
-                                        <table class="table data-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Reference</th>
-                                                    <th>Produit</th>
-                                                    <th>Quantite</th>
-                                                    <th>Date</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach($mouvements_ent as $m)
-                                                <tr>
-                                                    <td><strong>{{$m->reference}}</strong></td>
-                                                    <td>{{$m->produit->nom}}</td>
-                                                    <td>{{$m->quantite}}</td>
-                                                    <td>{{$m->created_at}}</td>
-                                                </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <h5 class=" text-white bg-danger">Sortie</h5>
-                            <div class="stat-card">
-                                    <div class="list-group list-group-flush">
-                                        <div class="table-responsive">
-                                            <table class="table data-table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Reference</th>
-                                                        <th>Produit</th>
-                                                        <th>Quantite</th>
-                                                        <th>Date</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach($mouvements_sor as $m)
-                                                    <tr>
-                                                        <td><strong>{{$m->reference}}</strong></td>
-                                                        <td>{{$m->produit->nom}}</td>
-                                                        <td>{{$m->quantite}}</td>
-                                                        <td>{{$m->created_at}}</td>
-                                                    </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <!-- Mouvements Entree/Sortie -->
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="stat-card">
-                                <h5>Mouvements Entree</h5>
-                                <form method="post" action="{{route('stock.entree')}}">
-                                    @csrf
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Produit</label>
-                                        <select class="form-control" name="produit_id" id="exampleFormControlSelect1">
-                                            <option value="">-- Veuillez choisir un produit --</option>
-                                            @foreach($produits as $p)
-                                            <option value="{{$p->id}}">{{$p->nom}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group mb-2">
-                                        <label for="exampleInputPassword1">Quantite</label>
-                                        <input type="number" name="quantite" min="1" class="form-control" id="exampleInputquantity1">
-                                    </div>
-                                    <button type="submit" class="btn btn-success">Enregistrer</button>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="stat-card">
-                                <h5>Mouvements Sortie</h5>
-                                <form method="post" action="{{route('stock.sortie')}}">
-                                    @csrf
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Produit</label>
-                                        <select class="form-control" name="produit_id" id="exampleFormControlSelect1">
-                                            <option value="">-- Veuillez choisir un produit --</option>
-                                            @foreach($produits as $p)
-                                            <option value="{{$p->id}}">{{$p->nom}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group mb-2">
-                                        <label for="exampleInputPassword1">Quantite</label>
-                                        <input type="number" name="quantite" min="1" class="form-control" id="exampleInputquantity1">
-                                    </div>
-                                    <button type="submit" class="btn btn-danger">Enregistrer</button>
-                                </form>
-                            </div>  
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Ventes -->
-             <section id="clients" class="content-section d-none">
+                <hr>
                 <div class="row">
-                    <div class="col-10">
-                        <div class="stat-card">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h5 class="mb-0">Liste des ventes</h5>
-                                <a href="{{route('clients.index')}}" class="btn btn-sm btn-primary">Voir plus</a>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table data-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Nom</th>
-                                            <th>Telephone</th>
-                                            <th>Email</th>
-                                            <th>Adresse</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($clients as $c)
-                                        <tr>
-                                            <td>{{$c->nom}}</td>
-                                            <td>{{$c->telephone}}</td>
-                                            <td>{{$c->email}}</td>
-                                            <td>
-                                                <a href="{{route('clients.edit', $c->id)}}">
-                                                    <i class="fa fa-eye text-primary"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Clients -->
-            <section id="clients" class="content-section d-none">
-                <div class="row">
-                    <div class="col-10">
-                        <div class="stat-card">
+                    <div class="stat-card">
+                        <div class="col-12">
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <h5 class="mb-0">Liste des clients</h5>
                                 <a href="{{route('clients.index')}}" class="btn btn-sm btn-primary">Voir plus</a>
@@ -484,11 +226,7 @@ use Illuminate\Support\Facades\Auth;
                                             <td>{{$c->nom}}</td>
                                             <td>{{$c->telephone}}</td>
                                             <td>{{$c->email}}</td>
-                                            <td>
-                                                <a href="{{route('clients.edit', $c->id)}}">
-                                                    <i class="fa fa-eye text-primary"></i>
-                                                </a>
-                                            </td>
+                                            <td>{{$c->adresse}}</td>
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -497,8 +235,156 @@ use Illuminate\Support\Facades\Auth;
                         </div>
                     </div>
                 </div>
+                <!-- Section Fournisseurs -->
+                <div class="row mb-5">
+                    <div class="stat-card">
+                        <div class="col-lg-12">
+                            <div class="d-flex justify-content-between align-items-center mb-0">                          
+                                <h5 class="mb-0">Fournisseurs</h5>
+                                <a href="{{route('fournisseurs.index')}}" class="btn btn-primary">
+                                        Voir plus
+                                </a>
+                            </div>
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nom</th>
+                                                        <th>Adresse</th>
+                                                        <th>Telephone</th>
+                                                        <th>Email</th>
+                                                        <th>Statut</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($fournisseurs as $f)
+                                                    <tr>
+                                                        <td>{{$f->nom}}</td>
+                                                        <td>{{$f->adresse}}</td>
+                                                        <td>{{$f->telephone}}</td>
+                                                        <td>{{$f->email}}</td>
+                                                        <td>
+                                                            @if($f->adresse)
+                                                                <span class="badge bg-success">Activé</span>
+                                                                @else
+                                                                <span class="badge bg-warning">Desactivé</span>
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>                                    
+                                
+                                </div>
+                            </div>                                
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+                <!-- Section Produits -->
+                <div class="row mb-5">
+                    <div class="stat-card">
+                        <div class="col-lg-12">
+                            <div class="d-flex justify-content-between align-items-center mb-0">                          
+                                <h5 class="mb-0">Produits</h5>
+                                <a href="{{route('produits.index')}}" class="btn btn-primary">
+                                        Voir plus
+                                </a>
+                            </div>
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nom</th>
+                                                        <th>Code</th>
+                                                        <th>Prix d'achat</th>
+                                                        <th>Stock</th>
+                                                        <th>Fournisseur</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($produits as $p)
+                                                    <tr>
+                                                        <td>{{$p->nom}}</td>
+                                                        <td>{{$p->code}}</td>
+                                                        <td>{{number_format($p->prix_achat, 0,'','')}} XOF</td>
+                                                        <td>{{$p->stock}}</td>
+                                                        <td>{{$p->fournisseur->nom}}</td>
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>                                    
+                                
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row mb-4">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="mb-0">Historique des mouvements</h5>
+                            <a href="{{route('mouvements')}}" class="btn btn-sm btn-primary">Voir plus</a>
+                        </div>
+                        <!-- Historiques Mouvements -->
+                        <div class="row mb-4">
+                            <div class="col-lg-12">
+                                <div class="stat-card">
+                                    <div class="list-group list-group-flush">
+                                        <div class="table-responsive">
+                                            <table class="table data-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Reference</th>
+                                                        <th>Produit</th>
+                                                        <th>Quantite</th>
+                                                        <th>Date</th>
+                                                        <th>Statut</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($mouvements_ent as $m)
+                                                    <tr>
+                                                        <td><strong>{{$m->reference}}</strong></td>
+                                                        <td>{{$m->produit->nom}}</td>
+                                                        <td>{{$m->quantite}}</td>
+                                                        <td>{{$m->created_at->format('j / F / Y')}}</td>
+                                                        <td>
+                                                            @if($f->statut == 'entree')
+                                                                <span class="badge bg-success">entree</span>
+                                                                @else
+                                                                <span class="badge bg-danger">sortie</span>
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <!-- Section Commercial -->
+     
+                      
             </section>
-            
+
             <section id="finance" class="content-section d-none">
                 <div class="stat-card">
                     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -564,125 +450,6 @@ use Illuminate\Support\Facades\Auth;
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
-    <script>
-        // Toggle sidebar on mobile
-        const menuToggle = document.getElementById('menuToggle');
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('overlay');
-        const mainContent = document.getElementById('mainContent');
-        
-        menuToggle.addEventListener('click', function() {
-            sidebar.classList.toggle('active');
-            overlay.classList.toggle('active');
-        });
-        
-        overlay.addEventListener('click', function() {
-            sidebar.classList.remove('active');
-            overlay.classList.remove('active');
-        });
-        
-        // Navigation between sections
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetSection = this.getAttribute('data-section');
-                
-                // Update page title
-                document.getElementById('pageTitle').textContent = this.textContent.trim();
-                
-                // Update active nav link
-                document.querySelectorAll('.nav-link').forEach(navLink => {
-                    navLink.classList.remove('active');
-                });
-                this.classList.add('active');
-                
-                // Show target section
-                document.querySelectorAll('.content-section').forEach(section => {
-                    section.classList.add('d-none');
-                });
-                document.getElementById(targetSection).classList.remove('d-none');
-                
-                // Close sidebar on mobile
-                if (window.innerWidth < 992) {
-                    sidebar.classList.remove('active');
-                    overlay.classList.remove('active');
-                }
-            });
-        });
-        
-        // Mobile search functionality
-        const mobileSearchBtn = document.getElementById('mobileSearchBtn');
-        if (mobileSearchBtn) {
-            mobileSearchBtn.addEventListener('click', function() {
-                const searchQuery = prompt("Entrez votre recherche :");
-                if (searchQuery) {
-                    alert("Recherche de : " + searchQuery);
-                    // Implement search functionality here
-                }
-            });
-        }
-        
-        // Initialize sales chart
-        document.addEventListener('DOMContentLoaded', function() {
-            const ctx = document.getElementById('salesChart').getContext('2d');
-            const salesChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'],
-                    datasets: [{
-                        label: 'Ventes (€)',
-                        data: [6500, 8100, 7500, 9200, 12540, 11000, 13500, 12000, 9800, 11200, 14000, 15000],
-                        borderColor: '#4361ee',
-                        backgroundColor: 'rgba(67, 97, 238, 0.1)',
-                        borderWidth: 3,
-                        fill: true,
-                        tension: 0.3
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                drawBorder: false
-                            },
-                            ticks: {
-                                callback: function(value) {
-                                    return '€' + value.toLocaleString();
-                                }
-                            }
-                        },
-                        x: {
-                            grid: {
-                                display: false
-                            }
-                        }
-                    }
-                }
-            });
-            
-            // Handle window resize
-            window.addEventListener('resize', function() {
-                salesChart.resize();
-                
-                // Auto-close sidebar when switching to desktop
-                if (window.innerWidth >= 992) {
-                    sidebar.classList.remove('active');
-                    overlay.classList.remove('active');
-                }
-            });
-        });
-        
-        // Make sure chart resizes properly on load
-        window.dispatchEvent(new Event('resize'));
-    </script>
+   <script src="{{asset('asset/main.js')}}"></script>
 </body>
 </html>

@@ -91,12 +91,12 @@
         <!-- Content Area -->
         <div class="container-fluid p-3 p-md-4" id="contentArea">
             <!-- Dashboard Section -->
-            <section id="dashboard" class="content-section">
+            <section id="" class="content-section">
                 <!-- Stats Row -->
                 
                 <!-- Recent Orders -->
                 <div class="row">
-                    @if(Session::has('success'))
+                     @if(Session::has('success'))
                         <div class="alert alert-success" role="alert">
                             {{ Session::get('success') }}
                         </div>
@@ -105,65 +105,80 @@
                             {{ Session::get('danger') }}
                         </div>
                     @endif
-                    <div class="col-11">
+                    <div class="col-12">
                         <div class="d-flex justify-content-between align-items-center mb-3">
 
-                        <!-- Section Produits -->
-                        <h3 class="mb-0">Clients</h3>
-                        <a href="{{route('clients.create')}}" class="btn btn-success">
-                            <i class="fas fa-plus me-1"></i> Nouveau client
+                           
+                    <!-- Section Produits -->
+                        <h3 class="mb-0">Commandes</h3>
+                        <a href="{{route('ventes.create')}}" class="btn btn-success">
+                            <i class="fas fa-plus me-1"></i> Nouveau commande
                         </a>
                         </div>
                         <div class="stat-card">        
                             <div class="card shadow-sm">
                                 <div class="card-body">
                                     <div class="card-body">
-                                        <div class="stat-card">
-                                            <div class="table-responsive">
-                                                <table class="table data-table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Nom</th>
-                                                            <th>Telephone</th>
-                                                            <th>Email</th>
-                                                            <th>Statut</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @forelse($clients as $c)
-                                                        <tr>
-                                                            <td>{{$c->nom}}</td>
-                                                            <td>{{$c->telephone}}</td>
-                                                            <td>{{$c->email}}</td>
-                                                            <td>
-                                                                <a href="{{route('clients.edit', $c->id)}}">
-                                                                    <i class="fa fa-eye text-primary"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                        @empty
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Reference</th>
+                                                        <th>Client</th>
+                                                        <th>Total</th>
+                                                        <th>Total TVA</th>
+                                                        <th>Date</th>
+                                                        <th>Statut</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @forelse($ventes as $v)
+                                                    <tr>
+                                                        <td>{{$v->reference}}</td>
+                                                        <td>{{$v->client->nom ?? 'Client supprimee'}}</td>
+                                                        <td>{{number_format($v->total, 0, ',','')}} XOF</td>
+                                                        <td>{{number_format($v->total_tva, 0, ',','')}} XOF</td>
+                                                        <td>{{$v->created_at->format('d/m/y')}}</td>
+                                                        <td>
+                                                            @if($v->statut == 'payee')
+                                                                <span class="status-badge badge-paid">{{$v->statut}}</span>
+                                                            @else
+                                                                <span class="status-badge badge-pending">{{$v->statut}}</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            <div class="row">
+                                                                <div class="col-3">
+                                                                    <a href="{{route('ventes.show', $v->id)}}">
+                                                                        <i class="fa fa-eye text-primary"></i>
+                                                                    </a>
+                                                                </div>
+                                                                <div class="col-3">
+                                                                    <a href="{{route('ventes.facture', $v->id)}}">
+                                                                        <i class="fas fa-file-invoice text-primary"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                             
+                                                        </td>                                                        
+                                                    </tr>
+                                                    @empty
                                                         <tr>
                                                             <td colspan="7" align="center">Donnee vide !</td>
                                                         </tr>
-                                                        @endforelse
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                                    @endforelse
+                                                </tbody>
+                                            </table>
                                         </div>
-                                    </div>
+                                    </div>                                    
+                                
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-1">
-                        <a href="{{route('ventes.create')}}" class="btn btn-success">
-                            <i class="fas fa-plus"></i> Enregistrer une vente
-                        </a>
-                    </div>
                 </div>
             </section>
-
-
         <!-- Footer -->
         <footer class="footer">
             <div class="container-fluid">

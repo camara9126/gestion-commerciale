@@ -11,6 +11,9 @@ class VenteItem extends Model
         'produit_id',
         'quantite',
         'prix_unitaire',
+        'taux_tva',
+        'montant_tva',
+        'total_ttc',
         'total',
     ];
 

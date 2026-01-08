@@ -14,15 +14,26 @@ class Vente extends Model
         'total',
         'statut',
         'user_id',
+        'total_tva',
+        'total_ttc',
     ];
+
 
     public function items()
     {
         return $this->hasMany(VenteItem::class);
     }
 
+
     public function client()
     {
         return $this->belongsTo(Client::class);
     }
+
+    public function entreprise()
+    {
+        return $this->belongsTo(Entreprise::class);
+    }
 }
+
+

@@ -99,40 +99,44 @@
                         <i class="fas fa-bar me-1"></i> Annuler
                     </a>
                 </div>
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        @if ($errors->any())
-                            <div style="color: red; margin-bottom: 10px;">
-                                @foreach ($errors->all() as $error)
-                                    <p>{{ $error }}</p>
-                                @endforeach
-                            </div>
-                        @endif
-                            <form method="post" action="{{route('fournisseurs.update', $fournisseur->id)}}" class="contact-form">
-                                @csrf
-                                <h2 class="text-center mb-4">Edit fournisseur ({{$fournisseur->statut ? 'Active' : 'Inactive'}})</h2>
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Nom</label>
-                                    <input type="text" class="form-control" name="nom" value="{{$fournisseur->nom}}" >
-                                </div>
-                                <div class="mb-3">
-                                    <label for="telephone" class="form-label">Telephone</label>
-                                    <input type="text" class="form-control" name="telephone" value="{{$fournisseur->telephone}}" >
-                                </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" name="email" value="{{$fournisseur->email}}" >
-                                </div>
-                                <div class="mb-3">
-                                    <label for="adresse" class="form-label">Adresse</label>
-                                    <textarea class="form-control" name="adresse" rows="5" >{{$fournisseur->adresse}}</textarea>
-                                </div>
-                                <div class="d-grid">
-                                    <button type="submit" class="btn btn-warning btn-lg">Modifier</button>
-                                </div>
-                            </form>
-                        
+                <div class="row justify-content-center">
+                    <div class="col-8">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                @if ($errors->any())
+                                    <div style="color: red; margin-bottom: 10px;">
+                                        @foreach ($errors->all() as $error)
+                                            <p>{{ $error }}</p>
+                                        @endforeach
+                                    </div>
+                                @endif
+                                    <form method="post" action="{{route('fournisseurs.update', $fournisseur->id)}}" class="contact-form">
+                                        @csrf
+                                        <h2 class="text-center mb-4">Edit fournisseur ({{$fournisseur->statut ? 'Active' : 'Inactive'}})</h2>
+                                        <div class="mb-3">
+                                            <label for="name" class="form-label">Nom</label>
+                                            <input type="text" class="form-control" name="nom" value="{{$fournisseur->nom}}" >
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="telephone" class="form-label">Telephone</label>
+                                            <input type="text" class="form-control" name="telephone" value="{{$fournisseur->telephone}}" >
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label">Email</label>
+                                            <input type="email" class="form-control" name="email" value="{{$fournisseur->email}}" >
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="adresse" class="form-label">Adresse</label>
+                                            <textarea class="form-control" name="adresse" rows="5" >{{$fournisseur->adresse}}</textarea>
+                                        </div>
+                                        <div class="d-grid">
+                                            <button type="submit" class="btn btn-warning btn-lg">Modifier</button>
+                                        </div>
+                                    </form>
+                                
 
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -157,125 +161,6 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
-    <script>
-        // Toggle sidebar on mobile
-        const menuToggle = document.getElementById('menuToggle');
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('overlay');
-        const mainContent = document.getElementById('mainContent');
-        
-        menuToggle.addEventListener('click', function() {
-            sidebar.classList.toggle('active');
-            overlay.classList.toggle('active');
-        });
-        
-        overlay.addEventListener('click', function() {
-            sidebar.classList.remove('active');
-            overlay.classList.remove('active');
-        });
-        
-        // Navigation between sections
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetSection = this.getAttribute('data-section');
-                
-                // Update page title
-                document.getElementById('pageTitle').textContent = this.textContent.trim();
-                
-                // Update active nav link
-                document.querySelectorAll('.nav-link').forEach(navLink => {
-                    navLink.classList.remove('active');
-                });
-                this.classList.add('active');
-                
-                // Show target section
-                document.querySelectorAll('.content-section').forEach(section => {
-                    section.classList.add('d-none');
-                });
-                document.getElementById(targetSection).classList.remove('d-none');
-                
-                // Close sidebar on mobile
-                if (window.innerWidth < 992) {
-                    sidebar.classList.remove('active');
-                    overlay.classList.remove('active');
-                }
-            });
-        });
-        
-        // Mobile search functionality
-        const mobileSearchBtn = document.getElementById('mobileSearchBtn');
-        if (mobileSearchBtn) {
-            mobileSearchBtn.addEventListener('click', function() {
-                const searchQuery = prompt("Entrez votre recherche :");
-                if (searchQuery) {
-                    alert("Recherche de : " + searchQuery);
-                    // Implement search functionality here
-                }
-            });
-        }
-        
-        // Initialize sales chart
-        document.addEventListener('DOMContentLoaded', function() {
-            const ctx = document.getElementById('salesChart').getContext('2d');
-            const salesChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'],
-                    datasets: [{
-                        label: 'Ventes (€)',
-                        data: [6500, 8100, 7500, 9200, 12540, 11000, 13500, 12000, 9800, 11200, 14000, 15000],
-                        borderColor: '#4361ee',
-                        backgroundColor: 'rgba(67, 97, 238, 0.1)',
-                        borderWidth: 3,
-                        fill: true,
-                        tension: 0.3
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                drawBorder: false
-                            },
-                            ticks: {
-                                callback: function(value) {
-                                    return '€' + value.toLocaleString();
-                                }
-                            }
-                        },
-                        x: {
-                            grid: {
-                                display: false
-                            }
-                        }
-                    }
-                }
-            });
-            
-            // Handle window resize
-            window.addEventListener('resize', function() {
-                salesChart.resize();
-                
-                // Auto-close sidebar when switching to desktop
-                if (window.innerWidth >= 992) {
-                    sidebar.classList.remove('active');
-                    overlay.classList.remove('active');
-                }
-            });
-        });
-        
-        // Make sure chart resizes properly on load
-        window.dispatchEvent(new Event('resize'));
-    </script>
+    <<script src="{{asset('asset/main.js')}}"></script>
 </body>
 </html>

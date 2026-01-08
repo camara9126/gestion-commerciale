@@ -7,7 +7,7 @@
                     <span class="fw-bold"><a href="{{ route('dashboard') }}">{{ Auth::user()->entreprise->nom }}</a></span>
                 @endif
             </h3>
-            <small class="text-muted">{{ Auth::user()->entreprise->email }}</small>
+            <small class="text-white">{{ Auth::user()->entreprise->adresse }}</small>
         </div>
         
         <div class="px-3 py-4">
@@ -18,24 +18,24 @@
                     </a>
                 </li>-->
                 <li class="nav-item mb-2">
-                    <a href="#" class="nav-link" data-section="inventaire">
-                        <i class="fas fa-users"></i> Inventaire
+                    <a href="{{ route('produits.index') }}" class="nav-link">
+                        <i class="fas fa-arrow-down"></i> Produits
                     </a>
                 </li>
                 <li class="nav-item mb-2">
-                    <a href="#" class="nav-link" data-section="mouvements">
+                    <a href="{{ route('mouvements') }}" class="nav-link">
                         <i class="fas fa-file-invoice"></i> Mouvements
                     </a>
                 </li>
                 <hr>
                 <li class="nav-item mb-2">
-                    <a href="#" class="nav-link" data-section="ventes">
-                        <i class="fas fa-box"></i> Ventes
+                    <a href="{{ route('clients.index') }}" class="nav-link">
+                        <i class="fas fa-box"></i> Clients
                     </a>
                 </li>
                 <li class="nav-item mb-2">
-                    <a href="#" class="nav-link" data-section="clients">
-                        <i class="fas fa-box"></i> Clients
+                    <a href="{{ route('ventes.index') }}" class="nav-link">
+                        <i class="fas fa-box"></i> Ventes
                     </a>
                 </li>
                 <hr>

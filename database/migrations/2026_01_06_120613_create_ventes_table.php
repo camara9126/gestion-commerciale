@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('client_id')->constrained()->cascadeOnDelete();
             $table->string('reference')->unique();
             $table->date('date');
-            $table->decimal('total', 12, 2);
+            $table->decimal('total', 12, 2)->nullable();
             $table->enum('statut', ['payee', 'impayee', 'partielle'])->default('impayee');
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
