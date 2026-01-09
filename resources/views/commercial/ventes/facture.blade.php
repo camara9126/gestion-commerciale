@@ -86,9 +86,11 @@
 
 <br>
     
-<h3>TVA ({{$item->taux_tva}} %) : {{ number_format($item->montant_tva) }} XOF</h3>
+<h4>TVA ({{$item->taux_tva}} %) : {{ number_format($item->montant_tva) }} XOF</h4>
 
-<h2>Sous-Total : {{ number_format($item->quantite * $item->prix_unitaire, 0, ',', ' ') }} XOF</h2>
+<h3>Sous-Total : {{ number_format($item->total, 0, ',', ' ') }} XOF</h3>
+
+<h2 style="color: red;">Total-TVA : {{ number_format($item->total_ttc, 0, ',', ' ') }} XOF</h2>
 
         <!-- Pied de page -->
         <div class="invoice-footer">

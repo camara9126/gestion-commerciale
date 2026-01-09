@@ -11,19 +11,23 @@ class ProduitController extends Controller
 {
     public function index(Request $request)
     {
-        $produits = Produit::with('fournisseur')
-            ->where('entreprise_id', $request->user()->entreprise_id)
-            ->latest()
-            ->get();
+        $search = $request->query('search');
 
-        return view('inventaire.produits.index', compact('produits'));
+        $produits = Produit::with('fournisseur')->where('entreprise_id', $request->user()->entreprise_id)->when($search, function ($query, $search) {
+
+                $query->where('code', 'like', "%{$search}%")->orWhereHas('fournisseur', function ($q) use ($search) {
+
+                        $q->where('nom', 'like', "%{$search}%");
+                });
+
+        })->latest()->paginate(1)->withQueryString(); // 🔑 garde ?search=;
+
+        return view('inventaire.produits.index', compact('produits','search'));
     }
 
     public function create(Request $request)
     {
-        $fournisseurs = Fournisseur::where('entreprise_id', $request->user()->entreprise_id)
-            ->where('statut', true)
-            ->get();
+        $fournisseurs = Fournisseur::where('entreprise_id', $request->user()->entreprise_id)->where('statut', true)->get();
 
         return view('inventaire.produits.create', compact('fournisseurs'));
     }

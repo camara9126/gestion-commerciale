@@ -112,7 +112,7 @@
                                 @endif
                                     <form method="post" action="{{route('produits.update', $produit->id)}}" class="contact-form">
                                         @csrf
-                                        <h2 class="text-center mb-4">Nouveau produit</h2>
+                                        <h2 class="text-center mb-4">Modification produit</h2>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="mb-3">

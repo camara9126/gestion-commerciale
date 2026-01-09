@@ -15,11 +15,20 @@ use function Symfony\Component\Clock\now;
 class VenteController extends Controller
 {
 
-    public function index()
+   public function index(Request $request)
     {
-        $ventes = Vente::with('client')->where('entreprise_id', request()->user()->entreprise_id)->latest()->get();
+        $search = $request->query('search');
 
-        return view('commercial.ventes.index', compact('ventes'));
+        $ventes = Vente::with('client')->where('entreprise_id', $request->user()->entreprise_id)->when($search, function ($query, $search) {
+
+                $query->where('reference', 'like', "%{$search}%")->orWhereHas('client', function ($q) use ($search) {
+
+                        $q->where('nom', 'like', "%{$search}%");
+                });
+
+        })->latest()->paginate(10)->withQueryString(); // 🔑 garde ?search=
+
+        return view('commercial.ventes.index', compact('ventes', 'search'));
     }
     
 
@@ -47,7 +56,7 @@ class VenteController extends Controller
             'produits.*.prix' => 'required|numeric|min:0',
         ]);
 
-        // Verification mouvement stock
+        
         foreach ($request->produits as $item) {
 
             //dd($item);
@@ -110,9 +119,11 @@ class VenteController extends Controller
             $total_ttc += ($item['quantite'] * $item['prix']) + (($item['quantite'] * $item['prix']) * (18 /100 ));
             
             // Mise a jour total + total_tva + total_ttc
-            $vente->update(['total' => $total]);
-            $vente->update(['total_tva' => $total_tva]);
-            $vente->update(['total_ttc' => $total_ttc]);
+            $vente->update([
+                'total' => $total,
+                'total_tva' => $total_tva,
+                'total_ttc' => $total_ttc,
+            ]);
 
     }
 

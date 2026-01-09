@@ -19,7 +19,12 @@
                 </li>-->
                 <li class="nav-item mb-2">
                     <a href="{{ route('produits.index') }}" class="nav-link">
-                        <i class="fas fa-arrow-down"></i> Produits
+                        <i class="fas fa-box"></i> Produits
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a href="{{ route('fournisseurs.index') }}" class="nav-link">
+                        <i class="fas fa-user"></i> Fournisseurs
                     </a>
                 </li>
                 <li class="nav-item mb-2">
@@ -30,12 +35,12 @@
                 <hr>
                 <li class="nav-item mb-2">
                     <a href="{{ route('clients.index') }}" class="nav-link">
-                        <i class="fas fa-box"></i> Clients
+                        <i class="fas fa-users"></i> Clients
                     </a>
                 </li>
                 <li class="nav-item mb-2">
                     <a href="{{ route('ventes.index') }}" class="nav-link">
-                        <i class="fas fa-box"></i> Ventes
+                        <i class="fas fa-shopping-cart"></i> Ventes
                     </a>
                 </li>
                 <hr>

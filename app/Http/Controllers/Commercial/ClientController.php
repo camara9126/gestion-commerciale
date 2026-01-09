@@ -9,17 +9,25 @@ use Illuminate\Http\Request;
 class ClientController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $clients = Client::where( 'entreprise_id', request()->user()->entreprise_id)->get();
+        $search = $request->query('search');
 
-        return view('commercial.clients.index', compact('clients'));
+        $clients = Client::where( 'entreprise_id', request()->user()->entreprise_id)->when($search, function ($query, $search) {
+
+                $query->where('nom', 'like', "%{$search}%");
+
+        })->latest()->paginate(10)->withQueryString(); // 🔑 garde ?search=;
+
+        return view('commercial.clients.index', compact('clients','search'));
     }
+
 
     public function create()
     {
         return view('commercial.clients.create');
     }
+    
 
     public function store(Request $request)
     {
@@ -72,6 +80,25 @@ class ClientController extends Controller
             ->with('success', 'Client modifié');
 
     }
+
+    public function storeAjax(Request $request)
+    {
+        $request->validate([
+            'nom' => 'required|string|max:255',
+            'telephone' => 'nullable|string',
+            'email' => 'nullable|email',
+        ]);
+
+        $client = Client::create([
+            'nom' => $request->nom,
+            'telephone' => $request->telephone,
+            'email' => $request->email,
+            'entreprise_id' => $request->user()->entreprise_id,
+        ]);
+
+        return redirect()->back()->with('success', 'Nouveau client ajouté');
+    }
+
 
      private function authorizeEntreprise(Client $client)
     {

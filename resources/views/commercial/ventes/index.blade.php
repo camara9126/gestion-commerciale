@@ -118,62 +118,78 @@
                         <div class="stat-card">        
                             <div class="card shadow-sm">
                                 <div class="card-body">
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-hover">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Reference</th>
-                                                        <th>Client</th>
-                                                        <th>Total</th>
-                                                        <th>Total TVA</th>
-                                                        <th>Date</th>
-                                                        <th>Statut</th>
-                                                        <th>Actions</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @forelse($ventes as $v)
-                                                    <tr>
-                                                        <td>{{$v->reference}}</td>
-                                                        <td>{{$v->client->nom ?? 'Client supprimee'}}</td>
-                                                        <td>{{number_format($v->total, 0, ',','')}} XOF</td>
-                                                        <td>{{number_format($v->total_tva, 0, ',','')}} XOF</td>
-                                                        <td>{{$v->created_at->format('d/m/y')}}</td>
-                                                        <td>
-                                                            @if($v->statut == 'payee')
-                                                                <span class="status-badge badge-paid">{{$v->statut}}</span>
-                                                            @else
-                                                                <span class="status-badge badge-pending">{{$v->statut}}</span>
-                                                            @endif
-                                                        </td>
-                                                        <td>
-                                                            <div class="row">
-                                                                <div class="col-3">
-                                                                    <a href="{{route('ventes.show', $v->id)}}">
-                                                                        <i class="fa fa-eye text-primary"></i>
-                                                                    </a>
-                                                                </div>
-                                                                <div class="col-3">
-                                                                    <a href="{{route('ventes.facture', $v->id)}}">
-                                                                        <i class="fas fa-file-invoice text-primary"></i>
-                                                                    </a>
-                                                                </div>
+                                     @if ($errors->any())
+                                    <div style="color: red; margin-bottom: 10px;">
+                                        @foreach ($errors->all() as $error)
+                                            <p>{{ $error }}</p>
+                                        @endforeach
+                                    </div>
+                                @endif
+                                    <div class="table-responsive">
+                                        <nav class="navbar navbar-light bg-light">
+                                            <form method="get" action="{{route('ventes.index')}}" class="form-inline">
+                                                <div class="row">
+                                                    <div class="col-8">
+                                                        <input class="form-control mr-sm-2" type="search" name="search" placeholder="Rechercher par reference ou client..." aria-label="Search">                                                            
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>                                                    
+                                                    </div>                                                    
+                                                </div>
+                                            </form>
+                                        </nav>                                            
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Reference</th>
+                                                    <th>Client</th>
+                                                    <th>Total</th>
+                                                    <th>Total TVA</th>
+                                                    <th>Date</th>
+                                                    <th>Statut</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @forelse($ventes as $v)
+                                                <tr>
+                                                    <td>{{$v->reference}}</td>
+                                                    <td>{{$v->client->nom ?? 'Client supprimee'}}</td>
+                                                    <td>{{number_format($v->total, 0, ',','')}} XOF</td>
+                                                    <td>{{number_format($v->total_tva, 0, ',','')}} XOF</td>
+                                                    <td>{{$v->created_at->format('d/m/y')}}</td>
+                                                    <td>
+                                                        @if($v->statut == 'payee')
+                                                            <span class="status-badge badge-paid">{{$v->statut}}</span>
+                                                        @else
+                                                            <span class="status-badge badge-pending">{{$v->statut}}</span>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <div class="row">
+                                                            <div class="col-3">
+                                                                <a href="{{route('ventes.show', $v->id)}}">
+                                                                    <i class="fa fa-eye text-primary"></i>
+                                                                </a>
                                                             </div>
-                                                             
-                                                        </td>                                                        
+                                                            <div class="col-3">
+                                                                <a href="{{route('ventes.facture', $v->id)}}">
+                                                                    <i class="fas fa-file-invoice text-primary"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                            
+                                                    </td>                                                        
+                                                </tr>
+                                                @empty
+                                                    <tr>
+                                                        <td colspan="7" align="center">Donnee vide !</td>
                                                     </tr>
-                                                    @empty
-                                                        <tr>
-                                                            <td colspan="7" align="center">Donnee vide !</td>
-                                                        </tr>
-                                                    @endforelse
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>                                    
-                                
-                                </div>
+                                                @endforelse
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>                                                                    
                             </div>
                         </div>
                     </div>

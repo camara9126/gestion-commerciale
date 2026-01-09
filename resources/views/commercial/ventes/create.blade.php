@@ -139,14 +139,12 @@
                                             </div>                                
                                         </div>
                                         <div class="col-6">
-                                            <div class="mb-3">
-                                                <label for="name" class="form-label">Nouveau client</label><br>
-                                                <a href="{{route('clients.create')}}" class="btn btn-success btn-lg">
-                                                    <i class="fas fa-plus me-1"></i>
-                                                </a>
-                                            </div>    
+                                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#clientModal">
+                                                + Nouveau client
+                                            </button>
                                         </div>
                                     </div>
+
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="mb-3">
@@ -154,57 +152,53 @@
                                                 <select name="statut" class="form-select" required>
                                                     <option value="">-- Sélectionner un statut --</option>
                                                     <option value="payee">Payee</option>
+                                                    <option value="impayee">Impayee</option>
                                                     <option value="partielle">Partielle</option>
                                                 </select>
-                                            </div>    
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="mb-3">
-                                                <label for="total" class="form-label">TVA</label>
-                                                <input type="text" name="produits[0][tva]" class="form-control" >
                                             </div>
                                         </div>
+                                        <div class="col-6">
+                                            <label for="total" class="form-label">TVA</label>
+                                            <input type="text" name="tva" class="form-control" required >
+                                        </div>
                                     </div>
-
                                     <hr>
 
                                     {{-- PRODUITS --}}
                                     <h4>Produits</h4>
 
-                                    <div class="table-responsive">
-                                        <table border="1" cellpadding="8" width="100%">
-                                            <thead>
-                                                <tr>
-                                                    <th>Produit</th>
-                                                    <th>Quantité</th>
-                                                    <th>Prix (XOF)</th>
-                                                </tr>
-                                            </thead>
+                                    <table border="1" cellpadding="8" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Produit</th>
+                                                <th>Quantité</th>
+                                                <th>Prix (XOF)</th>
+                                            </tr>
+                                        </thead>
 
-                                            <tbody>
-                                                {{-- PRODUIT --}}
-                                                <tr>
-                                                    <td>
-                                                        <select name="produits[0][produit_id]" class="form-select" required>
-                                                            <option value="">-- Choisir --</option>
-                                                            @foreach($produits as $produit)
-                                                                <option value="{{ $produit->id }}">
-                                                                    {{ $produit->nom }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </td>
-                                                    <td>
-                                                        <input type="number" name="produits[0][quantite]" class="form-control" min="1" value="1" required>
-                                                    </td>
+                                        <tbody>
+                                            {{-- PRODUIT --}}
+                                            <tr>
+                                                <td>
+                                                    <select name="produits[0][produit_id]" class="form-select" required>
+                                                        <option value="">-- Choisir --</option>
+                                                        @foreach($produits as $produit)
+                                                            <option value="{{ $produit->id }}">
+                                                                {{ $produit->nom }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input type="number" name="produits[0][quantite]" class="form-control" min="1" value="1" required>
+                                                </td>
 
-                                                    <td>
-                                                        <input type="number" name="produits[0][prix]" class="form-control" min="0" required>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                                <td>
+                                                    <input type="number" name="produits[0][prix]" class="form-control" min="0" required>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                     <br>
                                     <button type="submit" class="btn btn-primary btn-lg">
                                         Enregistrer la vente
@@ -240,6 +234,40 @@
                                     
                                     <button type="submit" class="btn btn-primary btn-lg">Enregistrer la vente</button>
                                 </form>-->
+                                <div class="modal fade" id="clientModal" tabindex="-1">
+                                    <div class="modal-dialog">
+                                        <form id="clientForm">
+                                            @csrf
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Nouveau client</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                </div>
+
+                                                <div class="modal-body">
+                                                    <div class="mb-3">
+                                                        <label>Nom du client</label>
+                                                        <input type="text" name="nom" class="form-control" required>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label>Téléphone</label>
+                                                        <input type="text" name="telephone" class="form-control">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label>Email</label>
+                                                        <input type="email" name="email" class="form-control">
+                                                    </div>
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-primary">Enregistrer</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                         </div>                        
                     </div>
@@ -267,6 +295,40 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
-    <script src="{{asset('asset/main.js')}}"></script>
+    <script>
+        document.getElementById('clientForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            let formData = new FormData(this);
+
+            fetch("{{ route('clients.ajax.store') }}", {
+                method: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('input[name=_token]').value
+                },
+                body: formData
+            })
+            .then(res => res.json())
+            .then(client => {
+                let select = document.getElementById('client_id');
+
+                let option = document.createElement('option');
+                option.value = client.id;
+                option.text = client.nom;
+                option.selected = true;
+
+                select.appendChild(option);
+
+                // Fermer le modal
+                let modal = bootstrap.Modal.getInstance(
+                    document.getElementById('clientModal')
+                );
+                modal.hide();
+
+                document.getElementById('clientForm').reset();
+            });
+        });
+    </script>
+   <script src="{{asset('asset/main.js')}}"></script>
 </body>
 </html>

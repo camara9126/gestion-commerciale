@@ -105,7 +105,7 @@
                             {{ Session::get('danger') }}
                         </div>
                     @endif
-                    <div class="col-11">
+                    <div class="col-12">
                         <div class="d-flex justify-content-between align-items-center mb-3">
 
                         <!-- Section Produits -->
@@ -117,52 +117,59 @@
                         <div class="stat-card">        
                             <div class="card shadow-sm">
                                 <div class="card-body">
-                                    <div class="card-body">
-                                        <div class="stat-card">
-                                            <div class="table-responsive">
-                                                <table class="table data-table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Nom</th>
-                                                            <th>Telephone</th>
-                                                            <th>Email</th>
-                                                            <th>Statut</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @forelse($clients as $c)
-                                                        <tr>
-                                                            <td>{{$c->nom}}</td>
-                                                            <td>{{$c->telephone}}</td>
-                                                            <td>{{$c->email}}</td>
-                                                            <td>
-                                                                <a href="{{route('clients.edit', $c->id)}}">
-                                                                    <i class="fa fa-eye text-primary"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                        @empty
-                                                        <tr>
-                                                            <td colspan="7" align="center">Donnee vide !</td>
-                                                        </tr>
-                                                        @endforelse
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                    <div class="stat-card">
+                                        <div class="table-responsive">
+                                            <nav class="navbar navbar-light bg-light">
+                                                <form method="get" action="{{route('clients.index')}}" class="form-inline">
+                                                    <div class="row">
+                                                        <div class="col-8">
+                                                            <input class="form-control mr-sm-2" type="search" name="search" placeholder="Rechercher.." aria-label="Search">                                                            
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>                                                    
+                                                        </div>                                                    
+                                                    </div>
+                                                </form>
+                                            </nav>
+                                            <table class="table data-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nom</th>
+                                                        <th>Telephone</th>
+                                                        <th>Email</th>
+                                                        <th>Adresse</th>
+                                                        <th>Statut</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @forelse($clients as $c)
+                                                    <tr>
+                                                        <td>{{$c->nom}}</td>
+                                                        <td>{{$c->telephone ?? 'Vide'}}</td>
+                                                        <td>{{$c->email ?? 'Vide'}}</td>
+                                                        <td>{{$c->adresse ?? 'Vide'}}</td>
+                                                        <td>
+                                                            <a href="{{route('clients.edit', $c->id)}}">
+                                                                <i class="fa fa-eye text-primary"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    @empty
+                                                    <tr>
+                                                        <td colspan="7" align="center">Donnee vide !</td>
+                                                    </tr>
+                                                    @endforelse
+                                                </tbody>
+                                            </table>  
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-1">
-                        <a href="{{route('ventes.create')}}" class="btn btn-success">
-                            <i class="fas fa-plus"></i> Enregistrer une vente
-                        </a>
-                    </div>
                 </div>
+                
             </section>
-
 
         <!-- Footer -->
         <footer class="footer">

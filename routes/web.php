@@ -86,6 +86,7 @@ Route::middleware(['auth', 'entreprise.exists'])->group(function () {
 // Route Commercial
 Route::middleware('auth', 'entreprise.exists')->group(function () {
     Route::resource('clients', ClientController::class);
+    Route::post('/clients.ajax', [ClientController::class, 'storeAjax'])->name('clients.ajax.store');
     Route::resource('ventes', VenteController::class);
     // Facture
     Route::get('/ventes/{vente}/facture', [VenteController::class, 'facture'])->name('ventes.facture');
