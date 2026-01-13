@@ -11,6 +11,14 @@ class ClientController extends Controller
 
     public function index(Request $request)
     {
+
+        $clients = Client::where( 'entreprise_id', request()->user()->entreprise_id)->latest()->simplePaginate(10);
+
+        return view('commercial.clients.index', compact('clients'));
+    }
+
+    public function serach(Request $request)
+    {
         $search = $request->query('search');
 
         $clients = Client::where( 'entreprise_id', request()->user()->entreprise_id)->when($search, function ($query, $search) {
@@ -80,6 +88,7 @@ class ClientController extends Controller
             ->with('success', 'Client modifié');
 
     }
+    
 
     public function storeAjax(Request $request)
     {
@@ -89,14 +98,15 @@ class ClientController extends Controller
             'email' => 'nullable|email',
         ]);
 
-        $client = Client::create([
+        Client::create([
             'nom' => $request->nom,
             'telephone' => $request->telephone,
             'email' => $request->email,
             'entreprise_id' => $request->user()->entreprise_id,
         ]);
 
-        return redirect()->back()->with('success', 'Nouveau client ajouté');
+        return redirect()->route('ventes.create')->with('success', 'Nouveau client ajouté');
+        //return response()->json($client);
     }
 
 

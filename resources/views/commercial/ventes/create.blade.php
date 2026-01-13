@@ -95,7 +95,7 @@
 
                 <div class="d-flex justify-content-between align-items-center mb-4">                          
                     <h3 class="mb-0">Nouvelle vente</h3>
-                    <a href="{{route('clients.index')}}" class="btn btn-danger">
+                    <a href="{{route('ventes.index')}}" class="btn btn-danger">
                         <i class="fas fa-bar me-1"></i> Annuler
                     </a>
                 </div>
@@ -125,7 +125,7 @@
                                     @csrf
                                     {{-- CLIENT --}}
                                     <div class="row">
-                                        <div class="col-6">
+                                        <div class="col-8">
                                             <div class="mb-3">
                                                 <label for="name" class="form-label">Client</label><br>
                                                 <select name="client_id" class="form-select" required>
@@ -138,7 +138,7 @@
                                                 </select>
                                             </div>                                
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-4">
                                             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#clientModal">
                                                 + Nouveau client
                                             </button>
@@ -146,20 +146,9 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-6">
-                                            <div class="mb-3">
-                                                <label for="name" class="form-label">Statut</label><br>
-                                                <select name="statut" class="form-select" required>
-                                                    <option value="">-- Sélectionner un statut --</option>
-                                                    <option value="payee">Payee</option>
-                                                    <option value="impayee">Impayee</option>
-                                                    <option value="partielle">Partielle</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
+                                        <div class="col-8">
                                             <label for="total" class="form-label">TVA</label>
-                                            <input type="text" name="tva" class="form-control" required >
+                                            <input type="text" name="produits[0][tva]" class="form-control" required >
                                         </div>
                                     </div>
                                     <hr>
@@ -204,39 +193,10 @@
                                         Enregistrer la vente
                                     </button>
                                 </form>
-                                <!--<form method="POST" action="{{ route('ventes.store') }}" class="contact-form">
-                                    @csrf
-                                    <div class="mb-3">
-                                        <label for="client" class="form-label">Client</label>
-                                        <select class="form-select" name="client_id" required>
-                                            <option value="">-- Sélectionner un client --</option>
-                                            @foreach($clients as $client)
-                                                <option value="{{ $client->id }}">
-                                                    {{ $client->nom }} ({{ $client->telephone }})
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="mb-3">
-                                                <label for="total" class="form-label">Prix total</label>
-                                                <input type="text" class="form-control" name="total" >
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="mb-3">
-                                                <label for="total" class="form-label">TVA</label>
-                                                <input type="text" readOnly class="form-control" value="18 %" >
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <button type="submit" class="btn btn-primary btn-lg">Enregistrer la vente</button>
-                                </form>-->
+                               
                                 <div class="modal fade" id="clientModal" tabindex="-1">
                                     <div class="modal-dialog">
-                                        <form id="clientForm">
+                                        <form method="post" action="{{route('clients.ajax.store')}}">
                                             @csrf
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -262,7 +222,7 @@
                                                 </div>
 
                                                 <div class="modal-footer">
-                                                    <button class="btn btn-primary">Enregistrer</button>
+                                                    <button type="submit" class="btn btn-primary">Enregistrer</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -295,40 +255,7 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
-    <script>
-        document.getElementById('clientForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            let formData = new FormData(this);
-
-            fetch("{{ route('clients.ajax.store') }}", {
-                method: "POST",
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('input[name=_token]').value
-                },
-                body: formData
-            })
-            .then(res => res.json())
-            .then(client => {
-                let select = document.getElementById('client_id');
-
-                let option = document.createElement('option');
-                option.value = client.id;
-                option.text = client.nom;
-                option.selected = true;
-
-                select.appendChild(option);
-
-                // Fermer le modal
-                let modal = bootstrap.Modal.getInstance(
-                    document.getElementById('clientModal')
-                );
-                modal.hide();
-
-                document.getElementById('clientForm').reset();
-            });
-        });
-    </script>
+   
    <script src="{{asset('asset/main.js')}}"></script>
 </body>
 </html>

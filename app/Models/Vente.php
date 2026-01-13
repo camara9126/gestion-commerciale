@@ -34,6 +34,11 @@ class Vente extends Model
     {
         return $this->belongsTo(Entreprise::class);
     }
+
+    public function paiements()
+    {
+        return $this->hasMany(Paiements::class);
+    }
 }
 
 

@@ -1,0 +1,156 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Paiements;
+use App\Models\Vente;
+use Illuminate\Http\Request;
+
+class PaiementController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request)
+    {
+        $paiements = Paiements::with('vente')->where('entreprise_id', $request->user()->entreprise_id)->latest()->simplePaginate(5); 
+
+        return view('commercial.paiements.index', compact('paiements'));
+    }
+
+
+     public function search(Request $request)
+    {
+        $search = $request->query('search');
+
+        $paiements = Paiements::with('vente')->where('entreprise_id', $request->user()->entreprise_id)->when($search, function ($query, $search) {
+
+                $query->where('reference', 'like', "%{$search}%");
+
+        })->latest()->paginate(10)->withQueryString(); // 🔑 garde ?search=
+
+        return view('commercial.paiements.index', compact('paiements', 'search'));
+    }
+
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+   public function store(Request $request)
+    {
+        $request->validate([
+            'vente_id' => 'required|exists:ventes,id',
+            'montant' => 'required|numeric|min:1',
+            'mode_paiement' => 'required'
+        ]);
+        //dd($request);
+
+        $vente = Vente::findOrFail($request->vente_id);
+
+        $totalPaye = $vente->paiements()->where('statut','valide')->sum('montant');
+        $reste = $vente->total_ttc - $totalPaye;
+
+        if ($request->montant > $reste) {
+            return back()->withErrors([
+                'montant' => 'Le montant dépasse le reste à payer.'
+            ]);
+        }
+
+        Paiements::create([
+            'vente_id' => $vente->id,
+            'entreprise_id' => $request->user()->entreprise_id,
+            'montant' => $request->montant,
+            'mode_paiement' => $request->mode_paiement,
+            'date_paiement' => now(),
+            'reference' => 'PAY-' . time()
+        ]);
+
+        // Mise à jour du statut de la vente
+        $totalPaye += $request->montant;
+
+        $reste = $vente->total_ttc - $totalPaye;
+
+        if ($totalPaye <= 0) {
+            $vente->statut = 'impayee';
+        } elseif ($reste > 0) {
+            $vente->statut = 'partielle';
+        } else {
+            $vente->statut = 'payee';
+        }
+
+        $vente->save();
+
+
+        return back()->with('success', 'Paiement enregistré avec succès');
+    }
+
+
+    // Anuuler paiement daja valide
+    public function annuler(Request $request, $id)
+    {
+        $paiement = Paiements::findOrFail($id);
+    
+        // Sécurité rôle
+        if ($request->user()->role !='admin' && $request->user()->role !='comptable') {
+            abort(403);
+        }
+
+        $paiement->update([
+            'statut' => 'annule',
+            'motif_annulation' => $request->motif ?? 'Annulation manuelle',
+            'annule_par' => $request->user()->id,
+            'annule_le' => now(),
+        ]);
+
+        $vente = $paiement->vente;
+
+        // Recalcul statut vente
+        $totalPaye = $vente->paiements()->where('statut', 'valide')->sum('montant');
+
+        $vente->statut = $totalPaye == 0 ? 'impayee' : ($totalPaye < $vente->total_ttc ? 'partielle' : 'payee');
+
+        $vente->save();
+
+        return back()->with('success', 'Paiement annulé avec succès');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
+    }
+}

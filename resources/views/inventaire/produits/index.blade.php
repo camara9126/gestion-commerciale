@@ -111,19 +111,17 @@
                         </div>
                         <div class="card shadow-sm">
                             <div class="card-body">
+                                
                                 <div class="table-responsive">
-                                    <nav class="navbar navbar-light bg-light">
-                                        <form method="get" action="{{route('produits.index')}}" class="form-inline">
-                                            <div class="row">
-                                                <div class="col-8">
-                                                    <input class="form-control mr-sm-2" type="search" name="search" placeholder="Rechercher par nom produit..." aria-label="Search">                                                            
-                                                </div>
-                                                <div class="col-4">
-                                                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>                                                    
-                                                </div>                                                    
-                                            </div>
+                                    <!--<nav class="navbar navbar-light bg-light">-->
+                                        <form method="get" action="{{route('produits.search')}}" class="form-inline">
+                                            
+                                            <input class="form-control mr-sm-2" type="search" name="search" placeholder="Rechercher par nom produit..." aria-label="Search">                                                            
+                                        
+                                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>                                                    
+                                               
                                         </form>
-                                    </nav> 
+                                    <!--</nav> -->
                                     <table class="table table-hover">
                                         <thead>
                                             <tr>

@@ -19,12 +19,12 @@
                 </li>-->
                 <li class="nav-item mb-2">
                     <a href="{{ route('produits.index') }}" class="nav-link">
-                        <i class="fas fa-box"></i> Produits
+                        <i class="fas fa-list"></i> Produits
                     </a>
                 </li>
                 <li class="nav-item mb-2">
                     <a href="{{ route('fournisseurs.index') }}" class="nav-link">
-                        <i class="fas fa-user"></i> Fournisseurs
+                        <i class="fas fa-truck"></i> Fournisseurs
                     </a>
                 </li>
                 <li class="nav-item mb-2">
@@ -40,18 +40,18 @@
                 </li>
                 <li class="nav-item mb-2">
                     <a href="{{ route('ventes.index') }}" class="nav-link">
-                        <i class="fas fa-shopping-cart"></i> Ventes
+                        <i class="fas fa-shopping-cart"></i> Ventes & Facture
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a href="{{ route('paiements.index') }}" class="nav-link" data-section="invoices">
+                        <i class="fas fa-file-invoice"></i> Paiements
                     </a>
                 </li>
                 <hr>
                 <li class="nav-item mb-2">
                     <a href="#" class="nav-link" data-section="finance">
                         <i class="fas fa-shopping-cart"></i> Finance
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a href="#" class="nav-link" data-section="invoices">
-                        <i class="fas fa-file-invoice"></i> Factures
                     </a>
                 </li>
                 <li class="nav-item mb-2">

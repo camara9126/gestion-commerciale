@@ -119,18 +119,15 @@
                                 <div class="card-body">
                                     <div class="stat-card">
                                         <div class="table-responsive">
-                                            <nav class="navbar navbar-light bg-light">
-                                                <form method="get" action="{{route('clients.index')}}" class="form-inline">
-                                                    <div class="row">
-                                                        <div class="col-8">
-                                                            <input class="form-control mr-sm-2" type="search" name="search" placeholder="Rechercher.." aria-label="Search">                                                            
-                                                        </div>
-                                                        <div class="col-4">
-                                                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>                                                    
-                                                        </div>                                                    
-                                                    </div>
+                                            <!--<nav class="navbar navbar-light bg-light">-->
+                                                <form method="get" action="{{route('clients.search')}}" class="form-inline">
+                                                   
+                                                    <input class="form-control mr-sm-2" type="search" name="search" placeholder="Rechercher par nom client.." aria-label="Search">                                                            
+                                                
+                                                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>                                                    
+                                                       
                                                 </form>
-                                            </nav>
+                                            <!--</nav>-->
                                             <table class="table data-table">
                                                 <thead>
                                                     <tr>
@@ -161,6 +158,9 @@
                                                     @endforelse
                                                 </tbody>
                                             </table>  
+                                        </div>
+                                        <div class="d-flex justify-content-center mt-4">
+                                            {{$clients->links()}}
                                         </div>
                                     </div>
                                 </div>

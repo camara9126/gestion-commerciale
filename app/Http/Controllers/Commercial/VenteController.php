@@ -17,6 +17,14 @@ class VenteController extends Controller
 
    public function index(Request $request)
     {
+
+        $ventes = Vente::with('client')->where('entreprise_id', $request->user()->entreprise_id)->latest()->simplePaginate(5); 
+
+        return view('commercial.ventes.index', compact('ventes'));
+    }
+
+    public function search(Request $request)
+    {
         $search = $request->query('search');
 
         $ventes = Vente::with('client')->where('entreprise_id', $request->user()->entreprise_id)->when($search, function ($query, $search) {
@@ -35,9 +43,9 @@ class VenteController extends Controller
 
     public function create()
     {
-        $clients = Client::where('entreprise_id', request()->user()->entreprise_id)->get();
+        $clients = Client::where('entreprise_id', request()->user()->entreprise_id)->latest()->get();
 
-        $produits = Produit::where( 'entreprise_id', request()->user()->entreprise_id)->get();
+        $produits = Produit::where( 'entreprise_id', request()->user()->entreprise_id)->latest()->get();
 
         return view('commercial.ventes.create', compact('clients', 'produits'));
     }
@@ -49,8 +57,7 @@ class VenteController extends Controller
             'client_id' => 'required|exists:clients,id',
             'produits' => 'required|array|min:1',
             'statut',
-            'tva',
-            'produits.*.tva' => 'required',
+            'produits.*.tva' => 'required|numeric',
             'produits.*.produit_id' => 'required|exists:produits,id',
             'produits.*.quantite' => 'required|numeric|min:1',
             'produits.*.prix' => 'required|numeric|min:0',
@@ -89,7 +96,7 @@ class VenteController extends Controller
                 'total' => 0,
                 'total_tva' => 0,
                 'total_ttc' => 0,
-                'statut' => $request->statut,
+                'statut' => 'impayee',
                 'user_id' => $request->user()->id,
             ]);
 
@@ -105,8 +112,8 @@ class VenteController extends Controller
                 'quantite' => $item['quantite'],
                 'prix_unitaire' => $item['prix'],
                 'taux_tva' => $item['tva'],
-                'montant_tva' => ($item['quantite'] * $item['prix']) * (18 /100 ),
-                'total_ttc' => ($item['quantite'] * $item['prix']) + (($item['quantite'] * $item['prix']) * (18 /100 )),
+                'montant_tva' => ($item['quantite'] * $item['prix']) * ($item['tva'] /100 ),
+                'total_ttc' => ($item['quantite'] * $item['prix']) + (($item['quantite'] * $item['prix']) * ($item['tva'] /100 )),
                 'total' => $item['quantite'] * $item['prix'],
             ]);
 
@@ -115,8 +122,8 @@ class VenteController extends Controller
 
             // Calcule total + total_tva + total_ttc
             $total += $item['quantite'] * $item['prix'];
-            $total_tva += ($item['quantite'] * $item['prix']) * (18 /100 );
-            $total_ttc += ($item['quantite'] * $item['prix']) + (($item['quantite'] * $item['prix']) * (18 /100 ));
+            $total_tva += ($item['quantite'] * $item['prix']) * ($item['tva'] /100 );
+            $total_ttc += ($item['quantite'] * $item['prix']) + (($item['quantite'] * $item['prix']) * ($item['tva'] /100 ));
             
             // Mise a jour total + total_tva + total_ttc
             $vente->update([
