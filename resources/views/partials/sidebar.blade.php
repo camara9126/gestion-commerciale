@@ -50,8 +50,13 @@
                 </li>
                 <hr>
                 <li class="nav-item mb-2">
-                    <a href="#" class="nav-link" data-section="finance">
-                        <i class="fas fa-shopping-cart"></i> Finance
+                    <a href="{{ route('depenses.index') }}" class="nav-link" data-section="finance">
+                        <i class="fas fa-shopping-cart"></i> Depenses
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a href="{{ route('recettes.index') }}" class="nav-link" data-section="finance">
+                        <i class="fas fa-shopping-cart"></i> Recettes
                     </a>
                 </li>
                 <li class="nav-item mb-2">

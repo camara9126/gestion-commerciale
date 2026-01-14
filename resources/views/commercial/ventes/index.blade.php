@@ -156,7 +156,7 @@
                                                     <td>{{$v->client->nom ?? 'Client supprimee'}}</td>
                                                     <td>{{number_format($v->total_tva, 0, ',','')}} XOF</td>
                                                     <td>{{number_format($v->total_ttc, 0, ',','')}} XOF</td>
-                                                    <td>{{number_format(($v->total_ttc - $v->paiements ->sum('montant')), 0, ',','')}} XOF</td>
+                                                    <td>{{number_format(($v->total_ttc - $v->paiements->sum('montant')), 0, ',','')}} XOF</td>
                                                     <td>{{$v->created_at->format('d/m/y')}}</td>
                                                     <td>
                                                         @if($v->statut == 'payee')

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Paiements;
+use App\Models\Recette;
 use App\Models\Vente;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,7 @@ class PaiementController extends Controller
      */
     public function index(Request $request)
     {
-        $paiements = Paiements::with('vente')->where('entreprise_id', $request->user()->entreprise_id)->latest()->simplePaginate(5); 
+        $paiements = Paiements::with('vente.client')->where('entreprise_id', $request->user()->entreprise_id)->latest()->simplePaginate(10); 
 
         return view('commercial.paiements.index', compact('paiements'));
     }
@@ -23,11 +24,14 @@ class PaiementController extends Controller
     {
         $search = $request->query('search');
 
-        $paiements = Paiements::with('vente')->where('entreprise_id', $request->user()->entreprise_id)->when($search, function ($query, $search) {
+        $paiements = Paiements::with('vente.client')->where('entreprise_id', $request->user()->entreprise_id)->when($search, function ($query, $search) {
 
-                $query->where('reference', 'like', "%{$search}%");
+                $query->where('reference', 'like', "%{$search}%")->orWhereHas('vente.client', function ($q) use ($search) {
 
-        })->latest()->paginate(10)->withQueryString(); // 🔑 garde ?search=
+                        $q->where('nom', 'like', "%{$search}%");
+                });
+
+        })->latest()->paginate(10)->withQueryString(); // 🔑 garde ?search=;
 
         return view('commercial.paiements.index', compact('paiements', 'search'));
     }
@@ -64,13 +68,26 @@ class PaiementController extends Controller
             ]);
         }
 
-        Paiements::create([
+        $paiement= Paiements::create([
             'vente_id' => $vente->id,
             'entreprise_id' => $request->user()->entreprise_id,
             'montant' => $request->montant,
             'mode_paiement' => $request->mode_paiement,
             'date_paiement' => now(),
             'reference' => 'PAY-' . time()
+        ]);
+
+        // 2. Création automatique de la recette
+        Recette::create([
+            'entreprise_id' => $request->user()->entreprise_id,
+            'user_id' => $request->user()->id,
+            'paiement_id' => $paiement->id,
+            'reference' => 'REC-' . now()->timestamp,
+            'libelle' => 'Paiement vente ' . $paiement->vente->reference,
+            'montant' => $paiement->montant,
+            'date_recette' => now(),
+            'mode_paiement' => $paiement->mode_paiement,
+            'statut' => 'recu',
         ]);
 
         // Mise à jour du statut de la vente
@@ -103,9 +120,13 @@ class PaiementController extends Controller
             abort(403);
         }
 
+        if($paiement->recette) {
+            $paiement->recette->update(['statut' => 'annule']);
+        }
+      
         $paiement->update([
             'statut' => 'annule',
-            'motif_annulation' => $request->motif ?? 'Annulation manuelle',
+            'motif' => $request->motif ?? 'Annulation manuelle',
             'annule_par' => $request->user()->id,
             'annule_le' => now(),
         ]);

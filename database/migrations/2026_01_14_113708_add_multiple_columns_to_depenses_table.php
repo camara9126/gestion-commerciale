@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('paiements', function (Blueprint $table) {
-            $table->string('statut')->default('valide');
-            $table->text('motif')->nullable();
-            $table->unsignedBigInteger('annule_par')->nullable();
-            $table->timestamp('annule_le')->nullable();
+        Schema::table('depenses', function (Blueprint $table) {
+            $table->foreignId('entreprise_id')->constrained()->cascadeOnDelete()->after('id');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete()->after('id');
         });
     }
 
@@ -24,7 +22,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('paiements', function (Blueprint $table) {
+        Schema::table('depenses', function (Blueprint $table) {
             //
         });
     }

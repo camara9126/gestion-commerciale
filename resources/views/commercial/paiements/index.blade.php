@@ -139,6 +139,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>Reference</th>
+                                                    <th>Client</th>
                                                     <th>Montant</th>
                                                     <th>Date de paiement</th>
                                                     <th>Mode de paiement</th>
@@ -149,6 +150,7 @@
                                                 @forelse($paiements as $p)
                                                 <tr>
                                                     <td>{{$p->reference}}</td>
+                                                    <td>{{optional($p->vente->client)->nom ?? '-'}}</td>
                                                     <td>{{number_format($p->montant, 0, ',','')}} XOF</td>
                                                     <td>{{$p->date_paiement}} XOF</td>
                                                     <td>{{$p->mode_paiement}} XOF</td>

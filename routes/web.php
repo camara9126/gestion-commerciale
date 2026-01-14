@@ -3,6 +3,8 @@
 use App\Http\Controllers\Commercial\ClientController;
 use App\Http\Controllers\Commercial\VenteController;
 use App\Http\Controllers\EntrepriseControleer;
+use App\Http\Controllers\Finance\DepenseController;
+use App\Http\Controllers\Finance\RecetteController;
 use App\Http\Controllers\Inventaire\FournisseurController;
 use App\Http\Controllers\Inventaire\ProduitController;
 use App\Http\Controllers\PaiementController;
@@ -110,6 +112,13 @@ Route::middleware('auth', 'entreprise.exists')->group(function () {
 
     // Facture
     Route::get('/ventes/{vente}/facture', [VenteController::class, 'facture'])->name('ventes.facture');
+});
+
+
+// Route Finance
+Route::middleware(['auth', 'entreprise.exists'])->group(function () { 
+    Route::resource('depenses', DepenseController::class);
+    Route::resource('recettes', RecetteController::class);
 });
 
 
