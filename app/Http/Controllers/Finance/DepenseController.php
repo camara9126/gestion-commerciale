@@ -22,15 +22,16 @@ class DepenseController extends Controller
 
      public function search(Request $request)
     {
+        $categories = CategorieDepense::all();
         $search = $request->query('search');
 
         $depenses = Depense::with('categorie')->where('entreprise_id', $request->user()->entreprise_id)->when($search, function ($query, $search) {
 
-                $query->where('nom', 'like', "%{$search}%");
+                $query->where('reference', 'like', "%{$search}%");
 
         })->latest()->paginate(10)->withQueryString(); // 🔑 garde ?search=;
 
-        return view('finance.depenses.index', compact('depenses', 'search'));
+        return view('finance.depenses.index', compact('categories','depenses', 'search'));
     }
 
 

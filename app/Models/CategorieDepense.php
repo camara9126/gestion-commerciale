@@ -14,4 +14,9 @@ class CategorieDepense extends Model
     {
         return $this->hasMany(Depense::class);
     }
+
+    public function recette()
+    {
+        return $this->hasMany(Recette::class);
+    }
 }

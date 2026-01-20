@@ -59,6 +59,7 @@ class PaiementController extends Controller
 
         $vente = Vente::findOrFail($request->vente_id);
 
+        
         $totalPaye = $vente->paiements()->where('statut','valide')->sum('montant');
         $reste = $vente->total_ttc - $totalPaye;
 
@@ -68,6 +69,7 @@ class PaiementController extends Controller
             ]);
         }
 
+
         $paiement= Paiements::create([
             'vente_id' => $vente->id,
             'entreprise_id' => $request->user()->entreprise_id,
@@ -76,6 +78,16 @@ class PaiementController extends Controller
             'date_paiement' => now(),
             'reference' => 'PAY-' . time()
         ]);
+
+
+        // Mise à jour du statut de la vente
+        $vente = $paiement->vente;
+
+        $totalPaye = $vente->paiements()->where('statut','valide')->sum('montant');
+
+        $vente->statut = $totalPaye == 0 ? 'impayee' : ($totalPaye < $vente->total_ttc ? 'partielle' : 'payee');
+
+        $vente->save();
 
         // 2. Création automatique de la recette
         Recette::create([
@@ -90,21 +102,6 @@ class PaiementController extends Controller
             'statut' => 'recu',
         ]);
 
-        // Mise à jour du statut de la vente
-        $totalPaye += $request->montant;
-
-        $reste = $vente->total_ttc - $totalPaye;
-
-        if ($totalPaye <= 0) {
-            $vente->statut = 'impayee';
-        } elseif ($reste > 0) {
-            $vente->statut = 'partielle';
-        } else {
-            $vente->statut = 'payee';
-        }
-
-        $vente->save();
-
 
         return back()->with('success', 'Paiement enregistré avec succès');
     }
@@ -113,23 +110,28 @@ class PaiementController extends Controller
     // Anuuler paiement daja valide
     public function annuler(Request $request, $id)
     {
-        $paiement = Paiements::findOrFail($id);
-    
+        
         // Sécurité rôle
         if ($request->user()->role !='admin' && $request->user()->role !='comptable') {
             abort(403);
         }
 
-        if($paiement->recette) {
-            $paiement->recette->update(['statut' => 'annule']);
-        }
-      
+        $paiement = Paiements::findOrFail($id);
+        
+
         $paiement->update([
             'statut' => 'annule',
             'motif' => $request->motif ?? 'Annulation manuelle',
             'annule_par' => $request->user()->id,
             'annule_le' => now(),
         ]);
+
+
+        if($paiement->recette) {
+            $paiement->recette->update(['statut' => 'annule']);
+        }
+      
+       
 
         $vente = $paiement->vente;
 

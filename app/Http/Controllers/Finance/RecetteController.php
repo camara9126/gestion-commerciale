@@ -14,24 +14,31 @@ class RecetteController extends Controller
      */
     public function index(Request $request)
     {
-        $recettes = Recette::with('categorie')->where( 'entreprise_id', request()->user()->entreprise_id)->latest()->simplePaginate(10);
-        $paiements = Paiements::where('entreprise_id', request()->user()->entreprise_id)->where('statut', 'valide')
-                                ->whereDoesntHave('recette')->orderBy('created_at', 'desc')->get();
+        $recettes = Recette::with('categorie')->where( 'entreprise_id', $request->user()->entreprise_id)->latest()->simplePaginate(10);
+
+        $paiements = Paiements::where('entreprise_id', $request->user()->entreprise_id)->where('statut', 'valide')
+                                ->with('vente.client')->orderBy('created_at', 'desc')->get();
 
         return view('finance.recettes.index', compact('recettes','paiements'));
     }
 
      public function search(Request $request)
     {
+         $paiements = Paiements::where('entreprise_id', $request->user()->entreprise_id)->where('statut', 'valide')
+                                ->with('vente.client')->orderBy('created_at', 'desc')->get();
+
         $search = $request->query('search');
 
-        $depenses = Recette::with('categorie')->where('entreprise_id', $request->user()->entreprise_id)->when($search, function ($query, $search) {
+        $recettes = Recette::with('paiement')->where('entreprise_id', $request->user()->entreprise_id)->when($search, function ($query, $search) {
 
-                $query->where('nom', 'like', "%{$search}%");
+                $query->where('reference', 'like', "%{$search}%")->orWhereHas('paiement', function ($q) use ($search) {
+
+                        $q->where('reference', 'like', "%{$search}%");
+                });
 
         })->latest()->paginate(10)->withQueryString(); // 🔑 garde ?search=;
 
-        return view('finance.depenses.index', compact('depenses', 'search'));
+        return view('finance.recettes.index', compact('paiements','recettes', 'search'));
     }
 
 

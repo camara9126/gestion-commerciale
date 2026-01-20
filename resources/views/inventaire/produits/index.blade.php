@@ -116,7 +116,7 @@
                                     <!--<nav class="navbar navbar-light bg-light">-->
                                         <form method="get" action="{{route('produits.search')}}" class="form-inline">
                                             
-                                            <input class="form-control mr-sm-2" type="search" name="search" placeholder="Rechercher par nom produit..." aria-label="Search">                                                            
+                                            <input class="form-control mr-sm-2" type="search" name="search" placeholder="Rechercher par nom produit ou fournisseur..." aria-label="Search">                                                            
                                         
                                             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>                                                    
                                                
@@ -125,8 +125,8 @@
                                     <table class="table table-hover">
                                         <thead>
                                             <tr>
-                                                <th>Nom</th>
                                                 <th>Code</th>
+                                                <th>Nom</th>
                                                 <th>Fournisseur</th>
                                                 <th>Prix de vente</th>
                                                 <th>Stock</th>
@@ -136,11 +136,17 @@
                                         <tbody>
                                             @forelse($produits as $p)
                                             <tr>
-                                                <td>{{$p->nom}}</td>
                                                 <td>{{$p->code}}</td>
+                                                <td>{{$p->nom}}</td>
                                                 <td>{{$p->fournisseur->nom}}</td>
                                                 <td>{{number_format($p->prix_vente, 0,'','')}} XOF</td>
-                                                <td>{{$p->stock}}</td>
+                                                <td>
+                                                    @if($p->stock_min >= $p->stock)
+                                                        <span class="badge bg-danger">Stock faible</span>
+                                                    @else
+                                                        {{$p->stock}}
+                                                    @endif
+                                                </td>
                                                 <td>
                                                     <a href="{{route('produits.edit', $p->id)}}">
                                                         <i class="fa fa-eye text-primary"></i>

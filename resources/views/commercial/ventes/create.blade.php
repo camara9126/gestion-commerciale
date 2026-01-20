@@ -138,7 +138,7 @@
                                                 </select>
                                             </div>                                
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-4 mt-4">
                                             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#clientModal">
                                                 + Nouveau client
                                             </button>
@@ -194,6 +194,7 @@
                                     </button>
                                 </form>
                                
+                                <!-- Nouveau client -->
                                 <div class="modal fade" id="clientModal" tabindex="-1">
                                     <div class="modal-dialog">
                                         <form method="post" action="{{route('clients.ajax.store')}}">

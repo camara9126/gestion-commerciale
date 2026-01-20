@@ -29,6 +29,6 @@ class Paiements extends Model
 
     public function recette()
     {
-        return $this->hasOne(Recette::class);
+        return $this->hasOne(Recette::class, 'paiement_id');
     }
 }

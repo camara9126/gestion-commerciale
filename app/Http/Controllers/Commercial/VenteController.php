@@ -80,6 +80,11 @@ class VenteController extends Controller
                  return redirect()->back()->with('danger','Vous devez enregister un mouvement d"abord');
             }
 
+            // Alert stock minimum depasse
+            if ($produit->stock <= $produit->stock_min) {
+                return redirect()->back()->with('danger','Votre stock minimum est depasse');
+            }
+
 
             // Verification quantite de stock
             if ($produit->stock < $item['quantite']) {
@@ -134,9 +139,7 @@ class VenteController extends Controller
 
     }
 
-        
-
-        return redirect()->route('ventes.index')->with('success','Vente effectue');
+        return redirect()->route('ventes.index')->with('success','Vente effectue, veuillez enregistrer un mouvement de sortie');
     }
 
 

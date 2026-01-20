@@ -17,6 +17,25 @@ class FournisseurController extends Controller
         return view('inventaire.fournisseurs.index', compact('fournisseurs'));
     }
 
+
+    public function search(Request $request)
+    {
+        $search = $request->query('search');
+
+        $fournisseurs = Fournisseur::with('produit')->where('entreprise_id', $request->user()->entreprise_id)->when($search, function ($query, $search) {
+
+                $query->where('nom', 'like', "%{$search}%")->orWhereHas('produit', function ($q) use ($search) {
+
+                        $q->where('telephone', 'like', "%{$search}%");
+                });
+
+        })->latest()->paginate(10)->withQueryString(); // 🔑 garde ?search=
+
+        return view('inventaire.fournisseurs.index', compact('fournisseurs','search'));
+
+    }
+
+
     public function create()
     {
         return view('inventaire.fournisseurs.create');
@@ -41,6 +60,27 @@ class FournisseurController extends Controller
 
         return redirect()->route('fournisseurs.index')
             ->with('success', 'Fournisseur ajouté avec succès');
+    }
+
+
+    public function storeAjax(Request $request)
+    {
+        $request->validate([
+            'nom' => 'required|string|max:255',
+            'telephone' => 'nullable|string',
+            'email' => 'nullable|email',
+            'adresse' => 'nullable|string',
+        ]);
+
+        Fournisseur::create([
+            'entreprise_id' => $request->user()->entreprise_id,
+            'nom' => $request->nom,
+            'telephone' => $request->telephone,
+            'email' => $request->email,
+            'adresse' => $request->adresse,
+        ]);
+
+        return redirect()->route('produits.create')->with('success', 'Fournisseur ajouté avec succès');
     }
 
     public function edit(Fournisseur $fournisseur)

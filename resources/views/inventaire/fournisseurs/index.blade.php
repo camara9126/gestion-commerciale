@@ -119,12 +119,21 @@
                                 <div class="card-body">
                                     <div class="card-body">
                                         <div class="table-responsive">
+                                            <!--<nav class="navbar navbar-light bg-light">-->
+                                                <form method="get" action="{{route('fournisseurs.search')}}" class="form-inline">
+                                                    
+                                                    <input class="form-control mr-sm-2" type="search" name="search" placeholder="Rechercher par nom ou telephone..." aria-label="Search">                                                            
+                                                
+                                                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>                                                    
+                                                    
+                                                </form>
+                                            <!--</nav> -->
                                             <table class="table table-hover">
                                                 <thead>
                                                     <tr>
                                                         <th>Nom</th>
-                                                        <th>Adresse</th>
                                                         <th>Telephone</th>
+                                                        <th>Adresse</th>
                                                         <th>Email</th>
                                                         <th>Statut</th>
                                                         <th>Actions</th>
@@ -134,8 +143,8 @@
                                                     @forelse($fournisseurs as $f)
                                                     <tr>
                                                         <td>{{$f->nom}}</td>
-                                                        <td>{{$f->adresse}}</td>
                                                         <td>{{$f->telephone}}</td>
+                                                        <td>{{$f->adresse}}</td>
                                                         <td>{{$f->email}}</td>
                                                         <td>
                                                             @if($f->adresse)

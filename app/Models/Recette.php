@@ -31,6 +31,11 @@ class Recette extends Model
 
     public function paiement()
     {
-        return $this->belongsTo(Paiements::class);
+        return $this->belongsTo(Paiements::class, 'paiement_id');
+    }
+
+    public function categorie()
+    {
+        return $this->belongsTo(CategorieDepense::class, 'categorie_depense_id');
     }
 }

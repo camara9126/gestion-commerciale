@@ -274,69 +274,199 @@
             margin-top: 40px;
             border-top: 1px solid #e9ecef;
         }
+
+        /* rapport */
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e1e5eb;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 28px;
+        }
+
+        .period-selector {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .period-selector select {
+            padding: 8px 15px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            background-color: white;
+            font-weight: 500;
+        }
+
+        .stats-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 24px;
+        }
+
+        .orders .stat-icon {
+            background-color: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .revenue .stat-icon {
+            background-color: #e8f5e9;
+            color: #388e3c;
+        }
+
+        .products .stat-icon {
+            background-color: #fff3e0;
+            color: #f57c00;
+        }
+
+        .customers .stat-icon {
+            background-color: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        .stat-info h3 {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-change {
+            font-size: 13px;
+        }
+
+        .positive {
+            color: #27ae60;
+        }
+
+        .negative {
+            color: #e74c3c;
+        }
+
+        .charts-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 1100px) {
+            .charts-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .chart-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .chart-header h2 {
+            font-size: 18px;
+            color: #2c3e50;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 300px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e1e5eb;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        .export-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-secondary {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+        }
+
+        .btn-secondary:hover {
+            background-color: #d5dbdb;
+        }
     </style>
 </head>
 <body>
     <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <h3 class="mb-0">
-                <i class="fas fa-chart-line text-primary me-2"></i>
-                <span class="fw-bold">BizManager</span>
-            </h3>
-            <small class="text-muted">Gestion Commerciale</small>
-        </div>
-        
-        <div class="px-3 py-4">
-            <ul class="nav flex-column">
-                <li class="nav-item mb-2">
-                    <a href="#" class="nav-link active" data-section="dashboard">
-                        <i class="fas fa-home"></i> Tableau de bord
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a href="#" class="nav-link" data-section="clients">
-                        <i class="fas fa-users"></i> Clients
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a href="#" class="nav-link" data-section="products">
-                        <i class="fas fa-box"></i> Produits
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a href="#" class="nav-link" data-section="orders">
-                        <i class="fas fa-shopping-cart"></i> Commandes
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a href="#" class="nav-link" data-section="invoices">
-                        <i class="fas fa-file-invoice"></i> Factures
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a href="#" class="nav-link" data-section="reports">
-                        <i class="fas fa-chart-bar"></i> Rapports
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a href="#" class="nav-link" data-section="settings">
-                        <i class="fas fa-cog"></i> Paramètres
-                    </a>
-                </li>
-            </ul>
-            
-            <div class="mt-5 pt-4 border-top border-secondary">
-                <div class="d-flex align-items-center">
-                    <div class="user-profile me-3">AD</div>
-                    <div>
-                        <p class="mb-0 fw-bold">Admin User</p>
-                        <small class="text-muted">Administrateur</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    @include('partials.Sidebar')
     
     <!-- Overlay -->
     <div class="overlay" id="overlay"></div>
@@ -404,8 +534,127 @@
         <div class="container-fluid p-3 p-md-4" id="contentArea">
             <!-- Dashboard Section -->
             <section id="dashboard" class="content-section">
+                <div class="dashboard-container">
+                    <header>
+                        <h1>Tableau de Bord Mensuel</h1>
+                        <div class="period-selector">
+                            <select id="monthSelect">
+                                <option value="0">Janvier</option>
+                                <option value="1">Février</option>
+                                <option value="2">Mars</option>
+                                <option value="3">Avril</option>
+                                <option value="4">Mai</option>
+                                <option value="5">Juin</option>
+                                <option value="6">Juillet</option>
+                                <option value="7">Août</option>
+                                <option value="8" selected>Septembre</option>
+                                <option value="9">Octobre</option>
+                                <option value="10">Novembre</option>
+                                <option value="11">Décembre</option>
+                            </select>
+                            <select id="yearSelect">
+                                <option>2022</option>
+                                <option>2023</option>
+                                <option selected>2024</option>
+                            </select>
+                            <div class="export-buttons">
+                                <button class="btn btn-secondary" onclick="exportData('png')">Export PNG</button>
+                                <button class="btn btn-primary" onclick="exportData('pdf')">Export PDF</button>
+                            </div>
+                        </div>
+                    </header>
+
+                    <div class="stats-summary">
+                        <div class="stat-card orders">
+                            <div class="stat-icon">
+                                <span>📦</span>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Commandes</h3>
+                                <div class="stat-value">1,247</div>
+                                <div class="stat-change positive">↑ 12.5% vs mois dernier</div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card revenue">
+                            <div class="stat-icon">
+                                <span>💰</span>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Chiffre d'Affaires</h3>
+                                <div class="stat-value">€45,820</div>
+                                <div class="stat-change positive">↑ 8.3% vs mois dernier</div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card products">
+                            <div class="stat-icon">
+                                <span>📊</span>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Produits Vendus</h3>
+                                <div class="stat-value">3,458</div>
+                                <div class="stat-change positive">↑ 5.7% vs mois dernier</div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card customers">
+                            <div class="stat-icon">
+                                <span>👥</span>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Nouveaux Clients</h3>
+                                <div class="stat-value">187</div>
+                                <div class="stat-change negative">↓ 2.1% vs mois dernier</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="charts-container">
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h2>Commandes Mensuelles</h2>
+                            </div>
+                            <div class="chart-wrapper">
+                                <canvas id="ordersChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h2>Chiffre d'Affaires Mensuel</h2>
+                            </div>
+                            <div class="chart-wrapper">
+                                <canvas id="revenueChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h2>Top Produits du Mois</h2>
+                            </div>
+                            <div class="chart-wrapper">
+                                <canvas id="productsChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h2>Statut des Commandes</h2>
+                            </div>
+                            <div class="chart-wrapper">
+                                <canvas id="statusChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <footer>
+                        <p>Tableau de bord mis à jour en temps réel | Données du mois de septembre 2024</p>
+                        <p>© 2024 Votre Logiciel Analytics. Tous droits réservés.</p>
+                    </footer>
+                </div>
                 <!-- Stats Row -->
-                <div class="row g-3 mb-4">
+                <!--<div class="row g-3 mb-4">
                     <div class="col-xl-3 col-lg-6 col-md-6">
                         <div class="stat-card">
                             <div class="d-flex justify-content-between align-items-center">
@@ -473,10 +722,10 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>-->
                 
                 <!-- Charts Row -->
-                <div class="row g-3 mb-4">
+                <!--<div class="row g-3 mb-4">
                     <div class="col-xl-8">
                         <div class="stat-card">
                             <div class="d-flex justify-content-between align-items-center mb-3">
@@ -548,10 +797,10 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>-->
                 
                 <!-- Recent Orders -->
-                <div class="row">
+                <!--<div class="row">
                     <div class="col-12">
                         <div class="stat-card">
                             <div class="d-flex justify-content-between align-items-center mb-3">
@@ -612,7 +861,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>-->
             </section>
             
             <!-- Other Sections (Hidden by default) -->

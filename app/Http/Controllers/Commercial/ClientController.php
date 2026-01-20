@@ -90,6 +90,7 @@ class ClientController extends Controller
     }
     
 
+    // Creation nouveau client depuis la section 'Vente'
     public function storeAjax(Request $request)
     {
         $request->validate([

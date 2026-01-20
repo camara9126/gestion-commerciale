@@ -120,7 +120,7 @@
                                     <div class="stat-card">
                                         <div class="table-responsive">
                                             <!--<nav class="navbar navbar-light bg-light">-->
-                                                <form method="get" action="{{route('clients.search')}}" class="form-inline">
+                                                <form method="get" action="{{route('recettes.search')}}" class="form-inline">
                                                    
                                                     <input class="form-control mr-sm-2" type="search" name="search" placeholder="Rechercher par nom client.." aria-label="Search">                                                            
                                                 
@@ -131,9 +131,10 @@
                                             <table class="table data-table">
                                                 <thead>
                                                     <tr>
+                                                        <th>Reference</th>
                                                         <th>Date</th>
+                                                        <th>Ref-Paiement</th>
                                                         <th>Libelle</th>
-                                                        <th>Paiement</th>
                                                         <th>Montant</th>
                                                         <th>Mode de paiement</th>
                                                         <th>Statut</th>
@@ -142,9 +143,11 @@
                                                 <tbody>
                                                     @forelse($recettes as $r)
                                                     <tr>
+                                                        <td>{{$r->reference}}</td>
                                                         <td>{{$r->date_recette}}</td>
-                                                        <td>{{$r->libelle}}</td>
                                                         <td>{{optional($r->paiement)->reference ?? '-'}}</td>
+                                                        <td>{{$r->libelle}}</td>
+                                                        <td>{{ucfirst($r->montant)}}</td>
                                                         <td>{{ucfirst($r->mode_paiement)}}</td>
                                                         <td>
                                                             <span class="badge bg-{{ $r->statut == 'recu' ? 'success' : 'danger' }}">
@@ -174,21 +177,21 @@
                                     @csrf
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">Paiement</h5>
+                                            <h5 class="modal-title">Recette</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                         </div>
                                         <div class="modal-body">
                                             <div class="row">
 
                                                 <!-- Libellé -->
-                                                <div class="col-6 mb-3">
+                                                <div class="col-12 mb-3">
                                                     <label class="form-label">Libellé de la recette</label>
                                                     <input type="text" name="libelle" class="form-control" 
                                                         placeholder="Ex : Vente produit X" required>
                                                 </div>
 
                                                 <!-- Paiement lié -->
-                                                <div class="col-6 mb-3">
+                                                <div class="col-12 mb-3">
                                                     <label class="form-label">Paiement lié (optionnel)</label>
                                                     <select name="paiement_id" class="form-control">
                                                         <option value="">-- Aucun --</option>
@@ -201,20 +204,20 @@
                                                 </div>
 
                                                 <!-- Montant -->
-                                                <div class="col-4 mb-3">
+                                                <div class="col-12 mb-3">
                                                     <label class="form-label">Montant (FCFA)</label>
                                                     <input type="number" name="montant" class="form-control" step="0.01" required>
                                                 </div>
 
                                                 <!-- Date -->
-                                                <div class="col-4 mb-3">
+                                                <div class="col-6 mb-3">
                                                     <label class="form-label">Date de la recette</label>
                                                     <input type="date" name="date_recette" 
                                                         class="form-control" value="{{ date('Y-m-d') }}" required>
                                                 </div>
 
                                                 <!-- Mode de paiement -->
-                                                <div class="col-4 mb-3">
+                                                <div class="col-6 mb-3">
                                                     <label class="form-label">Mode de paiement</label>
                                                     <select name="mode_paiement" class="form-control" required>
                                                         <option value="">-- Choisir --</option>

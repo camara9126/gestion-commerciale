@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Commercial\ClientController;
 use App\Http\Controllers\Commercial\VenteController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EntrepriseControleer;
 use App\Http\Controllers\Finance\DepenseController;
 use App\Http\Controllers\Finance\RecetteController;
@@ -34,10 +35,17 @@ Route::get('user', function () {
     return view('home.login');
 })->name('user');
 
+
 Route::get('test', function () {
     $fournisseurs = Fournisseur::where('entreprise_id', Auth::user()->entreprise_id)->latest()->get();
     $produits = Produit::with('fournisseur')->where('entreprise_id', Auth::user()->entreprise_id)->latest()->get();
     return view('dashboard', compact('produits','fournisseurs'));
+});
+
+Route::get('rapport', function () {
+    $fournisseurs = Fournisseur::where('entreprise_id', Auth::user()->entreprise_id)->latest()->get();
+    $produits = Produit::with('fournisseur')->where('entreprise_id', Auth::user()->entreprise_id)->latest()->get();
+    return view('rapport', compact('produits','fournisseurs'));
 });
 
 
@@ -54,19 +62,9 @@ Route::middleware('auth')->group(function () {
 
 // Route Dashboard
 Route::middleware(['auth', 'entreprise.exists'])->group(function () {
-    Route::get('/dashboard', function () {
-        $fournisseurs = Fournisseur::where('entreprise_id', Auth::user()->entreprise_id)->latest()->get();
-        $produits = Produit::with('fournisseur')->where('entreprise_id', Auth::user()->entreprise_id)->latest()->get();
-
-        $mouvements_ent = StockMouvement::where('entreprise_id', request()->user()->entreprise_id)->where('type', 'entree')->limit(3)->latest()->get();
-        $mouvements_sor = StockMouvement::where('entreprise_id', request()->user()->entreprise_id)->where('type', 'sortie')->limit(3)->latest()->get();
-
-        $clients = Client::where('entreprise_id', request()->user()->entreprise_id)->latest()->get();
-        $ventes = Vente::with('client')->where('entreprise_id', request()->user()->entreprise_id)->latest()->get();
-
-        return view('dashboard.index', compact('produits','fournisseurs','mouvements_ent','mouvements_sor','clients','ventes'));        
-    })->name('dashboard');
-});
+    Route::resource('/dashboard', DashboardController::class);
+    Route::get('/dashboard.rapport', [DashboardController::class, 'rapport'])->name('dashboard.rapport');
+})->name('dashboard');
 
 // Route Entreprise
 Route::middleware(['auth'])->group(function () {
@@ -74,13 +72,15 @@ Route::middleware(['auth'])->group(function () {
     Route::post('entreprise/store', [EntrepriseControleer::class, 'store'])->name('entreprise.store');
 });
 
-// Route Inventaire
+// Route Inventaire (fournisseurs - produits - stock - mouvements)
 Route::middleware(['auth', 'entreprise.exists'])->group(function () { 
     // Fournisseurs
     Route::resource('fournisseurs', FournisseurController::class)->except(['show']);
+    Route::post('/fournisseurs.ajax', [FournisseurController::class, 'storeAjax'])->name('fournisseurs.ajax.store');
+    Route::get('/fournisseurs.search', [FournisseurController::class, 'search'])->name('fournisseurs.search');
+
     // Produits
     Route::resource('produits', ProduitController::class)->except(['show']);
-
     Route::get('/produits.search', [ProduitController::class, 'search'])->name('produits.search');
 
     // Mouvements
@@ -96,7 +96,7 @@ Route::middleware(['auth', 'entreprise.exists'])->group(function () {
     Route::post('/stock/sortie', [StockController::class, 'sortie'])->name('stock.sortie');
 });
 
-// Route Commercial
+// Route Commercial (clients - ventes)
 Route::middleware('auth', 'entreprise.exists')->group(function () {
     Route::resource('clients', ClientController::class);
     Route::get('/clients.serach', [ClientController::class, 'search'])->name('clients.search');
@@ -105,9 +105,7 @@ Route::middleware('auth', 'entreprise.exists')->group(function () {
     Route::resource('ventes', VenteController::class);
     Route::get('/ventes.search', [VenteController::class, 'search'])->name('ventes.search');
 
-    Route::resource('paiements', PaiementController::class);
-    Route::get('/paiements.search', [PaiementController::class, 'search'])->name('paiements.search');
-    Route::put('/paiements/{id}/annuler', [PaiementController::class, 'annuler'])->name('paiements.annuler');
+    
 
 
     // Facture
@@ -115,10 +113,17 @@ Route::middleware('auth', 'entreprise.exists')->group(function () {
 });
 
 
-// Route Finance
+// Route Finance (depenses - recettes - paiements)
 Route::middleware(['auth', 'entreprise.exists'])->group(function () { 
     Route::resource('depenses', DepenseController::class);
+    Route::get('/depenses.search', [DepenseController::class, 'search'])->name('depenses.search');
+
     Route::resource('recettes', RecetteController::class);
+    Route::get('/recettes.search', [RecetteController::class, 'search'])->name('recettes.search');
+    
+    Route::resource('paiements', PaiementController::class);
+    Route::get('/paiements.search', [PaiementController::class, 'search'])->name('paiements.search');
+    Route::put('/paiements/{id}/annuler', [PaiementController::class, 'annuler'])->name('paiements.annuler');
 });
 
 

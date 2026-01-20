@@ -16,6 +16,7 @@ class ProduitController extends Controller
 
         return view('inventaire.produits.index', compact('produits'));
     }
+    
 
     public function search(Request $request)
     {
@@ -23,12 +24,16 @@ class ProduitController extends Controller
 
         $produits = Produit::with('fournisseur')->where('entreprise_id', $request->user()->entreprise_id)->when($search, function ($query, $search) {
 
-                $query->where('nom', 'like', "%{$search}%");
+                $query->where('nom', 'like', "%{$search}%")->orWhereHas('fournisseur', function ($q) use ($search) {
+
+                        $q->where('nom', 'like', "%{$search}%");
+                });
 
         })->latest()->paginate(10)->withQueryString(); // 🔑 garde ?search=
 
         return view('inventaire.produits.index', compact('produits', 'search'));
     }
+
 
     public function create(Request $request)
     {
@@ -36,6 +41,7 @@ class ProduitController extends Controller
 
         return view('inventaire.produits.create', compact('fournisseurs'));
     }
+
 
     public function store(Request $request)
     {
@@ -58,9 +64,9 @@ class ProduitController extends Controller
             'stock' => 0,
         ]);
 
-        return redirect()->route('produits.index')
-            ->with('success', 'Produit ajouté avec succès');
+        return redirect()->route('produits.index')->with('success', 'Produit ajouté avec succès, veuillez enregistrer un mouvement d"entree');
     }
+
 
     public function edit(Request $request, Produit $produit)
     {
@@ -72,6 +78,7 @@ class ProduitController extends Controller
 
         return view('inventaire.produits.edit', compact('produit', 'fournisseurs'));
     }
+
 
     public function update(Request $request, Produit $produit)
     {
@@ -93,9 +100,9 @@ class ProduitController extends Controller
             'stock_min'
         ));
 
-        return redirect()->route('produits.index')
-            ->with('success', 'Produit modifié');
+        return redirect()->route('produits.index')->with('success', 'Produit modifié');
     }
+
 
     public function destroy(Request $request, Produit $produit)
     {
@@ -116,13 +123,9 @@ class ProduitController extends Controller
 
     private function generateCode(int $entrepriseId): string
 {
-    $lastProduit = Produit::where('entreprise_id', $entrepriseId)
-        ->orderBy('id', 'desc')
-        ->first();
+    $lastProduit = Produit::where('entreprise_id', $entrepriseId)->orderBy('id', 'desc')->first();
 
-    $number = $lastProduit
-        ? intval(substr($lastProduit->code, -5)) + 1
-        : 1;
+    $number = $lastProduit ? intval(substr($lastProduit->code, -5)) + 1 : 1;
 
     return 'PRD-' . str_pad($number, 5, '0', STR_PAD_LEFT);
 }

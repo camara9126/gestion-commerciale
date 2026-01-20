@@ -92,7 +92,7 @@
                        <div class="row"></div>
                         <div class="d-flex justify-content-between align-items-center mb-4">                          
                             <h3 class="mb-0">Produits</h3>
-                            <a href="{{route('dashboard')}}" class="btn btn-danger">
+                            <a href="{{route('dashboard.index')}}" class="btn btn-danger">
                                 <i class="fas fa-bar me-1"></i> Annuler
                             </a>
                         </div>

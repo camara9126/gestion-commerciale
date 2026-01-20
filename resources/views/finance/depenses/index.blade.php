@@ -120,9 +120,9 @@
                                     <div class="stat-card">
                                         <div class="table-responsive">
                                             <!--<nav class="navbar navbar-light bg-light">-->
-                                                <form method="get" action="{{route('clients.search')}}" class="form-inline">
+                                                <form method="get" action="{{route('depenses.search')}}" class="form-inline">
                                                    
-                                                    <input class="form-control mr-sm-2" type="search" name="search" placeholder="Rechercher par nom client.." aria-label="Search">                                                            
+                                                    <input class="form-control mr-sm-2" type="search" name="search" placeholder="Rechercher par nom categorie.." aria-label="Search">                                                            
                                                 
                                                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>                                                    
                                                        
@@ -131,6 +131,7 @@
                                             <table class="table data-table">
                                                 <thead>
                                                     <tr>
+                                                        <td>Reference</td>
                                                         <th>Date</th>
                                                         <th>Libelle</th>
                                                         <th>Categorie</th>
@@ -141,6 +142,7 @@
                                                 <tbody>
                                                     @forelse($depenses as $d)
                                                     <tr>
+                                                        <td>{{$d->reference}}</td>
                                                         <td>{{$d->date_depense}}</td>
                                                         <td>{{$d->libelle}}</td>
                                                         <td>{{$d->categorie->nom}}</td>
@@ -173,7 +175,7 @@
                                     @csrf
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">Paiement</h5>
+                                            <h5 class="modal-title">Depense</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                         </div>
                                         <div class="modal-body">

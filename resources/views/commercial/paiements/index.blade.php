@@ -151,9 +151,9 @@
                                                 <tr>
                                                     <td>{{$p->reference}}</td>
                                                     <td>{{optional($p->vente->client)->nom ?? '-'}}</td>
-                                                    <td>{{number_format($p->montant, 0, ',','')}} XOF</td>
-                                                    <td>{{$p->date_paiement}} XOF</td>
-                                                    <td>{{$p->mode_paiement}} XOF</td>
+                                                    <td>{{max(0, number_format($p->montant, 0, ',',''))}} XOF</td>
+                                                    <td>{{$p->date_paiement}}</td>
+                                                    <td>{{$p->mode_paiement}}</td>
                                                     <td>
                                                         @if($p->statut === 'valide')
                                                             <form action="{{ route('paiements.annuler', $p->id) }}" method="POST" onsubmit="return confirm('Confirmer l’annulation du paiement ?')">
