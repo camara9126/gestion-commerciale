@@ -536,9 +536,9 @@
             <section id="dashboard" class="content-section">
                 <div class="dashboard-container">
                     <header>
-                        <h1>Tableau de Bord Mensuel</h1>
+                        <h1>Rapport Mensuel</h1>
                         <div class="period-selector">
-                            <select id="monthSelect">
+                            <!-- <select id="monthSelect">
                                 <option value="0">Janvier</option>
                                 <option value="1">Février</option>
                                 <option value="2">Mars</option>
@@ -556,7 +556,7 @@
                                 <option>2022</option>
                                 <option>2023</option>
                                 <option selected>2024</option>
-                            </select>
+                            </select> -->
                             <div class="export-buttons">
                                 <button class="btn btn-secondary" onclick="exportData('png')">Export PNG</button>
                                 <button class="btn btn-primary" onclick="exportData('pdf')">Export PDF</button>
@@ -565,49 +565,7 @@
                     </header>
 
                     <div class="stats-summary">
-                        <div class="stat-card orders">
-                            <div class="stat-icon">
-                                <span>📦</span>
-                            </div>
-                            <div class="stat-info">
-                                <h3>Commandes</h3>
-                                <div class="stat-value">1,247</div>
-                                <div class="stat-change positive">↑ 12.5% vs mois dernier</div>
-                            </div>
-                        </div>
-
-                        <div class="stat-card revenue">
-                            <div class="stat-icon">
-                                <span>💰</span>
-                            </div>
-                            <div class="stat-info">
-                                <h3>Chiffre d'Affaires</h3>
-                                <div class="stat-value">€45,820</div>
-                                <div class="stat-change positive">↑ 8.3% vs mois dernier</div>
-                            </div>
-                        </div>
-
-                        <div class="stat-card products">
-                            <div class="stat-icon">
-                                <span>📊</span>
-                            </div>
-                            <div class="stat-info">
-                                <h3>Produits Vendus</h3>
-                                <div class="stat-value">3,458</div>
-                                <div class="stat-change positive">↑ 5.7% vs mois dernier</div>
-                            </div>
-                        </div>
-
-                        <div class="stat-card customers">
-                            <div class="stat-icon">
-                                <span>👥</span>
-                            </div>
-                            <div class="stat-info">
-                                <h3>Nouveaux Clients</h3>
-                                <div class="stat-value">187</div>
-                                <div class="stat-change negative">↓ 2.1% vs mois dernier</div>
-                            </div>
-                        </div>
+                        @include('partials.data')
                     </div>
 
                     <div class="charts-container">
@@ -674,35 +632,28 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <!-- Donnees du rappord -->
-    <!--<script>
-        const commandesLabels = @json($commandesParMois->keys());
-        const commandesData = @json($commandesParMois->values());
+     <script>
 
-        const caLabels = @json($caParMois->keys());
-        const caData = @json($caParMois->values());
-
-        const topProduitsLabels = @json($topProduits->pluck('produit.nom'));
-        const topProduitsData = @json($topProduits->pluck('total'));
-
-        const statutLabels = @json($statuts->keys());
-        const statutData = @json($statuts->values());
-    </script>-->
-
-
-    <script>
         // Données pour les graphiques
-        const months = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'];
-        const currentMonthIndex = 8; // Septembre (0-indexed)
+        const topProductLabels = @json($topProduitsLabels);
+        const topProductData = @json($topProduitsData);
+        const commandesMoisLabels = @json($commandesMoisLabels);
+        const commandesMoisData = @json($commandesMoisData);
+        const caLabels = @json($caLabels);
+        const caData = @json($caData);
+        const statutLabels = @json($statutLabels);
+        const statutData = @json($statutData);
+
 
         // Graphique des commandes
         const ordersCtx = document.getElementById('ordersChart').getContext('2d');
         const ordersChart = new Chart(ordersCtx, {
             type: 'line',
             data: {
-                labels: ['1', '5', '10', '15', '20', '25', '30'],
+                labels: commandesMoisLabels, //['1', '5', '10', '15', '20', '25', '30'],
                 datasets: [{
                     label: 'Commandes',
-                    data: [45, 52, 48, 65, 70, 75, 82],
+                    data: commandesMoisData, //[45, 52, 48, 65, 70, 75, 82],
                     borderColor: '#3498db',
                     backgroundColor: 'rgba(52, 152, 219, 0.1)',
                     borderWidth: 3,
@@ -741,10 +692,10 @@
         const revenueChart = new Chart(revenueCtx, {
             type: 'bar',
             data: {
-                labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep'],
+                labels: caLabels, //['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep'],
                 datasets: [{
-                    label: 'Chiffre d\'affaires (k€)',
-                    data: [32, 28, 35, 40, 38, 42, 45, 44, 45.8],
+                    label: 'Chiffre d\'affaires (XOF)',
+                    data: caData, //[32, 28, 35, 40, 38, 42, 45, 44, 45.8],
                     backgroundColor: [
                         'rgba(46, 204, 113, 0.7)',
                         'rgba(46, 204, 113, 0.7)',
@@ -801,9 +752,9 @@
         const productsChart = new Chart(productsCtx, {
             type: 'doughnut',
             data: {
-                labels: ['Produit A', 'Produit B', 'Produit C', 'Produit D', 'Autres'],
+                labels: topProductLabels, //['Produit A', 'Produit B', 'Produit C', 'Produit D', 'Autres'],
                 datasets: [{
-                    data: [35, 25, 20, 12, 8],
+                    data: topProductData, //[35, 25, 20, 12, 8],
                     backgroundColor: [
                         '#3498db',
                         '#2ecc71',
@@ -837,9 +788,9 @@
         const statusChart = new Chart(statusCtx, {
             type: 'polarArea',
             data: {
-                labels: ['Livrées', 'En cours', 'En attente', 'Annulées'],
+                labels: statutLabels, //['Livrées', 'En cours', 'En attente', 'Annulées'],
                 datasets: [{
-                    data: [75, 15, 8, 2],
+                    data: statutData, //  [75, 15, 8, 2],
                     backgroundColor: [
                         'rgba(46, 204, 113, 0.7)',
                         'rgba(52, 152, 219, 0.7)',
@@ -876,12 +827,32 @@
             updateDashboard(document.getElementById('monthSelect').value, this.value);
         });
 
-        function updateDashboard(month, year) {
-            const monthName = months[parseInt(month)];
-            document.querySelector('footer p').textContent = `Tableau de bord mis à jour en temps réel | Données du mois de ${monthName} ${year}`;
-            
-            // Simulation de mise à jour des données
-            alert(`Mise à jour des données pour ${monthName} ${year}... (simulation)`);
+       function updateDashboard(month, year) {
+
+            fetch(`/dashboard/stats?month=${month}&year=${year}`)
+            .then(res => res.json())
+            .then(data => {
+
+                /* 1️⃣ Commandes */
+                commandesChart.data.labels = data.commandes.map(i => i.jour);
+                commandesChart.data.datasets[0].data = data.commandes.map(i => i.total);
+                commandesChart.update();
+
+                /* 2️⃣ Chiffre d'affaires */
+                caChart.data.datasets[0].data = [data.ca];
+                caChart.update();
+
+                /* 3️⃣ Produits */
+                produitsChart.data.labels = data.produits.map(p => p.produit.nom);
+                produitsChart.data.datasets[0].data = data.produits.map(p => p.total);
+                produitsChart.update();
+
+                /* 4️⃣ Statuts */
+                statutChart.data.labels = data.statuts.map(s => s.statut);
+                statutChart.data.datasets[0].data = data.statuts.map(s => s.total);
+                statutChart.update();
+            })
+            .catch(err => console.error(err));
         }
 
         // Fonction d'export
@@ -915,35 +886,7 @@
             overlay.classList.remove('active');
         });
         
-        // Navigation between sections
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetSection = this.getAttribute('data-section');
-                
-                // Update page title
-                document.getElementById('pageTitle').textContent = this.textContent.trim();
-                
-                // Update active nav link
-                document.querySelectorAll('.nav-link').forEach(navLink => {
-                    navLink.classList.remove('active');
-                });
-                this.classList.add('active');
-                
-                // Show target section
-                document.querySelectorAll('.content-section').forEach(section => {
-                    section.classList.add('d-none');
-                });
-                document.getElementById(targetSection).classList.remove('d-none');
-                
-                // Close sidebar on mobile
-                if (window.innerWidth < 992) {
-                    sidebar.classList.remove('active');
-                    overlay.classList.remove('active');
-                }
-            });
-        });
+        
         
         // Mobile search functionality
         const mobileSearchBtn = document.getElementById('mobileSearchBtn');
@@ -1018,5 +961,7 @@
         // Make sure chart resizes properly on load
         window.dispatchEvent(new Event('resize'));
     </script>
+    
+    <script src="{{asset('asset/main.js')}}"></script>
 </body>
 </html>

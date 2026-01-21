@@ -462,6 +462,11 @@
                     <li><a href="#contact">Contact</a></li>
                 </ul>
                 <button class="cta-button">Essai Gratuit</button>
+                @auth
+                    <a href="{{route('dashboard.index')}}" class="cta-button">Dashboard</a>
+                @else
+                    <a href="{{route('login')}}" class="cta-button">Commencer</a>
+                @endauth
                 <div class="mobile-menu">
                     <i class="fas fa-bars"></i>
                 </div>
@@ -540,19 +545,21 @@
                         <p>Parfait pour les indépendants et petites entreprises</p>
                     </div>
                     <div class="price">
-                        <div class="price-amount">19€</div>
+                        <div class="price-amount">15€</div>
                         <div class="price-period">par mois</div>
                     </div>
                     <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> Jusqu'à 100 clients</li>
-                        <li><i class="fas fa-check"></i> 500 factures/mois</li>
+                        <li><i class="fas fa-check"></i> Jusqu'à 80 produits</li>
+                        <li><i class="fas fa-check"></i> 100 clients</li>
+                        <!--<li><i class="fas fa-check"></i> 500 factures/mois</li>-->
                         <li><i class="fas fa-check"></i> Gestion de stock basique</li>
-                        <li><i class="fas fa-check"></i> Support par email</li>
+                        <li><i class="fas fa-check"></i> Support basique</li>
+                        <li class="disabled"><i class="fas fa-times"></i> Factures illimitées</li>
                         <li class="disabled"><i class="fas fa-times"></i> Tableaux de bord avancés</li>
                         <li class="disabled"><i class="fas fa-times"></i> Intégrations API</li>
                         <li class="disabled"><i class="fas fa-times"></i> Formation personnalisée</li>
                     </ul>
-                    <button class="cta-button" style="width: 100%;">Souscrire</button>
+                    <a href="{{route('register')}}" class="cta-button" style="width: 100%;">Souscrire</a>
                 </div>
 
                 <!-- Pack Professionnel (Most Popular) -->
@@ -563,20 +570,22 @@
                         <p>Idéal pour les PME en croissance</p>
                     </div>
                     <div class="price">
-                        <div class="price-amount">49€</div>
+                        <div class="price-amount">39.99€</div>
                         <div class="price-period">par mois</div>
                         <div class="price-savings">Économisez 20% avec l'abonnement annuel</div>
                     </div>
                     <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> Clients illimités</li>
+                        <li><i class="fas fa-check"></i> 200 produits</li>
+                        <li><i class="fas fa-check"></i> 300 Clients</li>
+                        <li><i class="fas fa-check"></i> 2 utilisateurs</li>
                         <li><i class="fas fa-check"></i> Factures illimitées</li>
                         <li><i class="fas fa-check"></i> Gestion de stock avancée</li>
                         <li><i class="fas fa-check"></i> Support prioritaire</li>
                         <li><i class="fas fa-check"></i> Tableaux de bord avancés</li>
-                        <li><i class="fas fa-check"></i> Intégrations API</li>
+                        <!--<li><i class="fas fa-check"></i> Intégrations API</li>-->
                         <li class="disabled"><i class="fas fa-times"></i> Formation personnalisée</li>
                     </ul>
-                    <button class="cta-button" style="width: 100%; background-color: var(--accent);">Souscrire</button>
+                    <a href="{{route('register')}}" class="cta-button" style="width: 100%; background-color: var(--accent);">Souscrire</a>
                 </div>
 
                 <!-- Pack Entreprise -->
@@ -586,7 +595,7 @@
                         <p>Solution complète pour les grandes entreprises</p>
                     </div>
                     <div class="price">
-                        <div class="price-amount">99€</div>
+                        <div class="price-amount">89.99€</div>
                         <div class="price-period">par mois</div>
                         <div class="price-savings">Économisez 25% avec l'abonnement annuel</div>
                     </div>
@@ -599,7 +608,7 @@
                         <li><i class="fas fa-check"></i> Intégrations personnalisées</li>
                         <li><i class="fas fa-check"></i> Formation personnalisée</li>
                     </ul>
-                    <button class="cta-button" style="width: 100%;">Nous contacter</button>
+                    <a href="{{route('register')}}" class="cta-button" style="width: 100%;">Nous contacter</a>
                 </div>
             </div>
             <p style="text-align: center; margin-top: 40px; color: #666;">Tous les plans incluent un essai gratuit de 14 jours. Aucune carte de crédit requise.</p>
@@ -611,7 +620,7 @@
         <div class="container">
             <h2>Prêt à transformer votre gestion commerciale ?</h2>
             <p>Rejoignez plus de 5 000 entreprises qui utilisent déjà BizManager pour optimiser leurs processus et augmenter leurs revenus.</p>
-            <button class="cta-button" style="font-size: 1.1rem; padding: 15px 40px;">Commencer l'essai gratuit maintenant</button>
+            <a href="{{route('register')}}" class="cta-button" style="font-size: 1.1rem; padding: 15px 40px;">Commencer l'essai gratuit maintenant</a>
         </div>
     </section>
 
@@ -697,7 +706,7 @@
         // CTA buttons
         document.querySelectorAll('.cta-button:not(.pricing-card .cta-button)').forEach(button => {
             button.addEventListener('click', function() {
-                alert("Excellent choix! Vous allez être redirigé vers le formulaire d'inscription pour l'essai gratuit de 14 jours.");
+                alert("Excellent choix! Vous allez être redirigé vers le formulaire d'inscription.");
             });
         });
         

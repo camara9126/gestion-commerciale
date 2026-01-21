@@ -10,8 +10,9 @@ use App\Models\StockMouvement;
 use App\Models\Vente;
 use App\Models\VenteItem;
 use Carbon\Carbon;
-use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
+
+//use function Symfony\Component\Clock\now;
 
 class DashboardController extends Controller
 {
@@ -30,48 +31,71 @@ class DashboardController extends Controller
     }
 
 
-    public function rapport()
+    // Calcule des rapport
+    public function rapport(Request $request)
     {
-        $entrepriseId = request()->user()->entreprise_id;
+
+    /* Changement de mois */ 
+    $mois = $request->mois ?? now()->month;
+    $annee = $request->annee ?? now()->year;
+
 
         /* 1️⃣ Commandes par mois */
-        $commandesParMois = Vente::selectRaw('MONTH(created_at) mois, COUNT(*) total')->where('entreprise_id', request()->user()->entreprise_id)->whereYear('created_at', now()->year)->groupBy('mois')->get();
+        $commandesParJour = Vente::selectRaw('DAY(created_at) jour, COUNT(*) total')->where('entreprise_id', request()->user()->entreprise_id)->whereMonth('created_at', $mois)->whereYear('created_at', $annee)->groupBy('jour')->orderBy('jour')->get();
 
-        $commandesMoisLabels = [];
-        $commandesMoisData = [];
-
-        foreach ($commandesParMois as $item) {
-            $commandesMoisLabels[] = Carbon::create()->month($item->mois)->format('M');
-            $commandesMoisData[] = $item->total;
-        }
+        $commandesMoisLabels = $commandesParJour->pluck('jour');
+        $commandesMoisData = $commandesParJour->pluck('total');
 
 
         /* 2️⃣ Chiffre d’affaires par mois */
-        $caParMois = Recette::selectRaw('MONTH(created_at) mois, SUM(montant) total')->where('entreprise_id', request()->user()->entreprise_id)->where('statut', 'valide')->whereYear('created_at', now()->year)->groupBy('mois')->get();
+        $caParMois = Recette::selectRaw('MONTH(created_at) as mois, SUM(montant) as total')->where('entreprise_id', request()->user()->entreprise_id)->whereYear('created_at', $annee)->where('statut', 'recu')->groupBy('mois')->orderBy('mois')->get();
 
-        $caLabels = [];
-        $caData = [];
-
-        foreach ($caParMois as $item) {
-            $caMoisLabels[] = Carbon::create()->month($item->mois)->format('M');
-            $caMoisData[] = $item->total;
-        }
+        $caLabels = $caParMois->pluck('mois')->map(fn ($m)=>
+            Carbon::create()->month($m)->translatedFormat('M')
+        );
+        $caData = $caParMois->pluck('total');
 
 
         /* 3️⃣ Top produits du mois */
-        $topProduits = VenteItem::selectRaw('produit_id, SUM(quantite) total_ttc')->whereMonth('created_at', now()->month)->groupBy('produit_id')->with('produit')->orderByDesc('total')->limit(5)->get();
+        $topProduits = VenteItem::selectRaw('produit_id, SUM(quantite) as total')->whereMonth('created_at', $mois)->whereYear('created_at', $annee)->groupBy('produit_id')->orderByDesc('total')->with('produit:id,nom')->limit(5)->get();
 
-        $topProduitsLabels = $topProduits->pluck('nom');
+        $topProduitsLabels = $topProduits->pluck('produit.nom');
         $topProduitsData = $topProduits->pluck('total');
 
 
         /* 4️⃣ Statut des commandes */
-        $statutCommandes = Vente::selectRaw('statut, COUNT(*) total_ttc')->where('entreprise_id', request()->user()->entreprise_id)->groupBy('statut')->pluck('total_ttc', 'statut');
+        $statutCommandes = Vente::selectRaw('statut, COUNT(*) as total')->where('entreprise_id', request()->user()->entreprise_id)->whereMonth('created_at', $mois)->whereYear('created_at', $annee)->groupBy('statut')->get();
 
         $statutLabels = $statutCommandes->pluck('statut');
-        $statutData = $statutCommandes->pluck('total_ttc');
+        $statutData = $statutCommandes->pluck('total');
 
-        //return view('dashboard.test', compact('$commandesMoisLabels','$commandesMoisData','caLabels','caData','topProduitsLabels','topProduitsData','statutLabels','statutData'));
-        return view('rapport', compact('commandesMoisLabels','commandesMoisData','caLabels','caData','topProduitsLabels','topProduitsData','statutLabels','statutData'));
+        
+        return view('dashboard.rapport', compact('commandesMoisLabels','commandesMoisData','caLabels','caData','topProduitsLabels','topProduitsData','statutLabels','statutData'));
+    }
+
+
+    // Changement de mois
+    public function stats(Request $request)
+    {
+        $mois = $request->month;
+        $annee = $request->year;
+        $entrepriseId = request()->user()->entreprise_id;
+
+        /* 1️⃣ Commandes par jour du mois */
+        $commandes = Vente::selectRaw('DAY(created_at) jour, COUNT(*) total')->whereMonth('created_at', $mois)->whereYear('created_at', $annee)->where('entreprise_id', $entrepriseId)->groupBy('jour')->orderBy('jour')->get();
+
+
+        /* 2️⃣ Chiffre d'affaires */
+        $ca = Recette::whereMonth('created_at', $mois)->whereYear('created_at', $annee)->where('entreprise_id', $entrepriseId)->sum('montant');
+
+
+        /* 3️⃣ Top produits */
+        $produits = VenteItem::selectRaw('produit_id, SUM(quantite) total')->whereMonth('created_at', $mois)->whereYear('created_at', $annee)->where('entreprise_id', $entrepriseId)->groupBy('produit_id')->with('produit:id,nom')->orderByDesc('total')->limit(5)->get();
+
+
+        /* 4️⃣ Statut commandes */
+        $statuts = Vente::selectRaw('statut, COUNT(*) total')->whereMonth('created_at', $mois)->whereYear('created_at', $annee)->where('entreprise_id', $entrepriseId)->groupBy('statut')->get();
+
+        return response()->json(['commandes' => $commandes,'ca' => $ca,'produits' => $produits,'statuts' => $statuts,]);
     }
 }

@@ -12,7 +12,7 @@ class ProduitController extends Controller
     public function index(Request $request)
     {
 
-        $produits = Produit::with('fournisseur')->where('entreprise_id', $request->user()->entreprise_id)->latest()->simplePaginate(5);
+        $produits = Produit::with('fournisseur')->where('entreprise_id', $request->user()->entreprise_id)->latest()->simplePaginate(10);
 
         return view('inventaire.produits.index', compact('produits'));
     }

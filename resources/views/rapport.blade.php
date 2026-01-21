@@ -333,26 +333,15 @@
         const months = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'];
         const currentMonthIndex = 8; // Septembre (0-indexed)
 
-        // Donnees
-        const topProductLabels = @json($topProduitsLabels);
-        const topProductData = @json($topProduitsData);
-        const commandesMoisLabels = @json($commandesMoisLabels);
-        const commandesMoisData = @json($commandesMoisData);
-        const caLabels = @json($caLabels);
-        const caData = @json($caData);
-        const statutLabels = @json($statutLabels);
-        const statutData = @json($statutData);
-
-
         // Graphique des commandes
         const ordersCtx = document.getElementById('ordersChart').getContext('2d');
         const ordersChart = new Chart(ordersCtx, {
             type: 'line',
             data: {
-                labels: commandesMoisLabels, //['1', '5', '10', '15', '20', '25', '30'],
+                labels: ['1', '5', '10', '15', '20', '25', '30'],
                 datasets: [{
                     label: 'Commandes',
-                    data: commandesMoisData, //[45, 52, 48, 65, 70, 75, 82],
+                    data: [45, 52, 48, 65, 70, 75, 82],
                     borderColor: '#3498db',
                     backgroundColor: 'rgba(52, 152, 219, 0.1)',
                     borderWidth: 3,
@@ -391,10 +380,10 @@
         const revenueChart = new Chart(revenueCtx, {
             type: 'bar',
             data: {
-                labels: caLabels, //['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep'],
+                labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep'],
                 datasets: [{
                     label: 'Chiffre d\'affaires (k€)',
-                    data: caData, //[32, 28, 35, 40, 38, 42, 45, 44, 45.8],
+                    data: [32, 28, 35, 40, 38, 42, 45, 44, 45.8],
                     backgroundColor: [
                         'rgba(46, 204, 113, 0.7)',
                         'rgba(46, 204, 113, 0.7)',
@@ -451,9 +440,9 @@
         const productsChart = new Chart(productsCtx, {
             type: 'doughnut',
             data: {
-                labels: topProductLabels, //['Produit A', 'Produit B', 'Produit C', 'Produit D', 'Autres'],
+                labels: ['Produit A', 'Produit B', 'Produit C', 'Produit D', 'Autres'],
                 datasets: [{
-                    data: topProductData, //[35, 25, 20, 12, 8],
+                    data: [35, 25, 20, 12, 8],
                     backgroundColor: [
                         '#3498db',
                         '#2ecc71',
@@ -487,9 +476,9 @@
         const statusChart = new Chart(statusCtx, {
             type: 'polarArea',
             data: {
-                labels: statutLabels, //['Livrées', 'En cours', 'En attente', 'Annulées'],
+                labels: ['Livrées', 'En cours', 'En attente', 'Annulées'],
                 datasets: [{
-                    data: statutData, //  [75, 15, 8, 2],
+                    data: [75, 15, 8, 2],
                     backgroundColor: [
                         'rgba(46, 204, 113, 0.7)',
                         'rgba(52, 152, 219, 0.7)',

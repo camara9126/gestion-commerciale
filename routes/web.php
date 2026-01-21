@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home.index');
 });
 
 Route::get('home', function () {
@@ -64,6 +64,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'entreprise.exists'])->group(function () {
     Route::resource('/dashboard', DashboardController::class);
     Route::get('/dashboard.rapport', [DashboardController::class, 'rapport'])->name('dashboard.rapport');
+    Route::get('/dashboard/stats', [DashboardController::class, 'stats'])->name('dashboard.stats');
 })->name('dashboard');
 
 // Route Entreprise
@@ -85,8 +86,8 @@ Route::middleware(['auth', 'entreprise.exists'])->group(function () {
 
     // Mouvements
     Route::get('/mouvements', function () {
-        $mouvements_ent = StockMouvement::where('entreprise_id', request()->user()->entreprise_id)->where('type', 'entree')->latest()->get();
-        $mouvements_sor = StockMouvement::where('entreprise_id', request()->user()->entreprise_id)->where('type', 'sortie')->latest()->get();
+        $mouvements_ent = StockMouvement::where('entreprise_id', request()->user()->entreprise_id)->where('type', 'entree')->latest()->simplePaginate(10);
+        $mouvements_sor = StockMouvement::where('entreprise_id', request()->user()->entreprise_id)->where('type', 'sortie')->latest()->simplePaginate(10);
         $produits = Produit::with('fournisseur')->where('entreprise_id', Auth::user()->entreprise_id)->latest()->get();
 
         return view('inventaire.mouvements.index', compact('mouvements_ent','mouvements_sor','produits'));
