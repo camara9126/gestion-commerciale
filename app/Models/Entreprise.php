@@ -16,10 +16,35 @@ class Entreprise extends Model
         'devise',
         'logo',
         'statut',
+        'taux_tva',
     ];
 
     public function users()
     {
         return $this->hasMany(User::class);
+    }
+
+    //Recette
+    public function recettes()
+    {
+        return $this->hasMany(Recette::class);
+    }
+
+    // Depense
+    public function depenses()
+    {
+        return $this->hasMany(Depense::class);
+    }
+
+    // Total recette encaisse
+    public getTotalRecettesAttribute()
+    {
+        return $this->recettes()->where('statut', 'recu')->sum('montant');
+    }
+
+    // Total depense
+    public function getTotalDepensesAttribute()
+    {
+        return $this->depenses()->sum('montant');
     }
 }

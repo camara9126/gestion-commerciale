@@ -44,10 +44,10 @@ class VenteController extends Controller
     public function create()
     {
         $clients = Client::where('entreprise_id', request()->user()->entreprise_id)->latest()->get();
-
+        $entreprise= request()->user()->entreprise;
         $produits = Produit::where( 'entreprise_id', request()->user()->entreprise_id)->latest()->get();
 
-        return view('commercial.ventes.create', compact('clients', 'produits'));
+        return view('commercial.ventes.create', compact('clients', 'produits', 'entreprise'));
     }
 
 
@@ -57,13 +57,11 @@ class VenteController extends Controller
             'client_id' => 'required|exists:clients,id',
             'produits' => 'required|array|min:1',
             'statut',
-            'produits.*.tva' => 'required|numeric',
             'produits.*.produit_id' => 'required|exists:produits,id',
             'produits.*.quantite' => 'required|numeric|min:1',
-            'produits.*.prix' => 'required|numeric|min:0',
         ]);
 
-        
+
         foreach ($request->produits as $item) {
 
             //dd($item);
@@ -111,24 +109,26 @@ class VenteController extends Controller
 
 
             // Creation vente item
+            $entreprise= $request->user()->entreprise; // Recuperation de la TVA de l'entreprise
+
             VenteItem::create([
                 'vente_id' => $vente->id,
                 'produit_id' => $item['produit_id'],
                 'quantite' => $item['quantite'],
-                'prix_unitaire' => $item['prix'],
-                'taux_tva' => $item['tva'],
-                'montant_tva' => ($item['quantite'] * $item['prix']) * ($item['tva'] /100 ),
-                'total_ttc' => ($item['quantite'] * $item['prix']) + (($item['quantite'] * $item['prix']) * ($item['tva'] /100 )),
-                'total' => $item['quantite'] * $item['prix'],
+                'prix_unitaire' => $produit->prix_vente,
+                'taux_tva' => $entreprise->taux_tva,
+                'montant_tva' => ($item['quantite'] * $produit->prix_vente) * ($entreprise->taux_tva /100 ),
+                'total_ttc' => ($item['quantite'] * $produit->prix_vente) + (($item['quantite'] * $produit->prix_vente) * ($entreprise->taux_tva /100 )),
+                'total' => $item['quantite'] * $produit->prix_vente,
             ]);
 
             // Mise a jour stock
             $produit->decrement('stock', $item['quantite']);
 
             // Calcule total + total_tva + total_ttc
-            $total += $item['quantite'] * $item['prix'];
-            $total_tva += ($item['quantite'] * $item['prix']) * ($item['tva'] /100 );
-            $total_ttc += ($item['quantite'] * $item['prix']) + (($item['quantite'] * $item['prix']) * ($item['tva'] /100 ));
+            $total += $item['quantite'] * $produit->prix_vente;
+            $total_tva += ($item['quantite'] * $produit->prix_vente) * ($entreprise->taux_tva /100 );
+            $total_ttc += ($item['quantite'] * $produit->prix_vente) + (($item['quantite'] * $produit->prix_vente) * ($entreprise->taux_tva /100 ));
             
             // Mise a jour total + total_tva + total_ttc
             $vente->update([

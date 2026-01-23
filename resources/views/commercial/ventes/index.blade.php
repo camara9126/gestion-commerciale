@@ -53,7 +53,8 @@
                                                     <th>Reference</th>
                                                     <th>Client</th>
                                                     <th>Total TTC</th>
-                                                    <th>Restant</th>
+                                                    <th>Montant Payer</th>
+                                                    <th>Montant Restant</th>
                                                     <th>Date</th>
                                                     <th>Statut</th>
                                                     <th>Actions</th>
@@ -66,6 +67,7 @@
                                                     <td>{{$v->reference}}</td>
                                                     <td>{{$v->client->nom ?? 'Client supprimee'}}</td>
                                                     <td>{{number_format($v->total_ttc, 0, ',','')}} XOF</td>
+                                                    <td>{{number_format($v->montant_paye, 0, ',','')}} XOF</td>
                                                     <td>{{number_format($v->montant_restant, 0, ',','')}} XOF</td>
                                                     <td>{{$v->created_at->format('d/m/y')}}</td>
                                                     <td>

@@ -94,19 +94,23 @@ class FournisseurController extends Controller
     {
         $this->authorizeEntreprise($fournisseur);
 
+
+        
         $request->validate([
             'nom' => 'required|string|max:255',
             'telephone' => 'nullable|string',
             'email' => 'nullable|email',
             'adresse' => 'nullable|string',
+            'statut' => 'nullable',
         ]);
 
-        $fournisseur->update($request->only(
-            'nom',
-            'telephone',
-            'email',
-            'adresse'
-        ));
+        $fournisseur->update([
+            'nom' => $request->nom,
+            'telephone' => $request->telephone,
+            'email' => $request->email,
+            'adresse' => $request->adresse,
+            'statut' => $request->statut,
+        ]);
 
         return redirect()->route('fournisseurs.index')
             ->with('success', 'Fournisseur modifié');

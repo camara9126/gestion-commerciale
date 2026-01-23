@@ -35,9 +35,9 @@ class DashboardController extends Controller
     public function rapport(Request $request)
     {
 
-    /* Changement de mois */ 
-    $mois = $request->mois ?? now()->month;
-    $annee = $request->annee ?? now()->year;
+        /* Changement de mois */ 
+        $mois = $request->mois ?? now()->month;
+        $annee = $request->annee ?? now()->year;
 
 
         /* 1️⃣ Commandes par mois */
@@ -69,7 +69,7 @@ class DashboardController extends Controller
         $statutLabels = $statutCommandes->pluck('statut');
         $statutData = $statutCommandes->pluck('total');
 
-        
+
         return view('dashboard.rapport', compact('commandesMoisLabels','commandesMoisData','caLabels','caData','topProduitsLabels','topProduitsData','statutLabels','statutData'));
     }
 

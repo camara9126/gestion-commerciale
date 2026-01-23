@@ -17,69 +17,71 @@
                         <i class="fas fa-home"></i> Dashboard
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item mb-0 mt-0">
                     <a href="{{ route('produits.index') }}" class="nav-link">
                         <i class="fas fa-list"></i> Produits
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item mb-0 mt-0">
                     <a href="{{ route('fournisseurs.index') }}" class="nav-link">
                         <i class="fas fa-truck"></i> Fournisseurs
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item mb-0 mt-0">
                     <a href="{{ route('mouvements') }}" class="nav-link">
-                        <i class="fas fa-file-invoice"></i> Stock
+                        <i class="fas fa-bars-staggered"></i> Stocks
                     </a>
                 </li>
                 <hr>
-                <li class="nav-item">
+                <li class="nav-item mb-0 mt-0">
                     <a href="{{ route('clients.index') }}" class="nav-link">
                         <i class="fas fa-users"></i> Clients
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item mb-0 mt-0">
                     <a href="{{ route('ventes.index') }}" class="nav-link">
-                        <i class="fas fa-shopping-cart"></i> Ventes & Facture
+                        <i class="fas fa-cart-arrow-down"></i> Ventes & Factures
                     </a>
                 </li> 
                 <hr>
-                <li class="nav-item">
+                <li class="nav-item mb-0 mt-0">
                     <a href="{{ route('paiements.index') }}" class="nav-link" data-section="invoices">
-                        <i class="fas fa-file-invoice"></i> Paiements
+                        <i class="fas fa-money-bill-1-wave"></i> Paiements
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item mb-0 mt-0">
                     <a href="{{ route('recettes.index') }}" class="nav-link" data-section="finance">
-                        <i class="fas fa-shopping-cart"></i> Recettes
+                        <i class="fas fa-right-left"></i> Recettes
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item mb-0 mt-0">
                     <a href="{{ route('depenses.index') }}" class="nav-link" data-section="finance">
-                        <i class="fas fa-shopping-cart"></i> Depenses
+                        <i class="fas fa-arrow-right-from-bracket"></i> Depenses
                     </a>
                 </li>
                 <hr>
-                <li class="nav-item">
+                <li class="nav-item mb-0 mt-0">
                     <a href="{{ route('dashboard.rapport') }}" class="nav-link" data-section="reports">
                         <i class="fas fa-chart-bar"></i> Rapports
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link" data-section="settings">
-                        <i class="fas fa-cog"></i> Paramètres
+                    <a href="{{ route('user.compte') }}" class="nav-link" data-section="settings">
+                        <i class="fas fa-cog"></i> Compte
                     </a>
                 </li>
             </ul>
             
-            <div class="border-top border-secondary">
+            <!--<div class="border-top border-secondary">
                 <div class="d-flex align-items-center">
-                    <div class="user-profile me-3">AD</div>
+                    <div class="user-profile me-3">+</div>
                     <div>
-                        <p class="mb-0 fw-bold">Admin User</p>
-                        <small class="text-muted">Administrateur</small>
+                        <a href="{{ route('user.adduser') }}" class="nav-link" data-section="settings">
+                            <p class="mb-0 fw-bold">Nouveau utilisateur</p>
+                        </a>
+                       <small class="text-muted">Administrateur</small>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>
     </div>

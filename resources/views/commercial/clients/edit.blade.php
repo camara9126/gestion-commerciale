@@ -25,6 +25,7 @@
                                 @endif
                                     <form method="post" action="{{route('clients.update', $client->id)}}" class="contact-form">
                                         @csrf
+                                        @method('PUT')
                                         <h2 class="text-center mb-4">Edit client</h2>
                                         <div class="mb-3">
                                             <label for="name" class="form-label">Nom</label>

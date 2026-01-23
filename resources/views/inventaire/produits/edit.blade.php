@@ -24,6 +24,7 @@
                                 @endif
                                     <form method="post" action="{{route('produits.update', $produit->id)}}" class="contact-form">
                                         @csrf
+                                        @method('PUT')
                                         <h2 class="text-center mb-4">Modification produit</h2>
                                         <div class="row">
                                             <div class="col-md-6">
@@ -42,11 +43,9 @@
                                         <div class="row">
                                             <div class="col-md-6 d-center">
                                                 <label for="fournisseur" class="form-label">Fournisseur</label>
-                                                <select class="form-select" name="fournisseur_id" id="type_maison">
-                                                    <option value="">{{$produit->fournisseur->nom}}</option>
-                                                    @foreach($fournisseurs as $f)
-                                                    <option value="{{$f->id}}">{{$f->nom}}</option>
-                                                    @endforeach
+                                                <select class="form-select" name="fournisseur_id" id="">
+                                                    <option value="{{$produit->fournisseur->id}}">{{$produit->fournisseur->nom}}</option>
+                                                   
                                                 </select>
                                             </div>
                                             

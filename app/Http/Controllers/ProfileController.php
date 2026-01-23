@@ -4,15 +4,48 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\User;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
+    use AuthorizesRequests;
+
+    public function compte()
+    {
+        $users = User::where('entreprise_id', request()->user()->entreprise_id)->get();
+
+        return view('profile.users', compact('users'));
+    }
+
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'role' => ['string', 'max:250'],
+        ]);
+        //dd($request);
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => $request->role ?? 'admin',
+            'entreprise_id' => $request->user()->entreprise_id,
+        ]);
+
+        return redirect()->route('user.adduser')
+            ->with('success', 'Utilisateur ajouté avec succès');
+    }
+
+
     /**
      * Display the user's profile form.
      */
@@ -42,22 +75,24 @@ class ProfileController extends Controller
     /**
      * Delete the user's account.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(User $user) //RedirectResponse
     {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
+        //$request->validateWithBag('userDeletion', [
+           // 'password' => ['required', 'current_password'],
+        //]);
 
-        $user = $request->user();
+        //$user = $request->user();
 
-        Auth::logout();
+        //Auth::logout();
 
+        $this->authorize('delete', $user);
         $user->delete();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        return redirect()->back()->with('success', 'Utilisateur supprimé avec success');
+        //$request->session()->invalidate();
+        //$request->session()->regenerateToken();
 
-        return Redirect::to('/');
+        //return Redirect::to('/');
     }
 
     /**
@@ -69,23 +104,4 @@ class ProfileController extends Controller
     }
 
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users',
-            'role' => 'required|in:commercial,comptable',
-        ]);
-        //dd($request);
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'role' => $request->role,
-            'entreprise_id' => $request->user()->entreprise_id,
-            'password' => Hash::make('passe123'), // temporaire
-        ]);
-
-        return redirect()->route('profile.adduser')
-            ->with('success', 'Utilisateur ajouté avec succès');
-    }
 }

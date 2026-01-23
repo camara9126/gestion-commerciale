@@ -706,7 +706,7 @@
         // CTA buttons
         document.querySelectorAll('.cta-button:not(.pricing-card .cta-button)').forEach(button => {
             button.addEventListener('click', function() {
-                alert("Excellent choix! Vous allez être redirigé vers le formulaire d'inscription.");
+                alert("Excellent choix! Vous allez être redirigé vers le formulaire de connexion.");
             });
         });
         

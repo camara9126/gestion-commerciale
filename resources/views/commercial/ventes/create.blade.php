@@ -57,23 +57,24 @@
                                         </div>
                                     </div>
 
-                                    <div class="row">
-                                        <div class="col-8">
-                                            <label for="total" class="form-label">TVA</label>
-                                            <input type="text" name="produits[0][tva]" class="form-control" required >
-                                        </div>
-                                    </div>
                                     <hr>
 
                                     {{-- PRODUITS --}}
-                                    <h4>Produits</h4>
+                                    
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <h4>Produits</h4>
+                                        </div>
+                                        <div class="col-6">
+                                            <b>TVA ({{$entreprise->taux_tva}} %)</b>
+                                        </div>
+                                    </div>
 
                                     <table border="1" cellpadding="8" width="100%">
                                         <thead>
                                             <tr>
                                                 <th>Produit</th>
                                                 <th>Quantité</th>
-                                                <th>Prix (XOF)</th>
                                             </tr>
                                         </thead>
 
@@ -85,17 +86,13 @@
                                                         <option value="">-- Choisir --</option>
                                                         @foreach($produits as $produit)
                                                             <option value="{{ $produit->id }}">
-                                                                {{ $produit->nom }}
+                                                                {{ $produit->nom }} : prix de vente({{number_format($produit->prix_vente, 0, ',','')}} XOF)
                                                             </option>
                                                         @endforeach
                                                     </select>
                                                 </td>
                                                 <td>
                                                     <input type="number" name="produits[0][quantite]" class="form-control" min="1" value="1" required>
-                                                </td>
-
-                                                <td>
-                                                    <input type="number" name="produits[0][prix]" class="form-control" min="0" required>
                                                 </td>
                                             </tr>
                                         </tbody>

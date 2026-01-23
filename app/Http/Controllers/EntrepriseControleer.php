@@ -31,6 +31,7 @@ class EntrepriseControleer extends Controller
         $request->validate([
             'nom' => 'required|string',
             'telephone' => 'nullable|string|max:50',
+            'taux_tva' => 'numeric|max:10',
             'adresse' => 'nullable|string',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:2048',
         ]);
@@ -47,6 +48,7 @@ class EntrepriseControleer extends Controller
         $entreprise= Entreprise::create([
             'nom' =>$request->nom,
             'telephone' => $request->telephone,
+            'taux_tva' => $request->taux_tva,
             'adresse' => $request->adresse,
             'devise' => 'XOF',
             'logo' => $path,

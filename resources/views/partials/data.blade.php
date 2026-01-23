@@ -5,10 +5,15 @@ use App\Models\Produit;
 use App\Models\Recette;
 use App\Models\Vente;
 
-    // chiffre d'affaire mois actuel
+    // chiffre d'affaire mois actuel ttc
     $caMoisActuel = Recette::where('entreprise_id', request()->user()->entreprise_id)->where('statut', 'recu')->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->sum('montant');
 
-    // chiffre d'affairemois precedent
+    //Chiffre d'affaire HT + montant TVA
+    $entreprise = request()->user()->entreprise;
+    $montant_tva = $caMoisActuel * ($entreprise->taux_tva / 100) /(1 + ($entreprise->taux_tva / 100));
+    $ca_ht = $caMoisActuel - $montant_tva;
+
+    // chiffre d'affaire mois precedent
     $caMoisPrecedent = Recette::where('entreprise_id', request()->user()->entreprise_id)->where('statut', 'recu')->whereMonth('created_at', now()->submonth()->month)->whereYear('created_at', now()->subMonth()->year)->sum('montant');
 
     // Taux chiffre d'affaire
@@ -53,8 +58,8 @@ use App\Models\Vente;
         <div class="stat-card">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    <p class="text-muted mb-1">Chiffre d'affaires</p>
-                    <h3 class="value fw-bold">{{ $caMoisActuel }} XOF</h3>
+                    <p class="text-muted mb-1">Chiffre d'affaires (HT)</p>
+                    <h3 class="value fw-bold">{{ number_format($ca_ht, 0, ',', '') }} XOF</h3>
                     <small class="text-success">
                         @if($tauxCommandes > 15)
                             <i class="fas fa-arrow-up me-1"></i> {{number_format($tauxCommandes, 1)}}% vs mois dernier
@@ -64,7 +69,8 @@ use App\Models\Vente;
                     </small>
                 </div>
                 <div class="icon bg-primary bg-opacity-10 text-primary">
-                    <i class="fas fa-euro-sign"></i>
+                    <!--<i class="fas fa-franc-sign"></i>-->
+                    <span>💰</span>
                 </div>
             </div>
         </div>

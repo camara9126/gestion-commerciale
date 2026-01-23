@@ -59,10 +59,10 @@
                                                         <td>{{$f->adresse}}</td>
                                                         <td>{{$f->email}}</td>
                                                         <td>
-                                                            @if($f->adresse)
+                                                            @if($f->statut)
                                                                 <span class="badge bg-success">Activé</span>
                                                                 @else
-                                                                <span class="badge bg-warning">Desactivé</span>
+                                                                <span class="badge bg-danger">Desactivé</span>
                                                             @endif
                                                         </td>
                                                         <td>

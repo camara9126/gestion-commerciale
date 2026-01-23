@@ -16,7 +16,7 @@ class PaiementController extends Controller
     {
         $paiements = Paiements::with('vente.client')->where('entreprise_id', $request->user()->entreprise_id)->latest()->simplePaginate(10); 
 
-        return view('commercial.paiements.index', compact('paiements'));
+        return view('finance.paiements.index', compact('paiements'));
     }
 
 
@@ -33,7 +33,7 @@ class PaiementController extends Controller
 
         })->latest()->paginate(10)->withQueryString(); // 🔑 garde ?search=;
 
-        return view('commercial.paiements.index', compact('paiements', 'search'));
+        return view('finance.paiements.index', compact('paiements', 'search'));
     }
 
 

@@ -21,6 +21,7 @@ class RecetteController extends Controller
 
         return view('finance.recettes.index', compact('recettes','paiements'));
     }
+    
 
      public function search(Request $request)
     {

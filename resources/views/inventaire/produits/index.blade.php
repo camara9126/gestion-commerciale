@@ -40,6 +40,7 @@
                                                 <th>Code</th>
                                                 <th>Nom</th>
                                                 <th>Fournisseur</th>
+                                                <th>Prix d'achat</th>
                                                 <th>Prix de vente</th>
                                                 <th>Stock</th>
                                                 <th>Actions</th>
@@ -51,6 +52,7 @@
                                                 <td>{{$p->code}}</td>
                                                 <td>{{$p->nom}}</td>
                                                 <td>{{$p->fournisseur->nom}}</td>
+                                                <td>{{number_format($p->prix_achat, 0,'','')}} XOF</td>
                                                 <td>{{number_format($p->prix_vente, 0,'','')}} XOF</td>
                                                 <td>
                                                     @if($p->stock_min >= $p->stock)

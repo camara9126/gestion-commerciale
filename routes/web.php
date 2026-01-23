@@ -56,8 +56,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Ajout utilisateur par l'admin
-    Route::get('/adduser', [ProfileController::class, 'addUser'])->name('profile.adduser');
-    Route::post('/adduser', [ProfileController::class, 'store'])->name('profile.store');
+    Route::get('/compte', [ProfileController::class, 'compte'])->name('user.compte');
+    Route::get('/adduser', [ProfileController::class, 'addUser'])->name('user.adduser');
+    Route::post('/adduser', [ProfileController::class, 'store'])->name('user.store');
+    Route::delete('/adduser/delete/{user}', [ProfileController::class, 'destroy'])->name('user.destroy');
 });
 
 // Route Dashboard

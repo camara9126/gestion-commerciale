@@ -21,7 +21,7 @@
                         <div class="d-flex justify-content-between align-items-center mb-3">
 
                         <!-- Section Produits -->
-                        <h3 class="mb-0">Depenses</h3>
+                        <h3 class="mb-0">Recettes</h3>
                         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#depenseModal">
                             Enregister
                         </button>

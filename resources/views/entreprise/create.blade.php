@@ -13,12 +13,16 @@
         <form method="post" action="{{route('entreprise.store')}}" enctype="multipart/form-data">
             @csrf
             <div class="mb-4">
-                <label class="block">Nom de l'enytreprise</label>
+                <label class="block">Nom de l'entreprise</label>
                 <input type="text" name="nom" class="w-full border-rounded p-2">
             </div>
             <div class="mb-4">
                 <label class="block">Telephone</label>
                 <input type="text" name="telephone" class="w-full border-rounded p-2">
+            </div>
+            <div class="mb-4">
+                <label class="block">Taux TVA</label>
+                <input type="number" name="taux_tva" class="w-full border-rounded p-2">
             </div>
             <div class="mb-4">
                 <label class="block">Adresse</label>
