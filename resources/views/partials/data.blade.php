@@ -59,7 +59,7 @@ use App\Models\Vente;
             <div class="d-flex justify-content-between align-items-center">
                 <div>
                     <p class="text-muted mb-1">Chiffre d'affaires (HT)</p>
-                    <h3 class="value fw-bold">{{ number_format($ca_ht, 0, ',', '') }} XOF</h3>
+                    <h3 class="value fw-bold">{{ number_format($ca_ht, 0, ',', ' ') }} XOF</h3>
                     <small class="text-success">
                         @if($tauxCommandes > 15)
                             <i class="fas fa-arrow-up me-1"></i> {{number_format($tauxCommandes, 1)}}% vs mois dernier
@@ -67,6 +67,8 @@ use App\Models\Vente;
                             <i class="fas fa-arrow-down me-1"></i> {{number_format(abs($tauxCommandes), 1)}}% vs mois dernier
                         @endif
                     </small>
+                    <p class="mt-1 mb-0">Montant TVA : <span class="value fw-bold">{{number_format($montant_tva, 0, ',', ' ')}} XOF</span></p>
+
                 </div>
                 <div class="icon bg-primary bg-opacity-10 text-primary">
                     <!--<i class="fas fa-franc-sign"></i>-->

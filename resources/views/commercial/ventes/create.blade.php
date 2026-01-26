@@ -86,7 +86,7 @@
                                                         <option value="">-- Choisir --</option>
                                                         @foreach($produits as $produit)
                                                             <option value="{{ $produit->id }}">
-                                                                {{ $produit->nom }} : prix de vente({{number_format($produit->prix_vente, 0, ',','')}} XOF)
+                                                                {{ $produit->nom }} : prix de vente({{number_format($produit->prix_vente, 0, ',',' ')}} XOF)
                                                             </option>
                                                         @endforeach
                                                     </select>

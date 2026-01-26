@@ -17,11 +17,17 @@ class Entreprise extends Model
         'logo',
         'statut',
         'taux_tva',
+        'pack_id',
     ];
 
     public function users()
     {
         return $this->hasMany(User::class);
+    }
+
+    public function pack()
+    {
+        return $this->belongsTo(Pack::class);
     }
 
     //Recette
@@ -36,15 +42,52 @@ class Entreprise extends Model
         return $this->hasMany(Depense::class);
     }
 
-    // Total recette encaisse
-    public getTotalRecettesAttribute()
+     // Rendre les indicateurs accessibles partout
+    protected $appends = [
+        'total_depenses',
+        'total_recettes',
+        'tresorerie',
+        'resultat',
+        'statut_solvabilite',
+    ];
+
+    // Total recettes encaisse
+    public function getTotalRecettesAttribute()
     {
-        return $this->recettes()->where('statut', 'recu')->sum('montant');
+        return $this->recettes()->where('statut','recu')->sum('montant');
     }
 
-    // Total depense
+    // Total depense 
     public function getTotalDepensesAttribute()
     {
         return $this->depenses()->sum('montant');
     }
+
+    // Tresorerie nette
+    public function getTresorerieAttribute()
+    {
+        return $this->total_recettes - $this->total_depenses;
+    }
+
+    // Resultat (benefice/perte)
+     public function getResultatAttribute()
+    {
+        return $this->total_recettes - $this->total_depenses;
+    }
+
+    // Statut solvabilite
+    public function getStatutSolvabiliteAttribute()
+    {
+        if($this->tresorerie > 0) {
+            return 'solvable';
+        }
+
+        if($this->tresorerie == 0) {
+            return 'equilibre';
+        }
+
+        return 'insolvable';
+    }
+
+   
 }

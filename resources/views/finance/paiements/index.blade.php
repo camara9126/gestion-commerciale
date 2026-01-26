@@ -64,7 +64,7 @@
                                                 <tr>
                                                     <td>{{$p->reference}}</td>
                                                     <td>{{optional($p->vente->client)->nom ?? '-'}}</td>
-                                                    <td>{{max(0, number_format($p->montant, 0, ',',''))}} XOF</td>
+                                                    <td>{{max(0, number_format($p->montant, 0, ',',' '))}} XOF</td>
                                                     <td>{{$p->date_paiement}}</td>
                                                     <td>{{$p->mode_paiement}}</td>
                                                     <td>

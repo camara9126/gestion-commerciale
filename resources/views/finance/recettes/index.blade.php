@@ -59,7 +59,7 @@
                                                         <td>{{$r->date_recette}}</td>
                                                         <td>{{optional($r->paiement)->reference ?? '-'}}</td>
                                                         <td>{{$r->libelle}}</td>
-                                                        <td>{{ucfirst($r->montant)}}</td>
+                                                        <td>{{ucfirst(number_format($r->montant, 0, ',',' '))}} XOF</td>
                                                         <td>{{ucfirst($r->mode_paiement)}}</td>
                                                         <td>
                                                             <span class="badge bg-{{ $r->statut == 'recu' ? 'success' : 'danger' }}">

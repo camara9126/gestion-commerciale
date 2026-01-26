@@ -58,7 +58,7 @@
                                                         <td>{{$d->date_depense}}</td>
                                                         <td>{{$d->libelle}}</td>
                                                         <td>{{$d->categorie->nom}}</td>
-                                                        <td>{{number_format($d->montant, 0, ',','')}} XOF</td>
+                                                        <td>{{number_format($d->montant, 0, ',',' ')}} XOF</td>
                                                         <td>
                                                             <span class="badge bg-{{ $d->statut == 'payee' ? 'success' : 'danger' }}">
                                                                 {{ ucfirst($d->statut) }}

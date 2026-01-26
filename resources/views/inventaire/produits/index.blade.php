@@ -52,8 +52,8 @@
                                                 <td>{{$p->code}}</td>
                                                 <td>{{$p->nom}}</td>
                                                 <td>{{$p->fournisseur->nom}}</td>
-                                                <td>{{number_format($p->prix_achat, 0,'','')}} XOF</td>
-                                                <td>{{number_format($p->prix_vente, 0,'','')}} XOF</td>
+                                                <td>{{number_format($p->prix_achat, 0,'',' ')}} XOF</td>
+                                                <td>{{number_format($p->prix_vente, 0,'',' ')}} XOF</td>
                                                 <td>
                                                     @if($p->stock_min >= $p->stock)
                                                         <span class="badge bg-danger">Stock faible</span>

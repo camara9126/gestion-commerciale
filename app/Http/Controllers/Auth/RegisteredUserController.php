@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Entreprise;
+use App\Models\Pack;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -19,7 +21,8 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('home.register');
+        $packs = Pack::all();
+        return view('home.register', compact('packs'));
     }
 
     /**
@@ -34,6 +37,17 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'role' => ['string', 'max:250'],
+            'entreprise_nom' => ['required'],
+            'taux_tva' => ['required'],
+            'pack_id' => ['required'],
+        ]);
+        //dd($request);
+
+        $entreprise= Entreprise::create([
+            'nom' =>$request->entreprise_nom,
+            'pack_id' => $request->pack_id,
+            'taux_tva' => $request->taux_tva,
+            'abonnement_expire_le' => now()->addMonth(),
         ]);
 
         $user = User::create([
@@ -41,6 +55,7 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $request->role ?? 'admin',
+            'entreprise_id' => $entreprise->id
         ]);
 
         event(new Registered($user));

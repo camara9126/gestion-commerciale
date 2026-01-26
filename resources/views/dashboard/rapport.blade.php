@@ -535,7 +535,7 @@ use Illuminate\Support\Facades\Auth;
                     <header>
                         <h1>Rapport Mensuel</h1>
                         <div class="period-selector">
-                            <!-- <select id="monthSelect">
+                            <!--<select id="monthSelect">
                                 <option value="0">Janvier</option>
                                 <option value="1">Février</option>
                                 <option value="2">Mars</option>
@@ -553,18 +553,91 @@ use Illuminate\Support\Facades\Auth;
                                 <option>2022</option>
                                 <option>2023</option>
                                 <option selected>2024</option>
-                            </select> -->
+                            </select>--> 
                             <div class="export-buttons">
                                 <button class="btn btn-secondary" onclick="exportData('png')">Export PNG</button>
                                 <button class="btn btn-primary" onclick="exportData('pdf')">Export PDF</button>
                             </div>
                         </div>
                     </header>
+                    <div class="row mb-3">
+                            <h5>Solvabilité de l’entreprise</h5>
+                        <div class="col-12">
+                            <div class="stats-summary">
+                                <div class="stat-card orders">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-right-left"></i>
+                                    </div>
+                                    <div class="stat-info">
+                                        <h3>Recettes</h3>
+                                        <div class="stat-value">{{ number_format($entreprise->total_recettes, 0, ',', ' ') }} XOF</div>
+                                    </div>
+                                </div>
 
-                    <div class="stats-summary">
+                                <div class="stat-card revenue">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-arrow-right-from-bracket"></i>
+                                    </div>
+                                    <div class="stat-info">
+                                        <h3>Dépenses</h3>
+                                        <div class="stat-value">{{ number_format($entreprise->total_depenses, 0, ',', ' ') }} XOF</div>
+                                    </div>
+                                </div>
+
+                                <div class="stat-card products">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-money-bills"></i>
+                                    </div>
+                                    <div class="stat-info">
+                                        <h3>Trésorerie</h3>
+                                        <div class="stat-value">
+                                            <strong class="{{ $entreprise->tresorerie >= 0 ? 'text-success' : 'text-danger' }}">
+                                                {{ number_format($entreprise->tresorerie, 0, ',', ' ') }} XOF
+                                            </strong>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="stat-card customers">
+                                    <div class="stat-icon">
+                                        <i class="fa-solid fa-square-poll-vertical"></i>
+                                    </div>
+                                    <div class="stat-info">
+                                        <h3>Statut solvabilite</h3>
+                                        <div class="stat-value">
+                                             <span class="badge 
+                                                {{ $entreprise->statut_solvabilite == 'solvable' ? 'bg-success' : 'bg-danger' }}">
+                                                {{ ucfirst($entreprise->statut_solvabilite) }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       <!-- <div class="col-12">
+                            <h5>Solvabilité de l’entreprise</h5>
+
+                            <p>Recettes : {{ number_format($entreprise->total_recettes, 0, ',', ' ') }} XOF</p>
+                            <p>Dépenses : {{ number_format($entreprise->total_depenses, 0, ',', ' ') }} XOF</p>
+                            <p>Trésorerie : 
+                                <strong class="{{ $entreprise->tresorerie >= 0 ? 'text-success' : 'text-danger' }}">
+                                    {{ number_format($entreprise->tresorerie, 0, ',', ' ') }} XOF
+                                </strong>
+                            </p>
+
+                            <span class="badge 
+                                {{ $entreprise->statut_solvabilite == 'solvable' ? 'bg-success' : 'bg-danger' }}">
+                                {{ ucfirst($entreprise->statut_solvabilite) }}
+                            </span>
+                        </div>-->
+                    </div>
+
+                    <h5>Donnees Statistiques :</h5>
+                    <div class="stats-summary mb-3"> 
                         @include('partials.data')
                     </div>
 
+                    <h5> Diagrammes graphiques :</h5>
                     <div class="charts-container">
                         <div class="chart-card">
                             <div class="chart-header">
@@ -577,7 +650,7 @@ use Illuminate\Support\Facades\Auth;
 
                         <div class="chart-card">
                             <div class="chart-header">
-                                <h2>Chiffre d'Affaires Mensuel</h2>
+                                <h2>Recette Mensuel</h2>
                             </div>
                             <div class="chart-wrapper">
                                 <canvas id="revenueChart"></canvas>
@@ -691,7 +764,7 @@ use Illuminate\Support\Facades\Auth;
             data: {
                 labels: caLabels, //['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep'],
                 datasets: [{
-                    label: 'Chiffre d\'affaires (XOF)',
+                    label: 'Recette (XOF)',
                     data: caData, //[32, 28, 35, 40, 38, 42, 45, 44, 45.8],
                     backgroundColor: [
                         'rgba(46, 204, 113, 0.7)',
@@ -731,7 +804,7 @@ use Illuminate\Support\Facades\Auth;
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Chiffre d\'affaires (XOF)'
+                            text: 'Recette (XOF)'
                         }
                     },
                     x: {

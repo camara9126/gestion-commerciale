@@ -19,8 +19,5 @@ class Client extends Model
         return $this->hasMany(Vente::class);
     }
 
-    public function paiements()
-    {
-        return $this->hasManyThrough(Paiements::class, Vente::class),
-    }
+    
 }

@@ -66,9 +66,9 @@
                                                 <tr>
                                                     <td>{{$v->reference}}</td>
                                                     <td>{{$v->client->nom ?? 'Client supprimee'}}</td>
-                                                    <td>{{number_format($v->total_ttc, 0, ',','')}} XOF</td>
-                                                    <td>{{number_format($v->montant_paye, 0, ',','')}} XOF</td>
-                                                    <td>{{number_format($v->montant_restant, 0, ',','')}} XOF</td>
+                                                    <td>{{number_format($v->total_ttc, 0, ',',' ')}} XOF</td>
+                                                    <td>{{number_format($v->montant_paye, 0, ',', ' ')}} XOF</td>
+                                                    <td>{{number_format($v->montant_restant, 0, ',',' ')}} XOF</td>
                                                     <td>{{$v->created_at->format('d/m/y')}}</td>
                                                     <td>
                                                         @if($v->statut == 'payee')
@@ -80,9 +80,15 @@
                                                         @endif
                                                     </td>
                                                     <td>
+                                                        @if($v->montant_restant == 0)
+                                                            <button type="button" class="btn">
+                                                                 Payee
+                                                            </button>
+                                                        @else
                                                         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-id="{{$v->id}}" data-bs-target="#paiementModal">
-                                                            + Payee
+                                                            + Payer
                                                         </button>
+                                                        @endif
                                                     </td>
                                                     @if($v->statut == 'payee')
                                                         <td>

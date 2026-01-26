@@ -429,7 +429,7 @@
                 </form>
                 
                 <div class="signup-link">
-                    Vous n'avez pas encore de compte? <a href="{{ route('login') }}">Créer un compte</a>
+                    Vous n'avez pas encore de compte? <a href="{{ route('register') }}">Créer un compte</a>
                 </div>
             </div>
         </section>
