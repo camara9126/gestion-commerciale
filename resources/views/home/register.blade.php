@@ -350,15 +350,9 @@
             <div class="success-message" id="successMessage">
                 <i class="fas fa-check-circle"></i> Compte créé avec succès! Redirection...
             </div>
-            @if ($errors->any())
-                                    <div style="color: red; margin-bottom: 10px;">
-                                        @foreach ($errors->all() as $error)
-                                            <p>{{ $error }}</p>
-                                        @endforeach
-                                    </div>
-                                @endif
+            
             <div class="form-container">
-                <form method="post" action="{{route('register') }}">
+                <form id="signupForm" method="post" action="route('register') }}">
                     @csrf
                     <div class="form-group">
                         <label for="fullName">Nom complet</label>
@@ -382,7 +376,7 @@
                         <label for="company">Nom de l'entreprise</label>
                         <div class="input-with-icon">
                             <i class="fas fa-building"></i>
-                            <input type="text" name="entreprise_nom" placeholder="Dupont & Cie" required>
+                            <input type="text" id="company" name="entreprise_nom" placeholder="Dupont & Cie" required>
                         </div>
                         <div class="error-message" id="companyError">Veuillez saisir le nom de votre entreprise</div>
                     </div>
@@ -391,28 +385,25 @@
                         <label for="company">TVA</label>
                         <div class="input-with-icon">
                             <i class="fa-percent"></i>
-                            <input type="text" name="taux_tva" placeholder="Exp : 18" required>
+                            <input type="text" id="tva" name="taux_tva" placeholder="Exp : 18" required>
                         </div>
                         <div class="error-message" id="companyError">Veuillez saisir le TVA de votre entreprise</div>
                     </div>
 
                     <div class="form-group">
                         <label for="company">Choisisser votre pack</label>
-                        <div class="input-with-icon">
-                            <i class="fa-box-archive"></i>
-                            <div class="row">
-                                @foreach($packs as $pack)
-                                <div class="col-4">
-                                    <div class="card mb-2">
-                                        <div class="card-body">
-                                            <input type="radio" name="pack_id" value="{{ $pack->id }}" required>
-                                            <strong>{{ ucfirst($pack->nom) }}</strong>
-                                            – {{ number_format($pack->prix, 0, ',', ' ') }} XOF / mois
-                                        </div>
+                        <div class="row">
+                            @foreach($packs as $pack)
+                            <div class="col-4">
+                                <div class="card mb-2">
+                                    <div class="card-body">
+                                        <input type="radio" name="pack_id" value="{{ $pack->id }}" required>
+                                        <strong>{{ ucfirst($pack->nom) }}</strong>
+                                        – {{ number_format($pack->prix, 0, ',', ' ') }} XOF / mois
                                     </div>
                                 </div>
-                                @endforeach
                             </div>
+                             @endforeach
                         </div>
                         <div class="error-message" id="companyError">Veuillez saisir le nom de votre entreprise</div>
                     </div>
@@ -464,7 +455,7 @@
         </section>
         
         <!-- Section illustration (visible sur grands écrans) -->
-        <section class="illustration-section">
+        <!--<section class="illustration-section">
             <div class="illustration-container">
                 <h2>Optimisez la gestion de votre entreprise</h2>
                 <p>Rejoignez des milliers d'entreprises qui utilisent déjà GestionPro pour simplifier leurs opérations quotidiennes.</p>
@@ -495,7 +486,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section>-->
     </div>
     
     <footer class="footer">

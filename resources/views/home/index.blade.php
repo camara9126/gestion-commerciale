@@ -465,7 +465,7 @@
                 @auth
                     <a href="{{route('dashboard.index')}}" class="cta-button">Dashboard</a>
                 @else
-                    <a href="{{route('login')}}" class="cta-button">Commencer</a>
+                    <a href="{{route('login')}}" class="cta-button">Connexion</a>
                 @endauth
                 <div class="mobile-menu">
                     <i class="fas fa-bars"></i>

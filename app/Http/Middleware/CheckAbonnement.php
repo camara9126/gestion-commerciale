@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+class CheckAbonnement
+{
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     */
+    public function handle(Request $request, Closure $next): Response
+    {
+        $entreprise = request()->user()->entreprise;
+
+        if(!$entreprise || $entreprise->abonnement_expire_le < now()) {
+            return redirect()->route('abonnement.expire');
+        }
+
+        return $next($request);
+    }
+}

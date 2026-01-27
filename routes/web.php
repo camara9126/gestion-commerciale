@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AbonnementController;
 use App\Http\Controllers\Commercial\ClientController;
 use App\Http\Controllers\Commercial\VenteController;
 use App\Http\Controllers\DashboardController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\Inventaire\ProduitController;
 use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StockController;
+use App\Models\Abonnement;
 use App\Models\Client;
 use App\Models\Fournisseur;
 use App\Models\Produit;
@@ -62,6 +64,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/adduser/delete/{user}', [ProfileController::class, 'destroy'])->name('user.destroy');
 });
 
+// Route Abonnement
+Route::resource('abonnement', AbonnementController::class);
+
+
 // Route Dashboard
 Route::middleware(['auth', 'entreprise.exists'])->group(function () {
     Route::resource('/dashboard', DashboardController::class);
@@ -73,6 +79,7 @@ Route::middleware(['auth', 'entreprise.exists'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('entreprise/create', [EntrepriseControleer::class, 'create'])->name('entreprise.create');
     Route::post('entreprise/store', [EntrepriseControleer::class, 'store'])->name('entreprise.store');
+    Route::patch('entreprise/update', [EntrepriseControleer::class, 'update'])->name('entreprise.update');
 });
 
 // Route Inventaire (fournisseurs - produits - stock - mouvements)

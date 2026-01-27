@@ -5,52 +5,6 @@
             <!-- Dashboard Section -->
             <section id="dashboard" class="content-section">
             
-                <!--<div class="row">
-                    <div class="col-lg-6">
-                        <div class="stat-card">
-                            <h5>Mouvements Entree</h5>
-                            <form method="post" action="{{route('stock.entree')}}">
-                                @csrf
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Produit</label>
-                                    <select class="form-control" name="produit_id" id="exampleFormControlSelect1">
-                                        <option value="">-- Veuillez choisir un produit --</option>
-                                        @foreach($produits as $p)
-                                        <option value="{{$p->id}}">{{$p->nom}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group mb-2">
-                                    <label for="exampleInputPassword1">Quantite</label>
-                                    <input type="number" name="quantite" min="1" class="form-control" id="exampleInputquantity1">
-                                </div>
-                                <button type="submit" class="btn btn-success">Enregistrer</button>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="stat-card">
-                            <h5>Mouvements Sortie</h5>
-                            <form method="post" action="{{route('stock.sortie')}}">
-                                @csrf
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Produit</label>
-                                    <select class="form-control" name="produit_id" id="exampleFormControlSelect1">
-                                        <option value="">-- Veuillez choisir un produit --</option>
-                                        @foreach($produits as $p)
-                                        <option value="{{$p->id}}">{{$p->nom}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group mb-2">
-                                    <label for="exampleInputPassword1">Quantite</label>
-                                    <input type="number" name="quantite" min="1" class="form-control" id="exampleInputquantity1">
-                                </div>
-                                <button type="submit" class="btn btn-danger">Enregistrer</button>
-                            </form>
-                        </div>  
-                    </div>
-                </div>-->
                 <!-- Historiques Mouvements -->
 
                 @if(Session::has('success'))

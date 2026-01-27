@@ -63,13 +63,13 @@ use Illuminate\Support\Facades\Auth;
                 <!-- User Menu -->
                 <div class="dropdown">
                     <button class="btn btn-light d-flex align-items-center" type="button" data-bs-toggle="dropdown">
-                        <i class="fas fa-user"></i>&nbsp;
+                        <i class="fas fa-user-check me-2"></i>
                         <span class="badge bg-success rounded-pill"><?= strtoupper(Auth::user()->name) ?></span>&nbsp;
                         <i class="fas fa-chevron-down"></i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="{{ route('profile.edit') }}"><i class="fas fa-user me-2"></i> Mon profil</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Paramètres</a></li>
+                        <li><a class="dropdown-item" href="{{ route('abonnement.index') }}"><i class="fas fa-box-open me-2"></i> Abonnement</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}">

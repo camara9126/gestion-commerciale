@@ -47,6 +47,8 @@ class RegisteredUserController extends Controller
             'nom' =>$request->entreprise_nom,
             'pack_id' => $request->pack_id,
             'taux_tva' => $request->taux_tva,
+            'trial_actif' =>true,
+            'trial_fin' => now()->addDay(14),
             'abonnement_expire_le' => now()->addMonth(),
         ]);
 

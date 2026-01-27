@@ -80,9 +80,39 @@ class EntrepriseControleer extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+         $request->validate([
+            'nom' => 'required|string',
+            'telephone' => 'nullable|string|max:50',
+            'taux_tva' => 'numeric|max:100',
+            'adresse' => 'nullable|string',
+            'pack_id',
+            'logo',
+        ]);
+
+        // Gestion des logo
+        if ($request->hasFile('logo')) {
+            $filename = time().$request->file('logo')->getClientOriginalName();
+            $path = $request->file('logo')->storeAs('logo', $filename, 'public');
+            $request['logo'] = '/storage/' . $path;
+        }
+
+        $entreprise= Entreprise::create([
+            'nom' =>$request->nom,
+            'telephone' => $request->telephone,
+            'taux_tva' => $request->taux_tva,
+            'adresse' => $request->adresse,
+            'devise' => 'XOF',
+            'pack_id' => $request->pack_id,
+            'logo' => $path  ?? null,
+        ]);
+        // Lier l'utilisateur a l'entreprise
+        $user= $request->user();
+        $user->entreprise_id = $entreprise->id;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Entreprise cree avec success');
     }
 
     /**

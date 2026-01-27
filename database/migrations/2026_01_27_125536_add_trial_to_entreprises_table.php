@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('entreprises', function (Blueprint $table) {
-            $table->foreignId('packs_id')->constrained()->after('id');
-            $table->date('abonnement_expire_le')->nullable();
+            $table->date('tria_fin')->nullable();
+            $table->boolean('trial_actif')->default(false);
         });
     }
 

@@ -18,6 +18,7 @@ class Entreprise extends Model
         'statut',
         'taux_tva',
         'pack_id',
+        'abonnement_expire_le',
     ];
 
     public function users()
@@ -29,6 +30,34 @@ class Entreprise extends Model
     {
         return $this->belongsTo(Pack::class);
     }
+
+    public function abonnements()
+    {
+        return $this->hasMany(Abonnement::class);
+    }
+
+     public function abonnementActif()
+    {
+        return $this->hasOne(Abonnement::class)->where('statut', 'actif')->where('date_fin', '>=', now());
+    }
+
+    public function isOnTrial()
+    {
+        return $this->trial_actif && $this->trial_fin >= now();
+    }
+
+    public function trialExpire()
+    {
+        return $this->trial_actif && $this->trial_fin < now();
+    }
+
+    public function abonnementValide()
+    {
+        return $this->abonnement_expire_le && $this->abonnement_expire_le >= now();
+    }
+
+    
+
 
     //Recette
     public function recettes()
