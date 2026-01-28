@@ -19,6 +19,8 @@ class Entreprise extends Model
         'taux_tva',
         'pack_id',
         'abonnement_expire_le',
+        'trial_fin',
+        'trial_actif',
     ];
 
     public function users()
@@ -43,17 +45,17 @@ class Entreprise extends Model
 
     public function isOnTrial()
     {
-        return $this->trial_actif && $this->trial_fin >= now();
+        return $this->trial_actif && $this->trial_fin >= now(); // Exp : le 15/01 > aujourd'hui(05/01)
     }
 
     public function trialExpire()
     {
-        return $this->trial_actif && $this->trial_fin < now();
+        return $this->trial_actif && $this->trial_fin < now(); // Exp : le 15/01 < aujourd'hui(25/01)
     }
 
     public function abonnementValide()
     {
-        return $this->abonnement_expire_le && $this->abonnement_expire_le >= now();
+        return $this->abonnement_expire_le && $this->abonnement_expire_le >= now(); // Exp : le 15/01 > aujourd'hui(05/01)
     }
 
     

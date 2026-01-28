@@ -38,7 +38,7 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'role' => ['string', 'max:250'],
             'entreprise_nom' => ['required'],
-            'taux_tva' => ['required'],
+            'taux_tva' ,
             'pack_id' => ['required'],
         ]);
         //dd($request);
@@ -46,7 +46,7 @@ class RegisteredUserController extends Controller
         $entreprise= Entreprise::create([
             'nom' =>$request->entreprise_nom,
             'pack_id' => $request->pack_id,
-            'taux_tva' => $request->taux_tva,
+            'taux_tva' => $request->taux_tva ?? 18,
             'trial_actif' =>true,
             'trial_fin' => now()->addDay(14),
             'abonnement_expire_le' => now()->addMonth(),

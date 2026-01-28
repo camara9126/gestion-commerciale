@@ -398,7 +398,7 @@
                 <form id="loginForm" method="POST" action="{{ route('login') }}">
                     @csrf
                     <div class="form-group">
-                        <label for="email">Adresse email</label>
+                        <label for="email">Adresse email &nbsp;<span style="color: red;">*</span></label>
                         <div class="input-with-icon">
                             <i class="fas fa-envelope"></i>
                             <input type="email" id="email" name="email" :value="old('email')" required autofocus autocomplete="username"  placeholder="votre@email.com" class="mt-2">
@@ -407,7 +407,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="password">Mot de passe</label>
+                        <label for="password">Mot de passe &nbsp;<span style="color: red;">*</span></label>
                         <div class="input-with-icon">
                             <i class="fas fa-lock"></i>
                             <input type="password" id="password" name="password"

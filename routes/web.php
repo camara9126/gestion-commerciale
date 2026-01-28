@@ -64,16 +64,26 @@ Route::middleware('auth')->group(function () {
     Route::delete('/adduser/delete/{user}', [ProfileController::class, 'destroy'])->name('user.destroy');
 });
 
-// Route Abonnement
-Route::resource('abonnement', AbonnementController::class);
+
+// Routes Abonnement et paiements PAYTECH
+Route::middleware('auth')->group(function () {
+    Route::get('/abonnement/payer', [AbonnementController::class, 'initialPaiement'])->name('abonnement.payer');
+
+    Route::get('/abonnement/success', [AbonnementController::class, 'success'])->name('abonnement.success');
+
+    Route::get('/abonnement/cancel', [AbonnementController::class, 'cancel'])->name('abonnement.cancel');
+
+    Route::post('/abonnement/ipn', [AbonnementController::class, 'ipn'])->name('abonnement.ipn');
+});
 
 
 // Route Dashboard
 Route::middleware(['auth', 'entreprise.exists'])->group(function () {
-    Route::resource('/dashboard', DashboardController::class);
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
     Route::get('/dashboard.rapport', [DashboardController::class, 'rapport'])->name('dashboard.rapport');
     Route::get('/dashboard/stats', [DashboardController::class, 'stats'])->name('dashboard.stats');
-})->name('dashboard');
+    Route::get('/abonnement', [DashboardController::class, 'abonnement'])->name('dashboard.abonnement');
+});
 
 // Route Entreprise
 Route::middleware(['auth'])->group(function () {

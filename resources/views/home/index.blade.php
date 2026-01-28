@@ -461,11 +461,14 @@
                     <li><a href="#about">À propos</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
-                <button class="cta-button">Essai Gratuit</button>
+               
+
                 @auth
                     <a href="{{route('dashboard.index')}}" class="cta-button">Dashboard</a>
-                @else
-                    <a href="{{route('login')}}" class="cta-button">Connexion</a>
+                @else 
+                <a href="{{route('login')}}">
+                    <button class="cta-button">Essai Gratuit</button>
+                </a>
                 @endauth
                 <div class="mobile-menu">
                     <i class="fas fa-bars"></i>

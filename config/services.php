@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'paytech' => [
+        'url' => env('PAYTECH_BASE_URL'),
+        'key' => env('PAYTECH_API_KEY'),
+        'secret' => env('PAYTECH_API_SECRET'),
+    ],
+
 ];

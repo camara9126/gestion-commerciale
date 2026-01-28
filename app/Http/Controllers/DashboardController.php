@@ -19,6 +19,8 @@ class DashboardController extends Controller
     // Accueil
     public function index()
     {
+        $entreprise = request()->user()->entreprise;
+
         $fournisseurs = Fournisseur::where('entreprise_id', request()->user()->entreprise_id)->limit(3)->latest()->get();
         $produits = Produit::with('fournisseur')->where('entreprise_id', request()->user()->entreprise_id)->limit(3)->latest()->get();
         $mouvements_ent = StockMouvement::where('entreprise_id', request()->user()->entreprise_id)->where('type', 'entree')->limit(3)->latest()->get();
@@ -27,7 +29,7 @@ class DashboardController extends Controller
         $clients = Client::where('entreprise_id', request()->user()->entreprise_id)->limit(3)->latest()->get();
         $ventes = Vente::with('client')->where('entreprise_id', request()->user()->entreprise_id)->limit(3)->latest()->get();
 
-        return view('dashboard.index', compact('produits','fournisseurs','mouvements_ent','mouvements_sor','clients','ventes')); 
+        return view('dashboard.index', compact('produits','fournisseurs','mouvements_ent','mouvements_sor','clients','ventes','entreprise')); 
     }
 
 
@@ -99,5 +101,14 @@ class DashboardController extends Controller
         $statuts = Vente::selectRaw('statut, COUNT(*) total')->whereMonth('created_at', $mois)->whereYear('created_at', $annee)->where('entreprise_id', $entrepriseId)->groupBy('statut')->get();
 
         return response()->json(['commandes' => $commandes,'ca' => $ca,'produits' => $produits,'statuts' => $statuts,]);
+    }
+
+    // Page Abonnement
+     public function abonnement()
+    {
+        $entreprise = request()->user()->entreprise;
+        $pack = $entreprise->pack;
+
+        return view('dashboard.abonnement', compact('entreprise','pack'));
     }
 }

@@ -350,12 +350,18 @@
             <div class="success-message" id="successMessage">
                 <i class="fas fa-check-circle"></i> Compte créé avec succès! Redirection...
             </div>
-            
+            @if ($errors->any())
+                    <div style="color: red; margin-bottom: 10px;">
+                        @foreach ($errors->all() as $error)
+                            <p>{{ $error }}</p>
+                        @endforeach
+                    </div>
+                @endif
             <div class="form-container">
-                <form id="signupForm" method="post" action="route('register') }}">
+                <form id="signupForm" method="post" action="{{route('register') }}">
                     @csrf
                     <div class="form-group">
-                        <label for="fullName">Nom complet</label>
+                        <label for="fullName">Nom complet &nbsp;<span style="color: red;">*</span></label>
                         <div class="input-with-icon">
                             <i class="fas fa-user"></i>
                             <input type="text" id="name" name="name" placeholder="Jean Dupont" required>
@@ -364,7 +370,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="email">Adresse email</label>
+                        <label for="email">Adresse email &nbsp;<span style="color: red;">*</span></label>
                         <div class="input-with-icon">
                             <i class="fas fa-envelope"></i>
                             <input type="email" id="email" name="email" placeholder="jean.dupont@entreprise.com" required>
@@ -373,7 +379,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="company">Nom de l'entreprise</label>
+                        <label for="company">Nom de l'entreprise &nbsp;<span style="color: red;">*</span></label>
                         <div class="input-with-icon">
                             <i class="fas fa-building"></i>
                             <input type="text" id="company" name="entreprise_nom" placeholder="Dupont & Cie" required>
@@ -385,13 +391,13 @@
                         <label for="company">TVA</label>
                         <div class="input-with-icon">
                             <i class="fa-percent"></i>
-                            <input type="text" id="tva" name="taux_tva" placeholder="Exp : 18" required>
+                            <input type="text" id="tva" name="taux_tva" placeholder="Exp : 18" >
                         </div>
                         <div class="error-message" id="companyError">Veuillez saisir le TVA de votre entreprise</div>
                     </div>
 
                     <div class="form-group">
-                        <label for="company">Choisisser votre pack</label>
+                        <label for="company">Choisisser votre pack &nbsp;<span style="color: red;">*</span></label>
                         <div class="row">
                             @foreach($packs as $pack)
                             <div class="col-4">
@@ -409,7 +415,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="password">Mot de passe</label>
+                        <label for="password">Mot de passe &nbsp;<span style="color: red;">*</span></label>
                         <div class="input-with-icon">
                             <i class="fas fa-lock"></i>
                             <input type="password" id="password" name="password" placeholder="Créez un mot de passe sécurisé" required>
@@ -419,7 +425,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="confirmPassword">Confirmer le mot de passe</label>
+                        <label for="confirmPassword">Confirmer le mot de passe &nbsp;<span style="color: red;">*</span></label>
                         <div class="input-with-icon">
                             <i class="fas fa-lock"></i>
                             <input type="password" id="confirmPassword" name="password_confirmation" placeholder="Confirmez votre mot de passe" required>
