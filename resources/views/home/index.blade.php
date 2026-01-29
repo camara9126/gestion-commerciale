@@ -453,7 +453,7 @@
             <nav>
                 <div class="logo">
                     <i class="fas fa-chart-line"></i>
-                    <span>BizManager</span>
+                    <span>Bmanager</span>
                 </div>
                 <ul class="nav-links">
                     <li><a href="#features">Fonctionnalités</a></li>
@@ -554,7 +554,8 @@
                     <ul class="pricing-features">
                         <li><i class="fas fa-check"></i> Jusqu'à 80 produits</li>
                         <li><i class="fas fa-check"></i> 100 clients</li>
-                        <!--<li><i class="fas fa-check"></i> 500 factures/mois</li>-->
+                        <li><i class="fas fa-check"></i> 1 utilisateur maximum</li>
+                        <li><i class="fas fa-check"></i> 50 Go de stockage</li>
                         <li><i class="fas fa-check"></i> Gestion de stock basique</li>
                         <li><i class="fas fa-check"></i> Support basique</li>
                         <li class="disabled"><i class="fas fa-times"></i> Factures illimitées</li>
@@ -582,9 +583,9 @@
                         <li><i class="fas fa-check"></i> 300 Clients</li>
                         <li><i class="fas fa-check"></i> 2 utilisateurs</li>
                         <li><i class="fas fa-check"></i> Factures illimitées</li>
-                        <li><i class="fas fa-check"></i> Gestion de stock avancée</li>
-                        <li><i class="fas fa-check"></i> Support prioritaire</li>
-                        <li><i class="fas fa-check"></i> Tableaux de bord avancés</li>
+                        <li><i class="fas fa-check"></i> 500 Go de stockage</li>
+                        <li><i class="fas fa-check"></i> Support prioritaire 24/7</li>
+                        <li><i class="fas fa-check"></i> Analytics avancés</li>
                         <!--<li><i class="fas fa-check"></i> Intégrations API</li>-->
                         <li class="disabled"><i class="fas fa-times"></i> Formation personnalisée</li>
                     </ul>
@@ -603,12 +604,13 @@
                         <div class="price-savings">Économisez 25% avec l'abonnement annuel</div>
                     </div>
                     <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> Tous les fonctionnalités Pro</li>
+                         <li><i class="fas fa-check"></i> Tous les fonctionnalités Pro</li>
+                        <li><i class="fas fa-check"></i> produits illimités</li>
                         <li><i class="fas fa-check"></i> Multi-utilisateurs (jusqu'à 10)</li>
+                        <li><i class="fas fa-check"></i> 2 To de stockage</li>
                         <li><i class="fas fa-check"></i> Gestion des rôles et permissions</li>
-                        <li><i class="fas fa-check"></i> Support 24/7 par téléphone</li>
-                        <li><i class="fas fa-check"></i> Rapports personnalisés</li>
-                        <li><i class="fas fa-check"></i> Intégrations personnalisées</li>
+                        <li><i class="fas fa-check"></i> Support dédié 24/7</li>
+                        <li><i class="fas fa-check"></i> Analytics avancés</li>
                         <li><i class="fas fa-check"></i> Formation personnalisée</li>
                     </ul>
                     <a href="{{route('register')}}" class="cta-button" style="width: 100%;">Nous contacter</a>
@@ -663,7 +665,7 @@
                 </div>
             </div>
             <div class="copyright">
-                <p>&copy; 2026 BizManager. Tous droits réservés.</p>
+                <p>&copy; <?=now()->year ?> BCN Groupe. Tous droits réservés.</p>
             </div>
         </div>
     </footer>

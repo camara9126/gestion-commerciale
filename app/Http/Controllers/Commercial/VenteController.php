@@ -113,6 +113,7 @@ class VenteController extends Controller
 
             VenteItem::create([
                 'vente_id' => $vente->id,
+                'entreprise_id' => $request->user()->entreprise_id,
                 'produit_id' => $item['produit_id'],
                 'quantite' => $item['quantite'],
                 'prix_unitaire' => $produit->prix_vente,

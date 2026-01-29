@@ -460,12 +460,9 @@ use Illuminate\Support\Facades\Auth;
                 <div class="subscription-section">
                     <div class="section-title">
                         <h2><i class="fas fa-crown"></i> Mon Abonnement</h2>
-                        <form action="{{route('abonnement.payer')}}" method="post">
-                            @csrf
-                            <a href="{{route('abonnement.payer')}}" class="manage-btn">
-                                <i class="fa-solid fa-bag-shopping text-success"></i>Payer l'abonnement
-                            </a>
-                        </form>
+                        <a href="{{route('abonnement.payer')}}" class="manage-btn">
+                            <i class="fa-solid fa-bag-shopping text-success"></i>Payer l'abonnement
+                        </a>
                     </div>
                     
                     <!-- Carte d'abonnement actuel -->
@@ -473,11 +470,20 @@ use Illuminate\Support\Facades\Auth;
                         <div class="subscription-header">
                             <div class="subscription-title">
                                 <h3>Pack : {{strtoupper($entreprise->pack->nom) ?? 'Vide'}}</h3>
-                                <p >Abonnement :  <span class="badge bg-success">{{$entreprise->abonnementActif->statut ?? 'Essai gratuit actif'}}</span> </p>
+                                <p >Statut :  
+                                    @if($entreprise->isOnTrial())
+                                        <span class="badge bg-success">Essai gratuit actif</span>
+                                    @elseif($entreprise->trialExpire())
+                                        <span class="badge bg-danger">Essai gratuit termine</span>
+                                    @elseif($entreprise->abonnementActif())
+                                         <span class="badge bg-success">Actif</span>
+                                    @endif
+                                 </p>
                             </div>
-                            <div class="subscription-badge">{{strtoupper($entreprise->abonnementActif->statut ?? 'Essai gratuit')}}</div>
+                            <div class="subscription-badge">{{$entreprise->isOnTrial() ? 'Essai gratuit' : ' '}}</div>
                         </div>
                         
+                        <!-- Details abonnement-->
                         <div class="subscription-details">
                             <div class="detail-item">
                                 <h4>Prochain paiement</h4>
@@ -511,23 +517,18 @@ use Illuminate\Support\Facades\Auth;
                         
                         <div class="subscription-actions">
                             @if($entreprise->trialExpire())
-                            <form action="{{route('abonnement.payer')}}" method="post">
-                            @csrf
-                                <button class="action-btn danger-btn">
-                                    <i class="fas fa-download"></i> Abonnement expiré. Veuillez renouveler
-                                </button>
+                            <a href="{{route('abonnement.payer')}}" class="btn btn-light"><i class="fa fa-card"></i>Abonnement expiré. Veuillez renouveler</a> 
                             </form>
-                            @elseif($entreprise->abonnementValide())
+                            @else
                                 <button class="action-btn secondary-btn">
                                     <i class="fas fa-history"></i> Historique des paiements
                                 </button>
                             @endif
                         </div>
                     </div>
-                    
+
                     <!-- Section des packs disponibles -->
                     <div class="available-packs">
-                        @if($entreprise->isOnTrial())
                             <h3 style="margin-bottom: 20px; color: #1e293b;">Packs disponibles</h3>   
                             <div class="packs-grid">
                                 <!-- Pack Basique -->
@@ -541,17 +542,24 @@ use Illuminate\Support\Facades\Auth;
                                         <div class="pack-period">par mois</div>
                                     </div>
                                     <ul class="pack-features">
-                                        <li><i class="fas fa-check"></i> 1 utilisateur maximum</li>
-                                        <li><i class="fas fa-check"></i> 80 produits</li>
+                                        <li><i class="fas fa-check"></i> Jusqu'à 80 produits</li>
                                         <li><i class="fas fa-check"></i> 100 clients</li>
+                                        <li><i class="fas fa-check"></i> 1 utilisateur maximum</li>
                                         <li><i class="fas fa-check"></i> 50 Go de stockage</li>
-                                        <li><i class="fas fa-check"></i> Support par email</li>
-                                        <li><i class="fas fa-check"></i> Rapports basiques</li>
+                                        <li><i class="fas fa-check"></i> Gestion de stock basique</li>
+                                        <li><i class="fas fa-check"></i> Support basique</li>
+                                        <li><i class="fas fa-times" style="color: red;"></i> Factures illimitées</li>
+                                        <li><i class="fas fa-times" style="color: red;"></i> Tableaux de bord avancés</li>
+                                        <li><i class="fas fa-times" style="color: red;"></i> Intégrations API</li>
+                                        <li><i class="fas fa-times" style="color: red;"></i> Formation personnalisée</li>
                                     </ul>
-                                    @if($entreprise->pack->id == 1)
+                                    @if($entreprise->pack->id == 1 && !$entreprise->trialExpire())
                                     <button class="pack-btn">Pack actuel</button>
+                                    @elseif($entreprise->pack->id == 1 && $entreprise->trialExpire())
+                                        <button class="pack-btn">Pack actuel</button>
+                                        <a href="{{route('abonnement.payer')}}" class="btn btn-success">Payer l'abonnement</a>
                                     @else
-                                    <button class="pack-btn">Choisir ce pack</button>
+                                        <button class="pack-btn">Choisir ce pack</button>
                                     @endif
                                 </div>
                                 
@@ -566,18 +574,23 @@ use Illuminate\Support\Facades\Auth;
                                         <div class="pack-period">par mois</div>
                                     </div>
                                     <ul class="pack-features">
-                                        <li><i class="fas fa-check"></i> 3 utilisateurs maximum</li>
                                         <li><i class="fas fa-check"></i> 200 produits</li>
-                                        <li><i class="fas fa-check"></i> 300 clients</li>
+                                        <li><i class="fas fa-check"></i> 300 Clients</li>
+                                        <li><i class="fas fa-check"></i> 2 utilisateurs</li>
+                                        <li><i class="fas fa-check"></i> Factures illimitées</li>
                                         <li><i class="fas fa-check"></i> 500 Go de stockage</li>
                                         <li><i class="fas fa-check"></i> Support prioritaire 24/7</li>
                                         <li><i class="fas fa-check"></i> Analytics avancés</li>
                                         <!--<li><i class="fas fa-check"></i> Intégrations API</li>-->
+                                        <li><i class="fas fa-times" style="color: red;"></i> Formation personnalisée</li>
                                     </ul>
-                                    @if($entreprise->pack->id == 3)
-                                    <button class="pack-btn">Pack actuel</button>
+                                    @if($entreprise->pack->id == 3 && !$entreprise->trialExpire())
+                                        <button class="pack-btn">Pack actuel</button>
+                                    @elseif($entreprise->pack->id == 3 && $entreprise->trialExpire())
+                                        <button class="pack-btn">Pack actuel</button>
+                                        <a href="{{route('abonnement.payer')}}" class="btn btn-success">Payer l'abonnement</a>
                                     @else
-                                    <button class="pack-btn">Choisir ce pack</button>
+                                        <button class="pack-btn">Choisir ce pack</button>
                                     @endif
                                 </div>
                                 
@@ -594,24 +607,23 @@ use Illuminate\Support\Facades\Auth;
                                     <ul class="pack-features">
                                         <li><i class="fas fa-check"></i> Tous les fonctionnalités Pro</li>
                                         <li><i class="fas fa-check"></i> produits illimités</li>
-                                        <li><i class="fas fa-check"></i> Multi-utilisateurs</li>
+                                        <li><i class="fas fa-check"></i> Multi-utilisateurs (jusqu'à 10)</li>
                                         <li><i class="fas fa-check"></i> 2 To de stockage</li>
+                                        <li><i class="fas fa-check"></i> Gestion des rôles et permissions</li>
                                         <li><i class="fas fa-check"></i> Support dédié 24/7</li>
                                         <li><i class="fas fa-check"></i> Analytics avancés</li>
                                         <li><i class="fas fa-check"></i> Formation personnalisée</li>
                                     </ul>
-                                    @if($entreprise->pack->id == 2)
-                                    <button class="pack-btn">Pack actuel</button>
+                                    @if($entreprise->pack->id == 2 && !$entreprise->trialExpire())
+                                        <button class="pack-btn">Pack actuel</button>
+                                    @elseif($entreprise->pack->id == 2 && $entreprise->trialExpire())
+                                        <button class="pack-btn">Pack actuel</button>
+                                        <a href="{{route('abonnement.payer')}}" class="btn btn-success">Payer l'abonnement</a>
                                     @else
-                                    <button class="pack-btn">Choisir ce pack</button>
+                                        <button class="pack-btn">Choisir ce pack</button>
                                     @endif
                                 </div>
-                            </div>
-                        @elseif($entreprise->abonnementValide())
-                            <p>test</p>
-                            <a href="{{route('abonnement.payer')}}" class="btn btn-success">Veuillez renouveler</a>
-                            
-                        @endif
+                            </div>    
                     </div>
                 </div>
             </section>

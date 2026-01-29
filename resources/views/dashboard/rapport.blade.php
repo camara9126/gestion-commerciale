@@ -38,7 +38,7 @@ use Illuminate\Support\Facades\Auth;
         
         /* Sidebar Styles */
         .sidebar {
-            background: linear-gradient(180deg, #2c3e50 0%, #1a252f 100%);
+            background: #00778b; /*linear-gradient(180deg, #2c3e50 0%, #1a252f 100%);*/
             color: white;
             min-height: 100vh;
             position: fixed;
@@ -489,15 +489,46 @@ use Illuminate\Support\Facades\Auth;
             <div class="d-flex align-items-center">
                 <!-- Search Bar - Hidden on mobile -->
                 <div class="d-none d-md-block me-3">
-                    
+                    @if($entreprise->isOnTrial())
+                        <div class="alert alert-info">
+                            🎉 Essai gratuit actif – expire le {{ $entreprise->trial_fin }}
+                        </div>
+                    @endif
+
+                    @if($entreprise->trialExpire())
+                        <div class="alert alert-danger">
+                            ⛔ Essai expiré – veuillez activer un abonnement
+                        </div>
+                    @endif
                 </div>
                 
                 <!-- Notifications -->
                 <div class="dropdown me-3">
-                    <button class="btn btn-light position-relative" type="button" data-bs-toggle="dropdown">
-                        
+                    <button class="btn btn-light dropdown-toggle" type="button" id="notificationsDropdown" data-bs-toggle="dropdown">
+                                <i class="fas fa-bell"></i>
+                                @if($entreprise->isOnTrial()  || $entreprise->trialExpire())
+                                    <span class="badge bg-danger rounded-pill">
+                                        1
+                                    </span>
+                                @endif
                     </button>
-                   
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <!--<li><h6 class="dropdown-header">Notifications</h6></li>-->
+                        @if($entreprise->isOnTrial())
+                        <li>
+                            <a class="dropdown-item alert alert-info" href="#">🎉 Essai gratuit actif – expire le {{ $entreprise->trial_fin }}
+                            </a>
+                        </li>
+                        @endif
+                        <!--<li><a class="dropdown-item" href="#">Paiement reçu de Client XYZ</a></li>-->
+                         @if($entreprise->trialExpire())
+                            <li>
+                                <a class="dropdown-item alert alert-danger" href="#" >⛔ Essai expiré – veuillez activer un abonnement
+                                </a>
+                            </li>
+                        @endif
+                    </ul>
+                    
                 </div>
                 
                 <!-- Mobile Search Button -->
@@ -508,13 +539,13 @@ use Illuminate\Support\Facades\Auth;
                 <!-- User Menu -->
                 <div class="dropdown">
                     <button class="btn btn-light d-flex align-items-center" type="button" data-bs-toggle="dropdown">
-                        <i class="fas fa-user"></i>&nbsp;
-                        <span class="badge bg-success rounded-pill"><?= strtoupper(Auth::user()->name) ?></span>&nbsp;
+                        <!--<span class="badge bg-success">{{strtoupper(Auth::user()->name[0]) }}</span>-->
+                        <i class="fas fa-user-check text-success me-2"></i>
                         <i class="fas fa-chevron-down"></i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="{{ route('profile.edit') }}"><i class="fas fa-user me-2"></i> Mon profil</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Paramètres</a></li>
+                        <li><a class="dropdown-item" href="{{ route('dashboard.abonnement') }}"><i class="fas fa-box-open me-2"></i> Abonnement</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}">

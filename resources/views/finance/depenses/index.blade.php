@@ -94,19 +94,19 @@
                                             <div class="row">
 
                                                 <!-- Libellé -->
-                                                <div class="col-6 mb-3">
+                                                <div class="col-12 mb-3">
                                                     <label class="form-label">Libellé de la dépense</label>
                                                     <input type="text" name="libelle" class="form-control" placeholder="Ex : Achat marchandises" required>
                                                 </div>
 
                                                 <!-- Catégorie -->
-                                                <div class="col-6 mb-3">
+                                                <div class="col-12 mb-3">
                                                     <label class="form-label">Catégorie</label>
                                                     <select name="categorie_depense_id" class="form-control">
                                                         <option value="">-- Sélectionner --</option>
                                                         @foreach($categories as $categorie)
                                                             <option value="{{ $categorie->id }}">
-                                                                {{ $categorie->nom }}
+                                                                {{ ucfirst($categorie->nom) }}
                                                             </option>
                                                         @endforeach
                                                     </select>

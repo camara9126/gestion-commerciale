@@ -24,7 +24,7 @@
                                 <a href="{{route('ventes.index')}}" class="btn btn-sm btn-primary">Voir tout</a>
                             </div>
                             <div class="table-responsive">
-                                <table class="table table-hover">
+                                <table class="table data-table">
                                     <thead>
                                         <tr>
                                             <th>Reference</th>
@@ -157,7 +157,7 @@
                                 <div class="card-body">
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table table-hover">
+                                            <table class="table data-table">
                                                 <thead>
                                                     <tr>
                                                         <th>Nom</th>
@@ -209,7 +209,7 @@
                                 <div class="card-body">
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table table-hover">
+                                            <table class="table data-table">
                                                 <thead>
                                                     <tr>
                                                         <th>Nom</th>

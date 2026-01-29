@@ -8,6 +8,7 @@ class VenteItem extends Model
 {
     protected $fillable = [
         'vente_id',
+        'entreprise_id',
         'produit_id',
         'quantite',
         'prix_unitaire',
@@ -20,6 +21,11 @@ class VenteItem extends Model
     public function vente()
     {
         return $this->belongsTo(Vente::class);
+    }
+
+    public function entreprise()
+    {
+        return $this->belongsTo(Entreprise::class, 'entreprise_id');
     }
 
     public function produit()

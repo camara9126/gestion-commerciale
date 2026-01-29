@@ -17,7 +17,7 @@
         
         /* Sidebar Styles */
         .sidebar {
-            background: linear-gradient(180deg, #2c3e50 0%, #1a252f 100%);
+            background: #00778b;/*linear-gradient(180deg, #2c3e50 0%, #1a252f 100%);*/
             color: white;
             min-height: 100vh;
             position: fixed;
@@ -207,7 +207,7 @@
             border: none;
             padding: 15px;
             font-weight: 600;
-            color: #495057;
+            color: #00778b;
         }
         
         .data-table td {

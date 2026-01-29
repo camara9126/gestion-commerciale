@@ -54,7 +54,7 @@
                                                 <select class="form-select" name="fournisseur_id" id="type_maison">
                                                     <option value="">-- Fournisseur --</option>
                                                     @foreach($fournisseurs as $f)
-                                                    <option value="{{$f->id}}">{{$f->nom}}</option>
+                                                    <option value="{{$f->id}}">{{ucfirst($f->nom)}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

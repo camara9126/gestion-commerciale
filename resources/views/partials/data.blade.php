@@ -126,8 +126,8 @@ use App\Models\Vente;
                 <div>
                     <p class="text-muted mb-1">Produits</p>
                     <h3 class="value fw-bold">{{$produitsMois}}</h3>
-                    <small class="text-danger">
-                            <i class="fas fa-arrow-down me-1"></i>12% vs mois dernier
+                    <small class="text-info">
+                            <i class="fas fa-arrow-up me-1"></i>
                     </small>
                 </div>
                 <div class="icon bg-info bg-opacity-10 text-info">

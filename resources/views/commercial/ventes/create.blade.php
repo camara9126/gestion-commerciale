@@ -44,7 +44,7 @@
                                                     <option value="">-- Sélectionner un client --</option>
                                                     @foreach($clients as $client)
                                                         <option value="{{ $client->id }}">
-                                                            {{ $client->nom }}
+                                                            {{ ucfirst($client->nom) }}
                                                         </option>
                                                     @endforeach
                                                 </select>

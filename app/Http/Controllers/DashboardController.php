@@ -45,14 +45,14 @@ class DashboardController extends Controller
 
 
         /* 1️⃣ Commandes par mois */
-        $commandesParJour = Vente::selectRaw('DAY(created_at) jour, COUNT(*) total')->where('entreprise_id', request()->user()->entreprise_id)->whereMonth('created_at', $mois)->whereYear('created_at', $annee)->groupBy('jour')->orderBy('jour')->get();
+        $commandesParJour = Vente::selectRaw('DAY(created_at) jour, COUNT(*) total')->where('entreprise_id', $entreprise->id)->whereMonth('created_at', $mois)->whereYear('created_at', $annee)->groupBy('jour')->orderBy('jour')->get();
 
         $commandesMoisLabels = $commandesParJour->pluck('jour');
         $commandesMoisData = $commandesParJour->pluck('total');
 
 
         /* 2️⃣ Chiffre d’affaires par mois */
-        $caParMois = Recette::selectRaw('MONTH(created_at) as mois, SUM(montant) as total')->where('entreprise_id', request()->user()->entreprise_id)->whereYear('created_at', $annee)->where('statut', 'recu')->groupBy('mois')->orderBy('mois')->get();
+        $caParMois = Recette::selectRaw('MONTH(created_at) as mois, SUM(montant) as total')->where('entreprise_id', $entreprise->id)->whereYear('created_at', $annee)->where('statut', 'recu')->groupBy('mois')->orderBy('mois')->get();
 
         $caLabels = $caParMois->pluck('mois')->map(fn ($m)=>
             Carbon::create()->month($m)->translatedFormat('M')
@@ -61,14 +61,14 @@ class DashboardController extends Controller
 
 
         /* 3️⃣ Top produits du mois */
-        $topProduits = VenteItem::with('vente')->selectRaw('produit_id, SUM(quantite) as total')->whereMonth('created_at', $mois)->whereYear('created_at', $annee)->groupBy('produit_id')->orderByDesc('total')->with('produit:id,nom')->limit(5)->get();
+        $topProduits = VenteItem::selectRaw('produit_id, SUM(quantite) as total')->where('entreprise_id', $entreprise->Id)->whereMonth('created_at', $mois)->whereYear('created_at', $annee)->groupBy('produit_id')->orderByDesc('total')->with('produit:id,nom')->limit(5)->get();
 
         $topProduitsLabels = $topProduits->pluck('produit.nom');
         $topProduitsData = $topProduits->pluck('total');
 
 
         /* 4️⃣ Statut des commandes */
-        $statutCommandes = Vente::selectRaw('statut, COUNT(*) as total')->where('entreprise_id', request()->user()->entreprise_id)->whereMonth('created_at', $mois)->whereYear('created_at', $annee)->groupBy('statut')->get();
+        $statutCommandes = Vente::where('entreprise_id', $entreprise->id)->selectRaw('statut, COUNT(*) as total')->whereMonth('created_at', $mois)->whereYear('created_at', $annee)->groupBy('statut')->get();
 
         $statutLabels = $statutCommandes->pluck('statut');
         $statutData = $statutCommandes->pluck('total');

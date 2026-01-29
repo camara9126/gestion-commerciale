@@ -47,7 +47,7 @@
                                             
                                             </form>
                                         <!--</nav>-->
-                                        <table class="table table-hover">
+                                        <table class="table data-table">
                                             <thead>
                                                 <tr>
                                                     <th>Reference</th>

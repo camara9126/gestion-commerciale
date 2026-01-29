@@ -25,6 +25,7 @@ class AbonnementController extends Controller
             'reference'     => $refCommande,
             'statut'        => 'en_attente',
         ]);
+        //dd($paiement);
 
         // 3️⃣ Initialisation PayTech
         $paytech = new PayTech(
@@ -45,17 +46,20 @@ class AbonnementController extends Controller
                 'ipn_url'     => route('abonnement.ipn'),
             ])
             ->send();
+        //dd($response);
 
         // 5️⃣ Redirection
-        if ($response['success'] == 1) {
-            return redirect($response['redirect_url']);
+        if (isset($response['success']) && $response['success'] == 1) {
+            return redirect()->away($response['redirect_url']);
         }
 
         return back()->withErrors([
-            'message' => 'Erreur PayTech : ' . implode(', ', $response['errors'])
-        ]);
+            'paiement' => $response['message'] ?? 'Erreur PayTech'
+            ]);
     }
 
+
+    // Paiement Valide
     public function success(Request $request)
     {
         return view('dashboard.abonnement', [
@@ -63,22 +67,6 @@ class AbonnementController extends Controller
         ]);
     }
 
-    public function cancel(Request $request)
-    {
-        if ($request->ref_command) {
-            $paiement = PaiementAbonnement::where('reference', $request->ref_command)->first();
-
-            if ($paiement && $paiement->statut === 'en_attente') {
-                $paiement->update([
-                    'statut' => 'annulé'
-                ]);
-            }
-        }
-
-        return view('dashboard.abonnement', [
-            'message' => 'Paiement annulé. Aucun montant n’a été débité.'
-        ]);
-    }
 
     public function ipn(Request $request)
     {
@@ -105,6 +93,7 @@ class AbonnementController extends Controller
             // ✅ Paiement validé
             $paiement->update([
                 'statut' => 'payé',
+                'moyen_paiement' => $request->payment_method,
                 'paid_at' => now()
             ]);
 
@@ -130,6 +119,27 @@ class AbonnementController extends Controller
         ]);
 
         return response('Paiement échoué', 200);
-}
+    }
+
+    
+    // Paiement Invalide
+    public function cancel(Request $request)
+    {
+        if ($request->ref_command) {
+            $paiement = PaiementAbonnement::where('reference', $request->ref_command)->first();
+
+            if ($paiement && $paiement->statut === 'en_attente') {
+                $paiement->update([
+                    'statut' => 'annulé'
+                ]);
+            }
+        }
+
+        return view('dashboard.abonnement', [
+            'message' => 'Paiement annulé. Aucun montant n’a été débité.'
+        ]);
+    }
+
+
 
 }

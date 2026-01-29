@@ -45,12 +45,12 @@ class Entreprise extends Model
 
     public function isOnTrial()
     {
-        return $this->trial_actif && $this->trial_fin >= now(); // Exp : le 15/01 > aujourd'hui(05/01)
+        return $this->trial_fin >= now(); // Exp : le 15/01 > aujourd'hui(05/01)
     }
 
     public function trialExpire()
     {
-        return $this->trial_actif && $this->trial_fin < now(); // Exp : le 15/01 < aujourd'hui(25/01)
+        return $this->trial_fin < now(); // Exp : le 15/01 < aujourd'hui(25/01)
     }
 
     public function abonnementValide()
@@ -65,6 +65,11 @@ class Entreprise extends Model
     public function recettes()
     {
         return $this->hasMany(Recette::class);
+    }
+
+    public function items()
+    {
+        return $this->hasMany(VenteItem::class);
     }
 
     // Depense
@@ -85,13 +90,13 @@ class Entreprise extends Model
     // Total recettes encaisse
     public function getTotalRecettesAttribute()
     {
-        return $this->recettes()->where('statut','recu')->sum('montant');
+        return $this->recettes()->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->where('statut','recu')->sum('montant');
     }
 
     // Total depense 
     public function getTotalDepensesAttribute()
     {
-        return $this->depenses()->sum('montant');
+        return $this->depenses()->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->sum('montant');
     }
 
     // Tresorerie nette
