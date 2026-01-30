@@ -21,6 +21,11 @@ class DashboardController extends Controller
     {
         $entreprise = request()->user()->entreprise;
 
+        // Redirection abonnenemt si le Essai gratuite est termine
+        if($entreprise->trialExpire()) {
+             return redirect()->route('dashboard.abonnement');
+        }
+
         $fournisseurs = Fournisseur::where('entreprise_id', request()->user()->entreprise_id)->limit(3)->latest()->get();
         $produits = Produit::with('fournisseur')->where('entreprise_id', request()->user()->entreprise_id)->limit(3)->latest()->get();
         $mouvements_ent = StockMouvement::where('entreprise_id', request()->user()->entreprise_id)->where('type', 'entree')->limit(3)->latest()->get();

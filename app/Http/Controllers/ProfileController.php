@@ -100,6 +100,15 @@ class ProfileController extends Controller
      */
     public function addUser()
     {
+        // Verification limite utilisateur du pack
+        $user = request()->user();
+        $pack = $user->entreprise->pack;
+
+        if($user->entreprise->users()->count() >= $pack->max_user) {
+            return redirect()->back()->with('warning', 'Limite du pack atteinte. Passez au pack supérieur.');
+
+        };
+
         return view('profile.addUser');
     }
 

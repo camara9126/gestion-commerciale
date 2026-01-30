@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Inventaire;
 use App\Http\Controllers\Controller;
 use App\Models\Produit;
 use App\Models\Fournisseur;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ProduitController extends Controller
@@ -35,8 +36,18 @@ class ProduitController extends Controller
     }
 
 
-    public function create(Request $request)
+    public function create(Request $request, User $user)
     {
+
+        // Verification limite produit du pack
+        $user = request()->user();
+        $pack = $user->entreprise->pack;
+
+        if($user->entreprise->produit()->count() >= $pack->max_produit) {
+            return redirect()->back()->with('warning', 'Limite du pack atteinte. Passez au pack supérieur.');
+
+        };
+              
         $fournisseurs = Fournisseur::where('entreprise_id', $request->user()->entreprise_id)->where('statut', true)->get();
 
         return view('inventaire.produits.create', compact('fournisseurs'));

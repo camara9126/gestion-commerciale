@@ -548,7 +548,7 @@
                         <p>Parfait pour les indépendants et petites entreprises</p>
                     </div>
                     <div class="price">
-                        <div class="price-amount">15€</div>
+                        <div class="price-amount">25.000 XOF</div>
                         <div class="price-period">par mois</div>
                     </div>
                     <ul class="pricing-features">
@@ -574,7 +574,7 @@
                         <p>Idéal pour les PME en croissance</p>
                     </div>
                     <div class="price">
-                        <div class="price-amount">39.99€</div>
+                        <div class="price-amount">30.000 XOF</div>
                         <div class="price-period">par mois</div>
                         <div class="price-savings">Économisez 20% avec l'abonnement annuel</div>
                     </div>
@@ -599,7 +599,7 @@
                         <p>Solution complète pour les grandes entreprises</p>
                     </div>
                     <div class="price">
-                        <div class="price-amount">89.99€</div>
+                        <div class="price-amount">40.000 XOF</div>
                         <div class="price-period">par mois</div>
                         <div class="price-savings">Économisez 25% avec l'abonnement annuel</div>
                     </div>
@@ -616,7 +616,7 @@
                     <a href="{{route('register')}}" class="cta-button" style="width: 100%;">Nous contacter</a>
                 </div>
             </div>
-            <p style="text-align: center; margin-top: 40px; color: #666;">Tous les plans incluent un essai gratuit de 14 jours. Aucune carte de crédit requise.</p>
+            <p style="text-align: center; margin-top: 40px; color: #666;">Tous les plans incluent un essai gratuit de 12 jours. Aucune carte de crédit requise.</p>
         </div>
     </section>
 

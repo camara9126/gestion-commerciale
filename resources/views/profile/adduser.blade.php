@@ -51,8 +51,7 @@
                                             <label for="role" class="form-label">Role</label>
                                             <select class="form-select" name="role" id="role" required>
                                                 <option value="admin">Administrateur</option>
-                                                <option value="comptable">Comptable</option>
-                                                <option value="commercial">Commercial</option>
+                                                <option value="gestionnaire">Gestionnaire</option>
                                             </select> 
                                         </div>
                                     </div>

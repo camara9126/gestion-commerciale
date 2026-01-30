@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Abonnement;
 use App\Models\PaiementAbonnement;
 use Carbon\Carbon;
 use App\Services\PayTech;
@@ -72,6 +73,7 @@ class AbonnementController extends Controller
     {
         $reference = $request->ref_command ?? null;
         $status    = $request->payment_status ?? null;
+        $abonnenemt = Abonnement::where('id', request()->user()->id)->first();
 
         if (!$reference) {
             return response('Référence manquante', 400);
@@ -90,6 +92,11 @@ class AbonnementController extends Controller
 
         if ($status === 'completed') {
 
+            // Mise a jour abonnement (Statut)
+            $abonnenemt->update([
+                'statut' =>'expire',
+            ]);
+
             // ✅ Paiement validé
             $paiement->update([
                 'statut' => 'payé',
@@ -104,7 +111,7 @@ class AbonnementController extends Controller
 
             $entreprise->update([
                 'abonnement_actif' => true,
-                'date_expiration_abonnement' =>
+                'abonnement_expire_le' =>
                     $expiration && $expiration->isFuture()
                         ? $expiration->addMonth()
                         : now()->addMonth()

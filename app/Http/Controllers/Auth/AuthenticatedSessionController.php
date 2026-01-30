@@ -26,8 +26,13 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
+        $entreprise = request()->user()->entreprise;
+
         $request->session()->regenerate();
 
+        if($entreprise->trialExpire()) {
+             return redirect()->route('dashboard.abonnement');
+        }
         return redirect()->intended(route('dashboard.index', absolute: false));
     }
 

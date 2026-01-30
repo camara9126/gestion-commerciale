@@ -469,13 +469,13 @@ use Illuminate\Support\Facades\Auth;
                     <div class="subscription-card">
                         <div class="subscription-header">
                             <div class="subscription-title">
-                                <h3>Pack : {{strtoupper($entreprise->pack->nom) ?? 'Vide'}}</h3>
+                                <h3>PACK {{strtoupper($entreprise->pack->nom) ?? 'Vide'}}</h3>
                                 <p >Statut :  
                                     @if($entreprise->isOnTrial())
                                         <span class="badge bg-success">Essai gratuit actif</span>
                                     @elseif($entreprise->trialExpire())
                                         <span class="badge bg-danger">Essai gratuit termine</span>
-                                    @elseif($entreprise->abonnementActif())
+                                    @elseif($entreprise->abonnementPaye())
                                          <span class="badge bg-success">Actif</span>
                                     @endif
                                  </p>

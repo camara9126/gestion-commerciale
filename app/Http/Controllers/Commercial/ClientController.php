@@ -33,6 +33,15 @@ class ClientController extends Controller
 
     public function create()
     {
+
+    // Verification limite client du pack
+        $user = request()->user();
+        $pack = $user->entreprise->pack;
+
+        if($user->entreprise->client()->count() <= $pack->max_client) {
+            return redirect()->back()->with('warning', 'Limite du pack atteinte. Passez au pack supérieur.');
+
+        };
         return view('commercial.clients.create');
     }
     

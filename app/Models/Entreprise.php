@@ -33,6 +33,21 @@ class Entreprise extends Model
         return $this->belongsTo(Pack::class);
     }
 
+    public function produit()
+    {
+        return $this->belongsTo(Produit::class);
+    }
+
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
+    }
+
+    public function abonnementPaye()
+    {
+        return $this->hasOne(PaiementAbonnement::class)->where('statut', 'payé');
+    }
+
     public function abonnements()
     {
         return $this->hasMany(Abonnement::class);
@@ -43,17 +58,17 @@ class Entreprise extends Model
         return $this->hasOne(Abonnement::class)->where('statut', 'actif')->where('date_fin', '>=', now());
     }
 
-    public function isOnTrial()
+    public function isOnTrial() : bool
     {
-        return $this->trial_fin >= now(); // Exp : le 15/01 > aujourd'hui(05/01)
+        return $this->trial_actif &&  $this->trial_fin >= now(); // Exp : le 15/01 > aujourd'hui(05/01)
     }
 
-    public function trialExpire()
+    public function trialExpire() : bool
     {
-        return $this->trial_fin < now(); // Exp : le 15/01 < aujourd'hui(25/01)
+        return $this->trial_actif && $this->trial_fin < now(); // Exp : le 15/01 < aujourd'hui(25/01)
     }
 
-    public function abonnementValide()
+    public function abonnementValide() : bool
     {
         return $this->abonnement_expire_le && $this->abonnement_expire_le >= now(); // Exp : le 15/01 > aujourd'hui(05/01)
     }

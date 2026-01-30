@@ -10,6 +10,9 @@ class Pack extends Model
         'nom',
         'prix',
         'limites',
+        'max_client',
+        'max_produit',
+        'max_user',
     ];
 
     public function entreprises()
