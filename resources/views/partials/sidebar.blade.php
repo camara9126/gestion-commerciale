@@ -8,7 +8,7 @@
             <small class="text-white">{{ Auth::user()->entreprise->adresse }}</small>
         </div>
 
-        @if($entreprise->isOnTrial()) 
+        @if(!$entreprise->abonnementActif()) 
             <div class="px-3 py-4">
                 <marquee behavior="" direction="">Activer un abonnement</marquee>
                 <ul class="nav flex-column">
@@ -70,8 +70,7 @@
                             <i class="fas fa-cog" style="color: #ff9d1b;"></i> Compte
                         </a>
                     </li>                
-            @else
-                
+        @else
                     <li class="nav-item">
                         <a href="{{ route('dashboard.index') }}" class="nav-link" data-section="dashboard">
                             <i class="fas fa-home" style="color: #ff9d1b;"></i> Dashboard

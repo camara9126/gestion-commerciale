@@ -55,7 +55,7 @@ class Entreprise extends Model
 
      public function abonnementActif()
     {
-        return $this->hasOne(Abonnement::class)->where('statut', 'actif')->where('date_fin', '>=', now());
+        return $this->hasOne(Entreprise::class)->where('trial_actif', true)->where('abonnement_expire_le', '>=', now());
     }
 
     public function isOnTrial() : bool
@@ -70,7 +70,7 @@ class Entreprise extends Model
 
     public function abonnementValide() : bool
     {
-        return $this->abonnement_expire_le && $this->abonnement_expire_le >= now(); // Exp : le 15/01 > aujourd'hui(05/01)
+        return $this->abonnements()->where('statut', 'payé')->where('date_fin', '>=', now())->exists(); // Exp : le 15/01 > aujourd'hui(05/01)
     }
 
     

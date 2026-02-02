@@ -88,7 +88,7 @@ use Illuminate\Support\Facades\Auth;
         
         /* Carte d'abonnement */
         .subscription-card {
-            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            background: linear-gradient(135deg, #ff9d1b 0%, #00778b 50%);
             border-radius: 16px;
             padding: 30px;
             color: white;
@@ -190,7 +190,7 @@ use Illuminate\Support\Facades\Auth;
         
         .primary-btn {
             background-color: white;
-            color: #1e40af;
+            color: #00778b;
         }
         
         .primary-btn:hover {
@@ -235,7 +235,7 @@ use Illuminate\Support\Facades\Auth;
         }
         
         .pack-card.recommended {
-            border: 2px solid #3b82f6;
+            border: 2px solid #00778b;
             position: relative;
         }
         
@@ -243,7 +243,7 @@ use Illuminate\Support\Facades\Auth;
             position: absolute;
             top: -12px;
             right: 20px;
-            background-color: #3b82f6;
+            background-color: #00778b;
             color: white;
             padding: 5px 15px;
             border-radius: 20px;
@@ -266,7 +266,7 @@ use Illuminate\Support\Facades\Auth;
         .pack-price {
             font-size: 28px;
             font-weight: 700;
-            color: #1e40af;
+            color: #00778b;
             margin-bottom: 5px;
         }
         
@@ -309,12 +309,12 @@ use Illuminate\Support\Facades\Auth;
         }
         
         .pack-card.recommended .pack-btn {
-            background-color: #3b82f6;
+            background-color: #00778b;
             color: white;
         }
         
         .pack-card.recommended .pack-btn:hover {
-            background-color: #2563eb;
+            background-color: #00778b;
         }
         
         /* Responsive */
@@ -473,10 +473,10 @@ use Illuminate\Support\Facades\Auth;
                                 <p >Statut :  
                                     @if($entreprise->isOnTrial())
                                         <span class="badge bg-success">Essai gratuit actif</span>
+                                    @elseif($entreprise->abonnementValide())
+                                         <span class="badge bg-success">Actif</span>
                                     @elseif($entreprise->trialExpire())
                                         <span class="badge bg-danger">Essai gratuit termine</span>
-                                    @elseif($entreprise->abonnementPaye())
-                                         <span class="badge bg-success">Actif</span>
                                     @endif
                                  </p>
                             </div>
@@ -529,7 +529,7 @@ use Illuminate\Support\Facades\Auth;
 
                     <!-- Section des packs disponibles -->
                     <div class="available-packs">
-                            <h3 style="margin-bottom: 20px; color: #1e293b;">Packs disponibles</h3>   
+                            <h3 style="margin-bottom: 20px; color: #00778b;">Packs disponibles</h3>   
                             <div class="packs-grid">
                                 <!-- Pack Basique -->
                                 <div class="pack-card">
@@ -538,7 +538,7 @@ use Illuminate\Support\Facades\Auth;
                                     @endif
                                     <div class="pack-header">
                                         <div class="pack-name">Pack Starter</div>
-                                        <div class="pack-price">19,99 €</div>
+                                        <div class="pack-price">20.000 XOF</div>
                                         <div class="pack-period">par mois</div>
                                     </div>
                                     <ul class="pack-features">
@@ -570,7 +570,7 @@ use Illuminate\Support\Facades\Auth;
                                     @endif
                                     <div class="pack-header">
                                         <div class="pack-name">Pack Professionnel</div>
-                                        <div class="pack-price">49,99 €</div>
+                                        <div class="pack-price">25.000 XOF</div>
                                         <div class="pack-period">par mois</div>
                                     </div>
                                     <ul class="pack-features">
@@ -601,7 +601,7 @@ use Illuminate\Support\Facades\Auth;
                                     @endif
                                     <div class="pack-header">
                                         <div class="pack-name">Pack Entreprise</div>
-                                        <div class="pack-price">99,99 €</div>
+                                        <div class="pack-price">40.000XOF</div>
                                         <div class="pack-period">par mois</div>
                                     </div>
                                     <ul class="pack-features">

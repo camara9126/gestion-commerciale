@@ -19,12 +19,13 @@ class AbonnementController extends Controller
         $refCommande = 'ABN-' . Carbon::now()->format('YmdHis') . '-' . uniqid();
 
         // 2️⃣ Enregistrer le paiement en attente
-        $paiement = PaiementAbonnement::create([
+        PaiementAbonnement::create([
             'entreprise_id' => $entreprise->id,
             'pack_id'       => $pack->id,
             'montant'       => $pack->prix,
             'reference'     => $refCommande,
             'statut'        => 'en_attente',
+            'paid_at'       => now(),
         ]);
         //dd($paiement);
 
@@ -73,12 +74,11 @@ class AbonnementController extends Controller
     {
         $reference = $request->ref_command ?? null;
         $status    = $request->payment_status ?? null;
-        $abonnenemt = Abonnement::where('id', request()->user()->id)->first();
 
         if (!$reference) {
             return response('Référence manquante', 400);
         }
-
+        
         $paiement = PaiementAbonnement::where('reference', $reference)->first();
 
         if (!$paiement) {
@@ -92,11 +92,6 @@ class AbonnementController extends Controller
 
         if ($status === 'completed') {
 
-            // Mise a jour abonnement (Statut)
-            $abonnenemt->update([
-                'statut' =>'expire',
-            ]);
-
             // ✅ Paiement validé
             $paiement->update([
                 'statut' => 'payé',
@@ -106,11 +101,21 @@ class AbonnementController extends Controller
 
             $entreprise = $paiement->entreprise;
 
+            // Creer l'abonnement
+            Abonnement::create([
+                'entreprise_id' => $paiement->entreprise_id,
+                'pack_id' => $paiement->pack_id,
+                'statut' => 'payé',
+                'date_debut' =>$entreprise->created_at,
+                'date_fin' => $entreprise->abonnement_expire_le->addMonth(), // ou selon le pack
+            ]);
+
+
             // 📅 Activation ou prolongation abonnement
-            $expiration = $entreprise->date_expiration_abonnement;
+            $expiration = $entreprise->abonnement_expire_le;
 
             $entreprise->update([
-                'abonnement_actif' => true,
+                'trial_actif' => false,
                 'abonnement_expire_le' =>
                     $expiration && $expiration->isFuture()
                         ? $expiration->addMonth()
