@@ -1,5 +1,5 @@
  
-<x-app-layout>
+
    @include('partials.header')
    
     @if(Session::has('success'))
@@ -41,4 +41,4 @@
     </div>
 @include('partials.footer')
     
-</x-app-layout>
+

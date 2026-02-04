@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BizManager | Solution de Gestion Commerciale Intelligente</title>
+    <title>B-manager | Solution de Gestion Commerciale Intelligente</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Icon Image -->
+     <link rel="shortcut icon" href="{{asset('asset/logo/Logo B.Manager.png')}}"/>
     <style>
         :root {
-            --primary: #2c3e50;
-            --secondary: #3498db;
+            --primary: #ff9d1b;
+            --secondary: #00778b;
             --accent: #e74c3c;
             --light: #ecf0f1;
-            --dark: #1a2530;
+            --dark: #045765;
             --success: #2ecc71;
             --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             --border-radius: 8px;
@@ -34,7 +36,7 @@
             width: 90%;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 0;
         }
         
         /* Header & Navigation */
@@ -99,27 +101,45 @@
         }
         
         .cta-button:hover {
-            background-color: #2980b9;
+            background-color: #00778b;
+            transform: translateY(-2px);
+        }
+
+        .nav-button {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: var(--border-radius);
+            font-weight: 100;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        
+        .nav-button:hover {
+            background-color: #00778b;
             transform: translateY(-2px);
         }
         
         .mobile-menu {
             display: none;
             font-size: 1.5rem;
+            padding-left: 0;
             cursor: pointer;
         }
         
         /* Hero Section */
         .hero {
-            padding: 150px 0 100px;
+            padding: 100px 0 50px;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             text-align: center;
         }
         
-        .hero h1 {
-            font-size: 3.2rem;
+        .hero h4 {
+            font-size: 2.2rem;
             color: var(--primary);
             margin-bottom: 20px;
+            margin-top: 20px;
             line-height: 1.2;
         }
         
@@ -169,7 +189,7 @@
         
         /* Features Section */
         .features {
-            padding: 100px 0;
+            padding: 50px 0;
             background-color: white;
         }
         
@@ -231,7 +251,7 @@
         
         /* Pricing Section */
         .pricing {
-            padding: 100px 0;
+            padding: 50px 0;
             background-color: #f5f7fa;
         }
         
@@ -332,7 +352,7 @@
         
         /* CTA Section */
         .cta-section {
-            padding: 100px 0;
+            padding: 80px 0;
             background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
             color: white;
             text-align: center;
@@ -452,7 +472,10 @@
         <div class="container">
             <nav>
                 <div class="logo">
-                    <i class="fas fa-chart-line"></i>
+                    <a href="/">
+                        <img src="{{asset('asset/logo/Logo B.Manager.png')}}" width="50" alt="">
+                    </a>
+                    <!--<i class="fas fa-chart-line"></i>-->
                     <span>Bmanager</span>
                 </div>
                 <ul class="nav-links">
@@ -464,10 +487,10 @@
                
 
                 @auth
-                    <a href="{{route('dashboard.index')}}" class="cta-button">Dashboard</a>
+                    <a href="{{route('dashboard.index')}}" class="nav-button">Dashboard</a>
                 @else 
                 <a href="{{route('login')}}">
-                    <button class="cta-button">Essai Gratuit</button>
+                    <button class="nav-button">Connexion</button>
                 </a>
                 @endauth
                 <div class="mobile-menu">
@@ -478,19 +501,19 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero mt-0 mb-1">
         <div class="container">
-            <h1>Gérez votre activité commerciale avec simplicité</h1>
-            <p>BizManager est la solution tout-en-un pour gérer vos clients, ventes, factures et stocks. Optimisez vos processus commerciaux et augmentez votre productivité dès aujourd'hui.</p>
+            <h4>Gérez votre activité commerciale avec simplicité</h4>
+            <p><span style="color: #045765;">B-manager</span> est la solution tout-en-un pour gérer vos clients, ventes, factures et stocks. Optimisez vos processus commerciaux et augmentez votre productivité dès aujourd'hui.</p>
             <div class="hero-buttons">
-                <button class="cta-button">Commencer l'essai gratuit</button>
+                <a href="{{route('register')}}" class="cta-button">Commencer l'essai gratuit</a>
                 <button class="secondary-button">
                     <i class="fas fa-play-circle"></i> Voir la démo
                 </button>
             </div>
             <div class="hero-image">
                 <!-- Image placeholder - would be replaced with actual app screenshot -->
-                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 400px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
+                <div style="background: linear-gradient(135deg, #00778b 0%, #ff9d1b 100%); height: 400px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
                     <div style="text-align: center;">
                         <i class="fas fa-desktop" style="font-size: 4rem; margin-bottom: 20px;"></i>
                         <p>Interface de BizManager</p>
@@ -501,7 +524,7 @@
     </section>
 
     <!-- Features Section -->
-    <section id="features" class="features">
+    <section id="features" class="features mt-0 mb-1">
         <div class="container">
             <div class="section-title">
                 <h2>Fonctionnalités puissantes</h2>
@@ -534,7 +557,7 @@
     </section>
 
     <!-- Pricing Section -->
-    <section id="pricing" class="pricing">
+    <section id="pricing" class="pricing mt-0 mb-1">
         <div class="container">
             <div class="section-title">
                 <h2>Choisissez votre formule</h2>
@@ -548,7 +571,7 @@
                         <p>Parfait pour les indépendants et petites entreprises</p>
                     </div>
                     <div class="price">
-                        <div class="price-amount">25.000 XOF</div>
+                        <div class="price-amount">20.000 XOF</div>
                         <div class="price-period">par mois</div>
                     </div>
                     <ul class="pricing-features">
@@ -563,7 +586,7 @@
                         <li class="disabled"><i class="fas fa-times"></i> Intégrations API</li>
                         <li class="disabled"><i class="fas fa-times"></i> Formation personnalisée</li>
                     </ul>
-                    <a href="{{route('register')}}" class="cta-button" style="width: 100%;">Souscrire</a>
+                    <!--<a href="{{route('register')}}" class="cta-button" style="width: 100%;">Souscrire</a>-->
                 </div>
 
                 <!-- Pack Professionnel (Most Popular) -->
@@ -574,7 +597,7 @@
                         <p>Idéal pour les PME en croissance</p>
                     </div>
                     <div class="price">
-                        <div class="price-amount">30.000 XOF</div>
+                        <div class="price-amount">25.000 XOF</div>
                         <div class="price-period">par mois</div>
                         <div class="price-savings">Économisez 20% avec l'abonnement annuel</div>
                     </div>
@@ -589,7 +612,7 @@
                         <!--<li><i class="fas fa-check"></i> Intégrations API</li>-->
                         <li class="disabled"><i class="fas fa-times"></i> Formation personnalisée</li>
                     </ul>
-                    <a href="{{route('register')}}" class="cta-button" style="width: 100%; background-color: var(--accent);">Souscrire</a>
+                    <!--<a href="{{route('register')}}" class="cta-button" style="width: 100%; background-color: var(--accent);">Souscrire</a>-->
                 </div>
 
                 <!-- Pack Entreprise -->
@@ -613,10 +636,13 @@
                         <li><i class="fas fa-check"></i> Analytics avancés</li>
                         <li><i class="fas fa-check"></i> Formation personnalisée</li>
                     </ul>
-                    <a href="{{route('register')}}" class="cta-button" style="width: 100%;">Nous contacter</a>
+                    <!--<a href="{{route('register')}}" class="cta-button" style="width: 100%;">Nous contacter</a>-->
                 </div>
             </div>
-            <p style="text-align: center; margin-top: 40px; color: #666;">Tous les plans incluent un essai gratuit de 12 jours. Aucune carte de crédit requise.</p>
+            <p style="text-align: center; margin-top: 40px; color: #666;">
+                Tous les plans incluent un essai gratuit de 12 jours. Aucune carte de crédit requise. <br><br>
+                <a href="{{route('register')}}" class="cta-button" style="width: 100%;">Commencer l'essai gratuit</a>
+            </p>
         </div>
     </section>
 
@@ -625,7 +651,7 @@
         <div class="container">
             <h2>Prêt à transformer votre gestion commerciale ?</h2>
             <p>Rejoignez plus de 5 000 entreprises qui utilisent déjà BizManager pour optimiser leurs processus et augmenter leurs revenus.</p>
-            <a href="{{route('register')}}" class="cta-button" style="font-size: 1.1rem; padding: 15px 40px;">Commencer l'essai gratuit maintenant</a>
+            <a href="{{route('register')}}" class="cta-button" style="font-size: 1.1rem;">Commencer maintenant</a>
         </div>
     </section>
 
@@ -674,7 +700,7 @@
         // Mobile menu toggle
         document.querySelector('.mobile-menu').addEventListener('click', function() {
             const navLinks = document.querySelector('.nav-links');
-            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'block';
         });
 
         // Smooth scrolling for anchor links

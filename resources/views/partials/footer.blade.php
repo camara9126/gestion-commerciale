@@ -3,7 +3,7 @@
             <div class="container-fluid">
                 <div class="row align-items-center">
                     <div class="col-md-6">
-                        <p class="mb-0 text-muted">© 2026 Ges-Com. Tous droits réservés.</p>
+                        <p class="mb-0 text-muted">© <?= now()->year ?> B-Manager. Tous droits réservés.</p>
                     </div>
                     <div class="col-md-6 text-md-end">
                         <p class="mb-0 text-muted">Version 1.0.0</p>

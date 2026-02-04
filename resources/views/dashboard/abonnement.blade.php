@@ -1,14 +1,10 @@
-<?php
-
-use Illuminate\Support\Facades\Auth;
-?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>BizManager - Gestion Commerciale</title>
+    <title>B-Manager - Gestion Commerciale</title>
     
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -65,7 +61,7 @@ use Illuminate\Support\Facades\Auth;
         }
         
         .section-title h2 i {
-            color: #3b82f6;
+            color: #00778b;
         }
         
         .manage-btn {
@@ -444,6 +440,7 @@ use Illuminate\Support\Facades\Auth;
         
         <!-- Content Area -->
         <div class="container-fluid p-3 p-md-4" id="contentArea">
+
             <!-- Dashboard Section -->
             <section id="dashboard" class="content-section">
                 <!-- Stats Row -->
@@ -456,6 +453,7 @@ use Illuminate\Support\Facades\Auth;
                         {{ Session::get('danger') }}
                     </div>
                 @endif        
+
                 <!-- Section Abonnement -->
                 <div class="subscription-section">
                     <div class="section-title">
@@ -496,19 +494,19 @@ use Illuminate\Support\Facades\Auth;
                             <div class="detail-item">
                                 <h4>Utilisateurs inclus</h4>
                                 @if($entreprise->pack->nom == 'starter')
-                                    <div class="detail-value">1 <span style="font-size: 14px; opacity: 0.9;">utilisateur</span></div>
-                                @elseif($entreprise->pack->nom == 'entreprise')
-                                    <div class="detail-value">3 <span style="font-size: 14px; opacity: 0.9;">utilisateurs</span></div>
+                                    <div class="detail-value">{{$entreprise->pack->max_user}} <span style="font-size: 14px; opacity: 0.9;">utilisateur</span></div>
+                                @elseif($entreprise->pack->nom == 'professionnel')
+                                    <div class="detail-value">{{$entreprise->pack->max_user}} <span style="font-size: 14px; opacity: 0.9;">utilisateurs</span></div>
                                 @else
-                                    <div class="detail-value"><span style="font-size: 14px; opacity: 0.9;">illimités</span></div>
+                                    <div class="detail-value"><span style="font-size: 14px; opacity: 0.9;">Jusqu'a 10 </span></div>
                                 @endif
                             </div>
                             <div class="detail-item">
                                 <h4>Nombre de produits</h4>
                                 @if($entreprise->pack->nom == 'starter')
-                                    <div class="detail-value">80 <span style="font-size: 14px; opacity: 0.9;">produits</span></div>
-                                @elseif($entreprise->pack->nom == 'entreprise')
-                                    <div class="detail-value">200 <span style="font-size: 14px; opacity: 0.9;">produits</span></div>
+                                    <div class="detail-value">{{$entreprise->pack->max_produit}} <span style="font-size: 14px; opacity: 0.9;">produits</span></div>
+                                @elseif($entreprise->pack->nom == 'professionnel')
+                                    <div class="detail-value">{{$entreprise->pack->max_produit}} <span style="font-size: 14px; opacity: 0.9;">produits</span></div>
                                 @else
                                     <div class="detail-value"><span style="font-size: 14px; opacity: 0.9;">illimités</span></div>
                                 @endif
@@ -628,6 +626,7 @@ use Illuminate\Support\Facades\Auth;
                 </div>
             </section>
         </div>
-        
+    </div>
+    
 
 @include('partials.footer')

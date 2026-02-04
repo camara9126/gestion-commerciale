@@ -47,7 +47,7 @@
 
             <div>
                 <x-input-label for="pack" :value="__('Pack Abonnement')" />
-                <x-text-input id="nom" name="" readOnly type="text" class="mt-1 block w-full" :value="old('nom', $entreprise->pack->nom .'-'.$entreprise->pack->prix.'/mois')" required autofocus autocomplete="nom" />
+                <x-text-input id="nom" name="" readOnly type="text" class="mt-1 block w-full" :value="old('nom', $entreprise->pack->nom .' ('.$entreprise->pack->prix.'/mois)')" required autofocus autocomplete="nom" />
                 <x-input-error class="mt-2" :messages="$errors->get('pack')" />
             </div>
 

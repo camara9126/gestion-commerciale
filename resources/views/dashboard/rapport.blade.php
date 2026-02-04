@@ -585,13 +585,13 @@ use Illuminate\Support\Facades\Auth;
                                 <option>2023</option>
                                 <option selected>2024</option>
                             </select>--> 
-                            <div class="export-buttons">
+                            <!--<div class="export-buttons">
                                 <button class="btn btn-secondary" onclick="exportData('png')">Export PNG</button>
                                 <button class="btn btn-primary" onclick="exportData('pdf')">Export PDF</button>
-                            </div>
+                            </div>-->
                         </div>
                     </header>
-                    <div class="row mb-3">
+                    <div class="row mb-5">
                             <h5>Solvabilité de l’entreprise</h5>
                         <div class="col-12">
                             <div class="stats-summary">
@@ -645,10 +645,14 @@ use Illuminate\Support\Facades\Auth;
                                 </div>
                             </div>
                         </div>
-                       <!-- <div class="col-12">
-                            <h5>Solvabilité de l’entreprise</h5>
+                        <div class="col-12">
+                            @if( $entreprise->statut_solvabilite == 'solvable')
+                                <h5><span class="text-success" style="text-decoration: underline;">NB :</span> Votre entreprise est solvable .</h5>
+                            @else
+                                <h5><span class="text-danger"style="text-decoration: underline;">NB :</span> Votre entreprise est insolvable .</h5>
+                            @endif
 
-                            <p>Recettes : {{ number_format($entreprise->total_recettes, 0, ',', ' ') }} XOF</p>
+                            <!--<p>Recettes : {{ number_format($entreprise->total_recettes, 0, ',', ' ') }} XOF</p>
                             <p>Dépenses : {{ number_format($entreprise->total_depenses, 0, ',', ' ') }} XOF</p>
                             <p>Trésorerie : 
                                 <strong class="{{ $entreprise->tresorerie >= 0 ? 'text-success' : 'text-danger' }}">
@@ -659,53 +663,58 @@ use Illuminate\Support\Facades\Auth;
                             <span class="badge 
                                 {{ $entreprise->statut_solvabilite == 'solvable' ? 'bg-success' : 'bg-danger' }}">
                                 {{ ucfirst($entreprise->statut_solvabilite) }}
-                            </span>
-                        </div>-->
+                            </span>-->
+                        </div>
                     </div>
 
-                    <h5>Donnees Statistiques :</h5>
+                   
+                    <h5>Donnees Statistiques mensuels:</h5>
                     <div class="stats-summary mb-3"> 
                         @include('partials.data')
                     </div>
 
-                    <h5> Diagrammes graphiques :</h5>
-                    <div class="charts-container">
-                        <div class="chart-card">
-                            <div class="chart-header">
-                                <h2>Commandes Mensuelles</h2>
+                    <h5> Diagrammes graphiques mensuels:</h5>
+                    @if($entreprise->pack->nom == 'starter')
+                        <p>Ces diagrammes sont disponibles que pour les abonnements <span style="color: #00778b;">Entreprise</span> et <span style="color: #00778b;">Professionnel</span>.</p>
+                    @else
+                        <div class="charts-container">
+                            <div class="chart-card">
+                                <div class="chart-header">
+                                    <h2>Commandes Mensuelles</h2>
+                                </div>
+                                <div class="chart-wrapper">
+                                    <canvas id="ordersChart"></canvas>
+                                </div>
                             </div>
-                            <div class="chart-wrapper">
-                                <canvas id="ordersChart"></canvas>
-                            </div>
-                        </div>
 
-                        <div class="chart-card">
-                            <div class="chart-header">
-                                <h2>Recette Mensuel</h2>
+                            <div class="chart-card">
+                                <div class="chart-header">
+                                    <h2>Recette Mensuel</h2>
+                                </div>
+                                <div class="chart-wrapper">
+                                    <canvas id="revenueChart"></canvas>
+                                </div>
                             </div>
-                            <div class="chart-wrapper">
-                                <canvas id="revenueChart"></canvas>
-                            </div>
-                        </div>
 
-                        <div class="chart-card">
-                            <div class="chart-header">
-                                <h2>Top Produits du Mois</h2>
+                            <div class="chart-card">
+                                <div class="chart-header">
+                                    <h2>Top Produits du Mois</h2>
+                                </div>
+                                <div class="chart-wrapper">
+                                    <canvas id="productsChart"></canvas>
+                                </div>
                             </div>
-                            <div class="chart-wrapper">
-                                <canvas id="productsChart"></canvas>
-                            </div>
-                        </div>
 
-                        <div class="chart-card">
-                            <div class="chart-header">
-                                <h2>Statut des Commandes</h2>
-                            </div>
-                            <div class="chart-wrapper">
-                                <canvas id="statusChart"></canvas>
+                            <div class="chart-card">
+                                <div class="chart-header">
+                                    <h2>Statut des Commandes</h2>
+                                </div>
+                                <div class="chart-wrapper">
+                                    <canvas id="statusChart"></canvas>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
             </section>
 
@@ -716,7 +725,7 @@ use Illuminate\Support\Facades\Auth;
             <div class="container-fluid">
                 <div class="row align-items-center">
                     <div class="col-md-6">
-                        <p class="mb-0 text-muted">© 2023 BizManager. Tous droits réservés.</p>
+                        <p class="mb-0 text-muted">© <?= now()->year ?> B-Manager. Tous droits réservés.</p>
                     </div>
                     <div class="col-md-6 text-md-end">
                         <p class="mb-0 text-muted">Version 1.0.0</p>

@@ -96,7 +96,7 @@ class AbonnementController extends Controller
             $paiement->update([
                 'statut' => 'payé',
                 'moyen_paiement' => $request->payment_method,
-                'paid_at' => now()
+                'paid_at' => now(),
             ]);
 
             $entreprise = $paiement->entreprise;
@@ -106,6 +106,7 @@ class AbonnementController extends Controller
                 'entreprise_id' => $paiement->entreprise_id,
                 'pack_id' => $paiement->pack_id,
                 'statut' => 'payé',
+                'montant' => $paiement->montant,
                 'date_debut' =>$entreprise->created_at,
                 'date_fin' => $entreprise->abonnement_expire_le->addMonth(), // ou selon le pack
             ]);

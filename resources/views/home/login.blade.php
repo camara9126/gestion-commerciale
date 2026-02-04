@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion | GestionPro</title>
+    <title>Connexion | Bmanager</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Icon Image -->
+     <link rel="shortcut icon" href="{{asset('asset/logo/Logo B.Manager.png')}}"/>
     <style>
         * {
             margin: 0;
@@ -44,7 +46,7 @@
             display: flex;
             align-items: center;
             margin-bottom: 2.5rem;
-            color: #3b82f6;
+            color: #00778b;
         }
         
         .logo i {
@@ -109,7 +111,7 @@
         
         .input-with-icon input:focus {
             outline: none;
-            border-color: #3b82f6;
+            border-color: #00778b;
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
         
@@ -139,7 +141,7 @@
         }
         
         .forgot-password {
-            color: #3b82f6;
+            color: #00778b;
             text-decoration: none;
             font-size: 0.9rem;
         }
@@ -151,7 +153,7 @@
         .btn-primary {
             width: 100%;
             padding: 14px;
-            background-color: #3b82f6;
+            background-color: #00778b;
             color: white;
             border: none;
             border-radius: 6px;
@@ -163,7 +165,7 @@
         }
         
         .btn-primary:hover {
-            background-color: #2563eb;
+            background-color: #ff9d1b;
         }
         
         .divider {
@@ -228,7 +230,7 @@
         }
         
         .signup-link a {
-            color: #3b82f6;
+            color: #00778b;
             font-weight: 500;
             text-decoration: none;
         }
@@ -240,7 +242,7 @@
         /* Section droite avec statistiques */
         .stats-section {
             flex: 1;
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            background: linear-gradient(135deg, #00778b 60%, #ff9d1b 100%);
             color: white;
             padding: 3rem;
             display: flex;
@@ -311,7 +313,7 @@
         
         .demo-credentials {
             background-color: #f0f9ff;
-            border-left: 4px solid #3b82f6;
+            border-left: 4px solid #00778b;
             padding: 1rem;
             margin-bottom: 1.5rem;
             border-radius: 4px;
@@ -363,7 +365,7 @@
         }
         
         .footer a {
-            color: #3b82f6;
+            color: #00778b;
             text-decoration: none;
         }
     </style>
@@ -373,8 +375,11 @@
         <!-- Section formulaire -->
         <section class="form-section">
             <div class="logo">
-                <i class="fas fa-chart-line"></i>
-                <h1>GestionPro</h1>
+                <a href="/">
+                    <img src="{{asset('asset/logo/Logo B.Manager.png')}}" width="100" alt="">
+                </a>
+                <!--<i class="fas fa-chart-line"></i>-->
+                <h1>B-manager</h1>
             </div>
             
             <div class="header-text">

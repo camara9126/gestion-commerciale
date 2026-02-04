@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Création de compte | GestionPro</title>
+    <title>Création de compte | Bmanager</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Icon Image -->
+     <link rel="shortcut icon" href="{{asset('asset/logo/Logo B.Manager.png')}}"/>
     <style>
         * {
             margin: 0;
@@ -35,7 +37,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            max-width: 600px;
+            max-width: 1000px;
             margin: 0 auto;
         }
         
@@ -43,7 +45,7 @@
             display: flex;
             align-items: center;
             margin-bottom: 2.5rem;
-            color: #3b82f6;
+            color: #00778b;
         }
         
         .logo i {
@@ -108,7 +110,7 @@
         
         .input-with-icon input:focus {
             outline: none;
-            border-color: #3b82f6;
+            border-color: #ff9d1b;
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
         
@@ -138,7 +140,7 @@
         }
         
         .terms a {
-            color: #3b82f6;
+            color: #00778b;
             text-decoration: none;
         }
         
@@ -149,7 +151,7 @@
         .btn-primary {
             width: 100%;
             padding: 14px;
-            background-color: #3b82f6;
+            background-color: #00778b;
             color: white;
             border: none;
             border-radius: 6px;
@@ -160,7 +162,7 @@
         }
         
         .btn-primary:hover {
-            background-color: #2563eb;
+            background-color: #ff9d1b;
         }
         
         .divider {
@@ -215,7 +217,7 @@
         }
         
         .microsoft-btn {
-            color: #00a4ef;
+            color: #ff9d1b;
         }
         
         .login-link {
@@ -225,7 +227,7 @@
         }
         
         .login-link a {
-            color: #3b82f6;
+            color: #00778b;
             font-weight: 500;
             text-decoration: none;
         }
@@ -237,7 +239,7 @@
         /* Section droite avec illustration */
         .illustration-section {
             flex: 1;
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            background: linear-gradient(135deg, #00778b 0%, #ff9d1b 100%);
             color: white;
             padding: 3rem;
             display: flex;
@@ -327,7 +329,7 @@
         }
         
         .footer a {
-            color: #3b82f6;
+            color: #00778b;
             text-decoration: none;
         }
     </style>
@@ -336,9 +338,12 @@
     <div class="container">
         <!-- Section formulaire -->
         <section class="form-section">
-            <div class="logo">
-                <i class="fas fa-chart-line"></i>
-                <h1>GestionPro</h1>
+             <div class="logo">
+                <a href="/">
+                    <img src="{{asset('asset/logo/Logo B.Manager.png')}}" width="100" alt="">
+                </a>
+                <!--<i class="fas fa-chart-line"></i>-->
+                <h1>B-manager</h1>
             </div>
             
             <div class="header-text">
@@ -358,68 +363,82 @@
                     </div>
                 @endif
             <div class="form-container">
-                <form id="signupForm" method="post" action="{{route('register') }}">
+                <form id="" method="post" action="{{route('register') }}">
                     @csrf
-                    <div class="form-group">
-                        <label for="fullName">Nom complet &nbsp;<span style="color: red;">*</span></label>
-                        <div class="input-with-icon">
-                            <i class="fas fa-user"></i>
-                            <input type="text" id="name" name="name" placeholder="Jean Dupont" required>
-                        </div>
-                        <div class="error-message" id="nameError">Veuillez saisir votre nom complet</div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email">Adresse email &nbsp;<span style="color: red;">*</span></label>
-                        <div class="input-with-icon">
-                            <i class="fas fa-envelope"></i>
-                            <input type="email" id="email" name="email" placeholder="jean.dupont@entreprise.com" required>
-                        </div>
-                        <div class="error-message" id="emailError">Veuillez saisir une adresse email valide</div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="company">Nom de l'entreprise &nbsp;<span style="color: red;">*</span></label>
-                        <div class="input-with-icon">
-                            <i class="fas fa-building"></i>
-                            <input type="text" id="company" name="entreprise_nom" placeholder="Dupont & Cie" required>
-                        </div>
-                        <div class="error-message" id="companyError">Veuillez saisir le nom de votre entreprise</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="company">TVA</label>
-                        <div class="input-with-icon">
-                            <i class="fa-percent"></i>
-                            <input type="text" id="tva" name="taux_tva" placeholder="Exp : 18" >
-                        </div>
-                        <div class="error-message" id="companyError">Veuillez saisir le TVA de votre entreprise</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="company">Choisisser votre pack &nbsp;<span style="color: red;">*</span></label>
-                        <div class="row">
-                            @foreach($packs as $pack)
-                            <div class="col-4">
-                                <div class="card mb-2">
-                                    <div class="card-body">
-                                        <input type="radio" name="pack_id" value="{{ $pack->id }}" required>
-                                        <strong>{{ ucfirst($pack->nom) }}</strong>
-                                        – {{ number_format($pack->prix, 0, ',', ' ') }} XOF / mois
-                                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="fullName">Nom complet &nbsp;<span style="color: red;">*</span></label>
+                                <div class="input-with-icon">
+                                    <i class="fas fa-user"></i>
+                                    <input type="text" id="name" name="name" placeholder="Jean Dupont" required>
                                 </div>
+                                <div class="error-message" id="nameError">Veuillez saisir votre nom complet</div>
                             </div>
-                             @endforeach
                         </div>
-                        <div class="error-message" id="companyError">Veuillez saisir le nom de votre entreprise</div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="email">Adresse email &nbsp;<span style="color: red;">*</span></label>
+                                <div class="input-with-icon">
+                                    <i class="fas fa-envelope"></i>
+                                    <input type="email" id="email" name="email" placeholder="exemple@entreprise.com" required>
+                                </div>
+                                <div class="error-message" id="emailError">Veuillez saisir une adresse email valide</div>
+                            </div>
+                        </div>
                     </div>
-                    
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="company">Nom de l'entreprise &nbsp;<span style="color: red;">*</span></label>
+                                <div class="input-with-icon">
+                                    <i class="fas fa-building"></i>
+                                    <input type="text" id="company" name="entreprise_nom" placeholder="Exp : Bmanger" required>
+                                </div>
+                                <div class="error-message" id="companyError">Veuillez saisir le nom de votre entreprise</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="company">TVA</label>
+                                <div class="input-with-icon">
+                                    <i class="fa-percent"></i>
+                                    <input type="text" id="tva" name="taux_tva" placeholder="Exp : 18" >
+                                </div>
+                                <div class="error-message" id="companyError">Veuillez saisir le TVA de votre entreprise</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="company">Choisisser votre pack &nbsp;<span style="color: red;">*</span></label>
+                                <div class="row">
+                                    @foreach($packs as $pack)
+                                    <div class="col-4">
+                                        <div class="card mb-2">
+                                            <div class="card-body">
+                                                <input type="radio" name="pack_id" value="{{ $pack->id }}" required>
+                                                <strong>{{ ucfirst($pack->nom) }}</strong>
+                                                – {{ number_format($pack->prix, 0, ',', ' ') }} XOF / mois
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
+                                <div class="error-message" id="companyError">Veuillez saisir le nom de votre entreprise</div>
+                            </div>                            
+                        </div>
+                    </div>
+ 
                     <div class="form-group">
                         <label for="password">Mot de passe &nbsp;<span style="color: red;">*</span></label>
                         <div class="input-with-icon">
-                            <i class="fas fa-lock"></i>
+                            <i class="fas fa-lock"> &nbsp; <i class="fas fa-eye password-toggle" id="togglePassword">&nbsp;</i></i>
                             <input type="password" id="password" name="password" placeholder="Créez un mot de passe sécurisé" required>
-                            <i class="fas fa-eye password-toggle" id="togglePassword"></i>
+                            
                         </div>
                         <div class="error-message" id="passwordError">Le mot de passe doit contenir au moins 8 caractères dont une majuscule et un chiffre</div>
                     </div>
@@ -461,7 +480,7 @@
         </section>
         
         <!-- Section illustration (visible sur grands écrans) -->
-        <!--<section class="illustration-section">
+        <section class="illustration-section">
             <div class="illustration-container">
                 <h2>Optimisez la gestion de votre entreprise</h2>
                 <p>Rejoignez des milliers d'entreprises qui utilisent déjà GestionPro pour simplifier leurs opérations quotidiennes.</p>
@@ -492,11 +511,11 @@
                     </div>
                 </div>
             </div>
-        </section>-->
+        </section>
     </div>
     
     <footer class="footer">
-        <p>© 2023 GestionPro. Tous droits réservés. | <a href="#">Politique de confidentialité</a> | <a href="#">Conditions d'utilisation</a></p>
+        <p>© <?= now()->year ?> GestionPro. Tous droits réservés. | <a href="#">Politique de confidentialité</a> | <a href="#">Conditions d'utilisation</a></p>
     </footer>
 
     <script>

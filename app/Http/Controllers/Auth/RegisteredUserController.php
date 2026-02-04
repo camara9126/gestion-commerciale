@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Abonnement;
 use App\Models\Entreprise;
 use App\Models\Pack;
 use App\Models\User;

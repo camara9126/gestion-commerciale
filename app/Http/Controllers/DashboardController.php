@@ -66,7 +66,7 @@ class DashboardController extends Controller
 
 
         /* 3️⃣ Top produits du mois */
-        $topProduits = VenteItem::selectRaw('produit_id, SUM(quantite) as total')->whereMonth('created_at', $mois)->whereYear('created_at', $annee)->groupBy('produit_id')->orderByDesc('total')->with('produit:id,nom')->limit(5)->get();
+        $topProduits = VenteItem::selectRaw('produit_id, SUM(quantite) as total')->where('entreprise_id', $entreprise->Id)->whereMonth('created_at', $mois)->whereYear('created_at', $annee)->groupBy('produit_id')->orderByDesc('total')->with('produit:id,nom')->limit(5)->get();
 
         $topProduitsLabels = $topProduits->pluck('produit.nom');
         $topProduitsData = $topProduits->pluck('total');
