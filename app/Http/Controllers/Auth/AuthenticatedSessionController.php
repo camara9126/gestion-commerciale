@@ -30,9 +30,16 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        // Migration sur la page abonnement si le l'essai gratuit est termine
         if($entreprise->trialExpire()) {
              return redirect()->route('dashboard.abonnement');
+        } 
+
+        //partie super administrateur
+        if($entreprise->id == 2) {
+            return redirect()->route('entreprise.index');
         }
+        
         return redirect()->intended(route('dashboard.index', absolute: false));
     }
 

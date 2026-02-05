@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Entreprise;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
@@ -72,6 +73,43 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
+
+     /**
+     * Update the entreprise's profile information..
+     */
+    public function entrepriseUpdate(Request $request, string $entreprise)
+    {
+        $entreprise = Entreprise::FindOrFail($entreprise);
+
+         $request->validate([
+            'telephone' => 'nullable|string|max:50',
+            'taux_tva' => 'numeric|max:100',
+            'adresse' => 'nullable|string',
+            'logo',
+        ]);
+
+        // Gestion des logo
+        if ($request->hasFile('logo')) {
+            $filename = time().$request->file('logo')->getClientOriginalName();
+            $path = $request->file('logo')->storeAs('logo', $filename, 'public');
+            $request['logo'] = '/storage/' . $path;
+        }
+
+        $entreprise->update([
+            'telephone' => $request->telephone,
+            'taux_tva' => $request->taux_tva,
+            'adresse' => $request->adresse,
+            'logo' => $path  ?? null,
+        ]);
+
+        // Lier l'utilisateur a l'entreprise
+        $user= $request->user();
+        $user->entreprise_id = $entreprise->id;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Entreprise mise a jour avec success');
+    }
+
     /**
      * Delete the user's account.
      */
@@ -105,7 +143,8 @@ class ProfileController extends Controller
         $pack = $user->entreprise->pack;
 
         if($user->entreprise->users()->count() >= $pack->max_user) {
-            return redirect()->back()->with('warning', 'Limite du pack atteinte. Passez au pack supérieur.');
+
+            return redirect()->back()->with('danger', 'Limite du pack atteinte. Passez au pack supérieur.');
 
         };
 

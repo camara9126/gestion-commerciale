@@ -18,7 +18,7 @@ class CheckAccess
         $entreprise = request()->user()->entreprise;
 
         if(!$entreprise || !$entreprise->aAcces()) {
-            return redirect()->route('abonnement.bloque');
+            return redirect()->route('home');
         }
         
         return $next($request);

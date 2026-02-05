@@ -72,8 +72,8 @@
                                                             <form action="{{ route('paiements.annuler', $p->id) }}" method="POST" onsubmit="return confirm('Confirmer l’annulation du paiement ?')">
                                                                 @csrf
                                                                 @method('PUT')
-                                                                <button class="btn btn-danger btn-sm">
-                                                                    Annuler
+                                                                <button class="btn btn-outline-danger btn-sm">
+                                                                    Annuler le paiement
                                                                 </button>
                                                             </form>
                                                         @endif                                    

@@ -1,16 +1,4 @@
- 
-
-   @include('partials.header')
-   
-    @if(Session::has('success'))
-        <div class="alert alert-success" role="alert">
-            {{ Session::get('success') }}
-        </div>
-    @elseif(Session::has('danger'))
-        <div class="alert alert-danger" role="alert">
-            {{ Session::get('danger') }}
-        </div>
-    @endif
+  @include('partials.header')
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
@@ -22,6 +10,15 @@
 
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-xl">
+                     @if(Session::has('success'))
+                        <div class="alert alert-success" role="alert">
+                            {{ Session::get('success') }}
+                        </div>
+                    @elseif(Session::has('danger'))
+                        <div class="alert alert-danger" role="alert">
+                            {{ Session::get('danger') }}
+                        </div>
+                    @endif
                     @include('profile.partials.update-entreprise-information-form')
                 </div>
             </div>

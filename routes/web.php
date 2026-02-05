@@ -12,30 +12,27 @@ use App\Http\Controllers\Inventaire\ProduitController;
 use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StockController;
-use App\Models\Abonnement;
-use App\Models\Client;
 use App\Models\Fournisseur;
 use App\Models\Produit;
 use App\Models\StockMouvement;
-use App\Models\Vente;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home.index');
-});
+})->name('home');
 
-Route::get('home', function () {
-    return view('home.index');
-});
+Route::get('apropos', function () {
+    return view('home.apropos');
+})->name('apropos');
 
-Route::get('new', function () {
-    return view('home.register');
-});
+Route::get('contact', function () {
+    return view('home.contact');
+})->name('contact');
 
-Route::get('user', function () {
-    return view('home.login');
-})->name('user');
+Route::get('politiques-conditions', function () {
+    return view('home.politiquesEtConditions');
+})->name('politiques');
 
 
 Route::get('test', function () {
@@ -55,6 +52,7 @@ Route::get('rapport', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/entreprise/{entreprise}', [ProfileController::class, 'entrepriseUpdate'])->name('entreprise.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Ajout utilisateur par l'admin
@@ -85,11 +83,10 @@ Route::middleware(['auth', 'entreprise.exists'])->group(function () {
     Route::get('/abonnement', [DashboardController::class, 'abonnement'])->name('dashboard.abonnement');
 });
 
-// Route Entreprise
+// Route Super Administrateur (Webmaster)
 Route::middleware(['auth'])->group(function () {
-    Route::get('entreprise/create', [EntrepriseControleer::class, 'create'])->name('entreprise.create');
-    Route::post('entreprise/store', [EntrepriseControleer::class, 'store'])->name('entreprise.store');
-    Route::patch('entreprise/update', [EntrepriseControleer::class, 'update'])->name('entreprise.update');
+    Route::get('entreprise.index', [EntrepriseControleer::class, 'index'])->name('entreprise.index');
+    Route::get('entreprise', [EntrepriseControleer::class, 'utilisateurs'])->name('entreprise.utilisateurs');
 });
 
 // Route Inventaire (fournisseurs - produits - stock - mouvements)

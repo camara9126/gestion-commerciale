@@ -6,7 +6,7 @@
     <title>Création de compte | Bmanager</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Icon Image -->
-     <link rel="shortcut icon" href="{{asset('asset/logo/Logo B.Manager.png')}}"/>
+    <link rel="shortcut icon" href="{{asset('asset/logo/Logo B.Manager.png')}}"/>
     <style>
         * {
             margin: 0;
@@ -454,7 +454,7 @@
                     
                     <div class="terms">
                         <input type="checkbox" id="terms" required>
-                        <label for="terms">J'accepte les <a href="#">Conditions d'utilisation</a> et la <a href="#">Politique de confidentialité</a> de GestionPro.</label>
+                        <label for="terms">J'accepte les <a href="{{route('politiques')}}" target="_blank">Conditions d'utilisation</a> et la <a href="{{route('politiques')}}" target="_blank">Politique de confidentialité</a> de GestionPro.</label>
                     </div>
                     
                     <button type="submit" class="btn-primary">Créer mon compte</button>
@@ -474,7 +474,7 @@
                 </div>-->
                 
                 <div class="login-link">
-                    Vous avez déjà un compte? <a href="{{route('user')}}">Connectez-vous</a>
+                    Vous avez déjà un compte? <a href="{{route('login')}}">Connectez-vous</a>
                 </div>
             </div>
         </section>

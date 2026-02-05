@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -43,9 +44,30 @@ class Entreprise extends Model
         return $this->belongsTo(Client::class);
     }
 
-    public function abonnementPaye()
+    public function abonnementExpireBientot()
     {
-        return $this->hasOne(PaiementAbonnement::class)->where('statut', 'payé');
+        if (!$this->abonnement_expire_le) {
+            return false;
+        }
+
+        $joursRestants = Carbon::now()->diffInDays(
+            Carbon::parse($this->abonnement_expire_le),
+            false
+        );
+
+        return $joursRestants >= 0 && $joursRestants <= 5;
+    }
+
+    public function joursRestantsAbonnement()
+    {
+        if (!$this->abonnement_expire_le) {
+            return null;
+        }
+
+        return Carbon::now()->diffInDays(
+            Carbon::parse($this->abonnement_expire_le),
+            false
+        );
     }
 
     public function abonnements()
@@ -56,6 +78,11 @@ class Entreprise extends Model
      public function abonnementActif()
     {
         return $this->hasOne(Entreprise::class)->where('trial_actif', true)->where('abonnement_expire_le', '>=', now());
+    }
+    
+    public function abonnementValide() : bool
+    {
+        return $this->abonnements()->where('statut', 'payé')->where('date_fin', '>=', now())->exists(); // Exp : le 15/01 > aujourd'hui(05/01)
     }
 
     public function isOnTrial() : bool
@@ -68,10 +95,7 @@ class Entreprise extends Model
         return $this->trial_actif && $this->trial_fin < now(); // Exp : le 15/01 < aujourd'hui(25/01)
     }
 
-    public function abonnementValide() : bool
-    {
-        return $this->abonnements()->where('statut', 'payé')->where('date_fin', '>=', now())->exists(); // Exp : le 15/01 > aujourd'hui(05/01)
-    }
+    
 
     
 

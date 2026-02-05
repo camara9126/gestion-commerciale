@@ -482,7 +482,7 @@
                     <li><a href="#features">Fonctionnalités</a></li>
                     <li><a href="#pricing">Offres</a></li>
                     <li><a href="#about">À propos</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="{{route('contact')}}">Contact</a></li>
                 </ul>
                
 
@@ -516,7 +516,7 @@
                 <div style="background: linear-gradient(135deg, #00778b 0%, #ff9d1b 100%); height: 400px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
                     <div style="text-align: center;">
                         <i class="fas fa-desktop" style="font-size: 4rem; margin-bottom: 20px;"></i>
-                        <p>Interface de BizManager</p>
+                        <p>Interface de B-Manager</p>
                     </div>
                 </div>
             </div>
@@ -571,7 +571,7 @@
                         <p>Parfait pour les indépendants et petites entreprises</p>
                     </div>
                     <div class="price">
-                        <div class="price-amount">20.000 XOF</div>
+                        <div class="price-amount">15.000 XOF</div>
                         <div class="price-period">par mois</div>
                     </div>
                     <ul class="pricing-features">
@@ -597,14 +597,14 @@
                         <p>Idéal pour les PME en croissance</p>
                     </div>
                     <div class="price">
-                        <div class="price-amount">25.000 XOF</div>
+                        <div class="price-amount">20.000 XOF</div>
                         <div class="price-period">par mois</div>
                         <div class="price-savings">Économisez 20% avec l'abonnement annuel</div>
                     </div>
                     <ul class="pricing-features">
                         <li><i class="fas fa-check"></i> 200 produits</li>
                         <li><i class="fas fa-check"></i> 300 Clients</li>
-                        <li><i class="fas fa-check"></i> 2 utilisateurs</li>
+                        <li><i class="fas fa-check"></i> 3 utilisateurs</li>
                         <li><i class="fas fa-check"></i> Factures illimitées</li>
                         <li><i class="fas fa-check"></i> 500 Go de stockage</li>
                         <li><i class="fas fa-check"></i> Support prioritaire 24/7</li>
@@ -622,7 +622,7 @@
                         <p>Solution complète pour les grandes entreprises</p>
                     </div>
                     <div class="price">
-                        <div class="price-amount">40.000 XOF</div>
+                        <div class="price-amount">30.000 XOF</div>
                         <div class="price-period">par mois</div>
                         <div class="price-savings">Économisez 25% avec l'abonnement annuel</div>
                     </div>
@@ -675,8 +675,8 @@
                 <div class="footer-column">
                     <h3>Légal</h3>
                     <ul class="footer-links">
-                        <li><a href="#">Conditions d'utilisation</a></li>
-                        <li><a href="#">Politique de confidentialité</a></li>
+                        <li><a href="{{route('politiques')}}" target="_blank">Conditions d'utilisation</a></li>
+                        <li><a href="{{route('politiques')}}" target="_blank">Politique de confidentialité</a></li>
                         <li><a href="#">Mentions légales</a></li>
                         <li><a href="#">CGV</a></li>
                     </ul>
@@ -684,14 +684,14 @@
                 <div class="footer-column">
                     <h3>Contact</h3>
                     <ul class="footer-links">
-                        <li><i class="fas fa-envelope"></i> contact@bizmanager.fcom</li>
-                        <li><i class="fas fa-phone"></i> +33 1 23 45 67 89</li>
+                        <li><i class="fas fa-envelope"></i> contact@bcmgroupe.bmanager.com</li>
+                        <li><i class="fas fa-phone"></i> +221 77794 72 58</li>
                         <li><i class="fas fa-map-marker-alt"></i> Saint-Louis, Senegal</li>
                     </ul>
                 </div>
             </div>
             <div class="copyright">
-                <p>&copy; <?=now()->year ?> BCN Groupe. Tous droits réservés.</p>
+                <p>&copy; <?=now()->year ?> B-Manager. Tous droits réservés.</p>
             </div>
         </div>
     </footer>

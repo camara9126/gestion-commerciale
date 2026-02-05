@@ -82,7 +82,7 @@
                                                     <td>
                                                         @if($v->montant_restant == 0)
                                                             <button type="button" class="btn">
-                                                                 Payee
+                                                                 Payée
                                                             </button>
                                                         @else
                                                         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-id="{{$v->id}}" data-bs-target="#paiementModal">
@@ -94,12 +94,12 @@
                                                         <td>
                                                                 <div class="row">
                                                                     <div class="col-3">
-                                                                        <a href="{{route('ventes.show', $v->id)}}">
-                                                                            <i class="fa fa-eye text-primary"></i>
+                                                                        <a href="{{route('ventes.show', $v->id)}}" class="btn btn-outline-warning mr-2" title="afficher la facture">
+                                                                            <i class="fa fa-eye text-warning"></i>
                                                                         </a>
                                                                     </div>
                                                                     <div class="col-3">
-                                                                        <a href="{{route('ventes.facture', $v->id)}}">
+                                                                        <a href="{{route('ventes.facture', $v->id)}}" class="btn btn-outline-primary ml-2" title="telecharger la facture">
                                                                             <i class="fas fa-file-invoice text-primary"></i>
                                                                         </a>
                                                                     </div>

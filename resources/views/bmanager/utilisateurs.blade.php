@@ -27,14 +27,45 @@
     
     <!-- CSS -->
     <link rel="stylesheet" href="{{asset('asset/style.css')}}">
-
-    <!-- Icon Image -->
-     <link rel="shortcut icon" href="{{asset('asset/logo/Logo B.Manager.png')}}"/>
     
 </head>
 <body>
     <!-- Sidebar -->
-    @include('partials.sidebar')
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            @if(Auth::user()->entreprise?->logo)
+                <img src="{{ asset('storage/' . Auth::user()->entreprise->logo) }}" alt="Logo entreprise" class="w-50">
+            @else
+                <h3 class="fw-bold text-warning mb-0">{{ ucfirst(Auth::user()->entreprise->nom) }}</h3>
+            @endif
+            <small class="text-white">{{ Auth::user()->entreprise->adresse }}</small>
+        </div>
+
+        <div class="px-3 py-4">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a href="{{ route('entreprise.index') }}" class=" disabled nav-link" data-section="dashboard">
+                        <i class="fas fa-home" style="color: #ff9d1b;"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item mb-0 mt-0">
+                    <a href="#" class=" disabled nav-link">
+                        <i class="fas fa-list" style="color: #ff9d1b;"></i> Utilisateurs
+                    </a>
+                </li>
+                <li class="nav-item mb-0 mt-0">
+                    <a href="#" class="disabled nav-link">
+                        <i class="fas fa-truck" style="color: #ff9d1b;"></i> Fournisseurs
+                    </a>
+                </li>
+                <li class="nav-item mb-0 mt-0">
+                    <a href="#" class=" disabled nav-link">
+                        <i class="fas fa-bars-staggered" style="color: #ff9d1b;"></i> Stocks
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
     
     <!-- Overlay -->
     <div class="overlay" id="overlay"></div>
@@ -64,15 +95,6 @@
                             ⛔ Essai expiré – veuillez activer un abonnement
                         </div>
                     @endif
-
-                   @if(auth()->user()->entreprise->abonnementExpireBientot())
-                    <div class="alert alert-warning">
-                        ⚠️ Votre abonnement expire dans
-                        <strong>{{ auth()->user()->entreprise->joursRestantsAbonnement() }}</strong> jours.
-                        <a href="{{ route('abonnement.payer') }}">Renouveler maintenant</a>
-                    </div>
-                    @endif
-
                 </div>
                 
                 <!-- Notifications -->
@@ -130,3 +152,69 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Content Area -->
+        <div class="container-fluid p-3 p-md-4" id="contentArea">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="content-section">
+                <!-- Stats Row -->
+                @if(Session::has('success'))
+                        <div class="alert alert-success" role="alert">
+                            {{ Session::get('success') }}
+                        </div>
+                    @elseif(Session::has('danger'))
+                        <div class="alert alert-danger" role="alert">
+                            {{ Session::get('danger') }}
+                        </div>
+                    @endif
+                
+                <!-- Section utilisateurs -->
+                <div class="row mb-5">
+                    <div class="stat-card">
+                        <div class="col-lg-12">
+                            <div class="d-flex justify-content-between align-items-center mb-0">                          
+                                <h5 class="mb-0">Utilisateur</h5>
+                                <a href="{{route('entreprise.index')}}" class="btn btn-outline-danger">
+                                        Retour
+                                </a>
+                            </div>
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table data-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nom</th>
+                                                        <th>Entreprise</th>
+                                                        <th>Telephone</th>
+                                                        <th>Email</th>
+                                                        <th>Pack</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($users as $u)
+                                                    <tr>
+                                                        <td>{{$u->name}}</td>
+                                                        <td>{{$u->entreprise->nom}}</td>
+                                                        <td>{{$u->entreprise->telephone}}</td>
+                                                        <td>{{$u->entreprise->email}}</td>
+                                                        <td>{{$u->entreprise->pack->nom}}</td>
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>                                    
+                                
+                                </div>
+                            </div>                                
+                        </div>
+                    </div>
+                </div>
+     
+                      
+            </section>
+        </div>
+        
+@include('partials.footer')

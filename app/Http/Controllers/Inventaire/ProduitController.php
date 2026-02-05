@@ -41,10 +41,11 @@ class ProduitController extends Controller
 
         // Verification limite produit du pack
         $user = request()->user();
+        $produits = Produit::with('fournisseur')->where('entreprise_id', $request->user()->entreprise_id)->get();
         $pack = $user->entreprise->pack;
 
-        if($user->entreprise->produit()->count() >= $pack->max_produit) {
-            return redirect()->back()->with('warning', 'Limite du pack atteinte. Passez au pack supérieur.');
+        if($produits->count() >= $pack->max_produit) {
+            return back()->with('warning', 'Limite du pack atteinte. Passez au pack supérieur.');
 
         };
               

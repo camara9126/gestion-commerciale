@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Entreprise;
+use App\Models\Fournisseur;
+use App\Models\Produit;
+use App\Models\StockMouvement;
+use App\Models\User;
+use App\Models\Vente;
 use Illuminate\Http\Request;
 
 class EntrepriseControleer extends Controller
@@ -12,15 +18,27 @@ class EntrepriseControleer extends Controller
      */
     public function index()
     {
-        //
+        $entreprise = request()->user()->entreprise;
+
+        $fournisseurs = Fournisseur::limit(3)->latest()->get();
+        $produits = Produit::limit(3)->latest()->get();
+        $mouvements_ent = StockMouvement::where('type', 'entree')->limit(3)->latest()->get();
+        $mouvements_sor = StockMouvement::where('type', 'sortie')->limit(3)->latest()->get();
+
+        $clients = Client::limit(3)->latest()->get();
+        $ventes = Vente::limit(3)->latest()->get();
+
+        return view('bmanager.index', compact('produits','fournisseurs','mouvements_ent','mouvements_sor','clients','ventes','entreprise')); 
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function utilisateurs()
     {
-        return view('entreprise.create');
+        $users = User::where('entreprise_id', '!=', 2)->limit(10)->latest()->get();
+
+        return view('bmanager.utilisateurs', compact('users'));
     }
 
     /**
@@ -28,37 +46,7 @@ class EntrepriseControleer extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'nom' => 'required|string',
-            'telephone' => 'nullable|string|max:50',
-            'taux_tva' => 'numeric|max:10',
-            'adresse' => 'nullable|string',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:2048',
-        ]);
-
-        // Gestion des logo
-        if ($request->hasFile('logo')) {
-            $filename = time().$request->file('logo')->getClientOriginalName();
-            $path = $request->file('logo')->storeAs('logo', $filename, 'public');
-            $request['logo'] = '/storage/' . $path;
-        } else {
-            dd('Aucun fichier image reçu');
-        }
-
-        $entreprise= Entreprise::create([
-            'nom' =>$request->nom,
-            'telephone' => $request->telephone,
-            'taux_tva' => $request->taux_tva,
-            'adresse' => $request->adresse,
-            'devise' => 'XOF',
-            'logo' => $path,
-        ]);
-        // Lier l'utilisateur a l'entreprise
-        $user= $request->user();
-        $user->entreprise_id = $entreprise->id;
-        $user->save();
-
-        return redirect()->route('dashboard')->with('success', 'Entreprise cree avec success');
+       //
     }
 
     /**
@@ -82,37 +70,7 @@ class EntrepriseControleer extends Controller
      */
     public function update(Request $request)
     {
-         $request->validate([
-            'nom' => 'required|string',
-            'telephone' => 'nullable|string|max:50',
-            'taux_tva' => 'numeric|max:100',
-            'adresse' => 'nullable|string',
-            'pack_id',
-            'logo',
-        ]);
-
-        // Gestion des logo
-        if ($request->hasFile('logo')) {
-            $filename = time().$request->file('logo')->getClientOriginalName();
-            $path = $request->file('logo')->storeAs('logo', $filename, 'public');
-            $request['logo'] = '/storage/' . $path;
-        }
-
-        $entreprise= Entreprise::create([
-            'nom' =>$request->nom,
-            'telephone' => $request->telephone,
-            'taux_tva' => $request->taux_tva,
-            'adresse' => $request->adresse,
-            'devise' => 'XOF',
-            'pack_id' => $request->pack_id,
-            'logo' => $path  ?? null,
-        ]);
-        // Lier l'utilisateur a l'entreprise
-        $user= $request->user();
-        $user->entreprise_id = $entreprise->id;
-        $user->save();
-
-        return redirect()->back()->with('success', 'Entreprise cree avec success');
+         //
     }
 
     /**

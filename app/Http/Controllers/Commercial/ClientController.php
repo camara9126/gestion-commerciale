@@ -36,10 +36,12 @@ class ClientController extends Controller
 
     // Verification limite client du pack
         $user = request()->user();
+        $clients = Client::where( 'entreprise_id', request()->user()->entreprise_id)->get();
         $pack = $user->entreprise->pack;
 
-        if($user->entreprise->client()->count() <= $pack->max_client) {
-            return redirect()->back()->with('warning', 'Limite du pack atteinte. Passez au pack supérieur.');
+        if($clients->count() >= $pack->max_client) {
+            
+            return redirect()->back()->with('danger', 'Limite du pack atteinte. Passez au pack supérieur.');
 
         };
         return view('commercial.clients.create');

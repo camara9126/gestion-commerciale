@@ -17,6 +17,9 @@
     
     <!-- CSS -->
     <link rel="stylesheet" href="{{asset('asset/style.css')}}">
+
+     <!-- Icon Image -->
+     <link rel="shortcut icon" href="{{asset('asset/logo/Logo B.Manager.png')}}"/>
     
     <style>
     
@@ -536,7 +539,7 @@
                                     @endif
                                     <div class="pack-header">
                                         <div class="pack-name">Pack Starter</div>
-                                        <div class="pack-price">20.000 XOF</div>
+                                        <div class="pack-price">15.000 XOF</div>
                                         <div class="pack-period">par mois</div>
                                     </div>
                                     <ul class="pack-features">
@@ -568,7 +571,7 @@
                                     @endif
                                     <div class="pack-header">
                                         <div class="pack-name">Pack Professionnel</div>
-                                        <div class="pack-price">25.000 XOF</div>
+                                        <div class="pack-price">20.000 XOF</div>
                                         <div class="pack-period">par mois</div>
                                     </div>
                                     <ul class="pack-features">
@@ -599,7 +602,7 @@
                                     @endif
                                     <div class="pack-header">
                                         <div class="pack-name">Pack Entreprise</div>
-                                        <div class="pack-price">40.000XOF</div>
+                                        <div class="pack-price">30.000XOF</div>
                                         <div class="pack-period">par mois</div>
                                     </div>
                                     <ul class="pack-features">

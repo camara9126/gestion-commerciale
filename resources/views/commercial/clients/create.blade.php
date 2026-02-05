@@ -5,7 +5,15 @@
         <div class="container-fluid p-3 p-md-4" id="contentArea">
             <!-- Dashboard Section -->
             <section id="dashboard" class="content-section">
-                
+                 @if(Session::has('success'))
+                        <div class="alert alert-success" role="alert">
+                            {{ Session::get('success') }}
+                        </div>
+                    @elseif(Session::has('danger'))
+                        <div class="alert alert-danger" role="alert">
+                            {{ Session::get('danger') }}
+                        </div>
+                    @endif
                 <div class="d-flex justify-content-between align-items-center mb-4">                          
                     <h3 class="mb-0">Nouveau client</h3>
                     <a href="{{route('clients.index')}}" class="btn btn-danger">

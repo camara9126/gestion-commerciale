@@ -60,13 +60,16 @@ use App\Models\Vente;
                 <div>
                     <p class="text-muted mb-1">Chiffre d'affaires (HT)</p>
                     <h3 class="value fw-bold">{{ number_format($ca_ht, 0, ',', ' ') }} XOF</h3>
-                    <small class="text-success">
+                    
                         @if($tauxCommandes > 15)
+                        <small class="text-success">
                             <i class="fas fa-arrow-up me-1"></i> {{number_format($tauxCommandes, 1)}}% vs mois dernier
+                        </small>
                         @elseif($tauxCommandes < 8)
+                        <small class="text-danger">
                             <i class="fas fa-arrow-down me-1"></i> {{number_format(abs($tauxCommandes), 1)}}% vs mois dernier
+                        </small>
                         @endif
-                    </small>
                     <p class="mt-1 mb-0">Montant TVA : <span class="value fw-bold">{{number_format($montant_tva, 0, ',', ' ')}} XOF</span></p>
 
                 </div>
@@ -84,13 +87,17 @@ use App\Models\Vente;
                 <div>
                     <p class="text-muted mb-1">Commandes</p>
                     <h3 class="value fw-bold">{{$commandesMois}}</h3>
-                    <small class="text-success">
+                    
                          @if($tauxCA > 15)
+                         <small class="text-success">
                             <i class="fas fa-arrow-up me-1"></i> {{number_format($tauxCA, )}}% vs mois dernier
+                         </small>
                         @elseif($tauxCA < 8)
+                        <small class="text-danger">
                             <i class="fas fa-arrow-down me-1"></i> {{number_format(abs($tauxCA), 1)}}% vs mois dernier
+                        </small>    
                         @endif
-                    </small>
+                    
                 </div>
                 <div class="icon bg-success bg-opacity-10 text-success">
                     <i class="fas fa-shopping-cart"></i>
@@ -105,13 +112,17 @@ use App\Models\Vente;
                 <div>
                     <p class="text-muted mb-1">Clients</p>
                     <h3 class="value fw-bold">{{$clientsMois}}</h3>
-                    <small class="text-success">
+                    
                         @if($tauxClients > 15)
+                        <small class="text-success">
                             <i class="fas fa-arrow-up me-1"></i> {{number_format($tauxClients, 1)}}% vs mois dernier
+                        </small>
                         @elseif($tauxClients < 8)
+                        <small class="text-danger">
                             <i class="fas fa-arrow-down me-1"></i> {{number_format(abs($tauxClients), 1)}}% vs mois dernier
+                        </small>    
                         @endif
-                    </small>
+                    
                 </div>
                 <div class="icon bg-warning bg-opacity-10 text-warning">
                     <i class="fas fa-users"></i>
