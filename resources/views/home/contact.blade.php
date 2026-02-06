@@ -358,7 +358,7 @@
         </main>
         
         <footer>
-            <p>&copy; <?= now()->year ?> BusinessPro Manager. Tous droits réservés.</p>
+            <p>&copy; <?= now()->year ?> B-Manager. Tous droits réservés.</p>
             <p>Logiciel de gestion commerciale - CRM - Facturation - Suivi des stocks</p>
         </footer>
     </div>

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\User;
 use App\Policies\UserPolicy;
+use App\Services\PayTech;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +14,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+         $this->app->bind(PayTech::class, function ($app) {
+            // Retrieve the API key from your configuration file (e.g., config/services.php or config/app.php)
+            $apiKey = config('services.paytech.api_key');
+            $apiSecret = config('services.paytech.api_secret');
+
+            return new PayTech($apiKey, $apiSecret);
+        });
     }
 
     /**

@@ -64,8 +64,8 @@ class Entreprise extends Model
             return null;
         }
 
-        return Carbon::now()->diffInDays(
-            Carbon::parse($this->abonnement_expire_le),
+        return Carbon::now()->startOfDay()->diffInDays(
+            Carbon::parse($this->abonnement_expire_le)->startOfDay(),
             false
         );
     }

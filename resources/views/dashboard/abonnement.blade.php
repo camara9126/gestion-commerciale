@@ -383,6 +383,15 @@
                             ⛔ Essai expiré – veuillez activer un abonnement
                         </div>
                     @endif
+
+                    <!-- Abonnement jour restant <= 5 jours-->
+                    @if(auth()->user()->entreprise->abonnementExpireBientot())
+                    <div class="alert alert-warning">
+                        ⚠️ Votre abonnement expire dans
+                        <strong>{{ auth()->user()->entreprise->joursRestantsAbonnement() }}</strong> jours.
+                        <a href="{{ route('abonnement.payer') }}" class="bg-info">Renouveler maintenant</a>
+                    </div>
+                    @endif
                 </div>
                 
                 <!-- Notifications -->
@@ -410,6 +419,13 @@
                                 </a>
                             </li>
                         @endif
+                            <li>
+                                @if(auth()->user()->entreprise->abonnementExpireBientot())
+                                    ⚠️ Votre abonnement expire dans
+                                    <strong>{{ auth()->user()->entreprise->joursRestantsAbonnement() }}</strong> jours.
+                                    <a href="{{ route('abonnement.payer') }}" class="bg-info">Renouveler maintenant</a>
+                                @endif
+                            </li>
                     </ul>
                     
                 </div>
@@ -533,39 +549,55 @@
                             <h3 style="margin-bottom: 20px; color: #00778b;">Packs disponibles</h3>   
                             <div class="packs-grid">
                                 <!-- Pack Basique -->
-                                <div class="pack-card">
-                                    @if($entreprise->pack->id == 1)
-                                        <div class="recommended-badge">ACTUELLEMENT ACTIF</div>
-                                    @endif
-                                    <div class="pack-header">
-                                        <div class="pack-name">Pack Starter</div>
-                                        <div class="pack-price">15.000 XOF</div>
-                                        <div class="pack-period">par mois</div>
+                                 @foreach($packs as $p)
+                                    <div class="pack-card">
+                                        
+                                        <div class="pack-header">
+                                            @if($entreprise->pack->nom == $p->nom)
+                                                <div class="recommended-badge">ACTUELLEMENT ACTIF</div>
+                                            @endif
+                                            <div class="pack-name">{{$p->nom}}</div>
+                                            <div class="pack-price">{{$p->prix}} XOF</div>
+                                            <div class="pack-period">par mois</div>
+                                        </div>
+                                        <ul class="pack-features">
+                                            <li><i class="fas fa-check"></i> Jusqu'à {{$p->max_produit}} produits</li>
+                                            <li><i class="fas fa-check"></i> {{$p->max_client}} clients</li>
+                                            <li><i class="fas fa-check"></i> {{$p->max_user ?? 10}} utilisateur maximum</li>
+                                            @if($p->nom == 'starter')
+                                                <li><i class="fas fa-check"></i> 50 Go de stockage</li>
+                                                <li><i class="fas fa-check"></i> Gestion de stock basique</li>
+                                                <li><i class="fas fa-check"></i> Support basique</li>
+                                                <li><i class="fas fa-times" style="color: red;"></i> Factures illimitées</li>
+                                                <li><i class="fas fa-times" style="color: red;"></i> Tableaux de bord avancés</li>
+                                                <li><i class="fas fa-times" style="color: red;"></i> Intégrations API</li>
+                                                <li><i class="fas fa-times" style="color: red;"></i> Formation personnalisée</li>
+                                            @elseif($p->nom == 'professionnel')
+                                                <li><i class="fas fa-check"></i> Factures illimitées</li>
+                                                <li><i class="fas fa-check"></i> 500 Go de stockage</li>
+                                                <li><i class="fas fa-check"></i> Support prioritaire 24/7</li>
+                                                <li><i class="fas fa-check"></i> Analytics avancés</li>
+                                                <li><i class="fas fa-times" style="color: red;"></i> Formation personnalisée</li>
+                                            @else
+                                                <li><i class="fas fa-check"></i> 2 To de stockage</li>
+                                                <li><i class="fas fa-check"></i> Gestion des rôles et permissions</li>
+                                                <li><i class="fas fa-check"></i> Support dédié 24/7</li>
+                                                <li><i class="fas fa-check"></i> Analytics avancés</li>
+                                                <li><i class="fas fa-check"></i> Formation personnalisée</li>
+                                            @endif
+                                        </ul>
+                                        @if($entreprise->pack->nom !==  $p->nom)
+                                            <button class="pack-btn bg-success">
+                                                <a href="{{route('abonnement.changer', $p->id)}}" class="text-white">Choisir ce pack</a>
+                                            </button>
+                                        @else
+                                            <button class="pack-btn">Pack actuel</button>
+                                        @endif
                                     </div>
-                                    <ul class="pack-features">
-                                        <li><i class="fas fa-check"></i> Jusqu'à 80 produits</li>
-                                        <li><i class="fas fa-check"></i> 100 clients</li>
-                                        <li><i class="fas fa-check"></i> 1 utilisateur maximum</li>
-                                        <li><i class="fas fa-check"></i> 50 Go de stockage</li>
-                                        <li><i class="fas fa-check"></i> Gestion de stock basique</li>
-                                        <li><i class="fas fa-check"></i> Support basique</li>
-                                        <li><i class="fas fa-times" style="color: red;"></i> Factures illimitées</li>
-                                        <li><i class="fas fa-times" style="color: red;"></i> Tableaux de bord avancés</li>
-                                        <li><i class="fas fa-times" style="color: red;"></i> Intégrations API</li>
-                                        <li><i class="fas fa-times" style="color: red;"></i> Formation personnalisée</li>
-                                    </ul>
-                                    @if($entreprise->pack->id == 1 && !$entreprise->trialExpire())
-                                    <button class="pack-btn">Pack actuel</button>
-                                    @elseif($entreprise->pack->id == 1 && $entreprise->trialExpire())
-                                        <button class="pack-btn">Pack actuel</button>
-                                        <a href="{{route('abonnement.payer')}}" class="btn btn-success">Payer l'abonnement</a>
-                                    @else
-                                        <button class="pack-btn">Choisir ce pack</button>
-                                    @endif
-                                </div>
+                                    @endforeach
                                 
                                 <!-- Pack Professionnel (recommandé) -->
-                                <div class="pack-card recommended">
+                                <!--<div class="pack-card recommended">
                                     @if($entreprise->pack->id == 3)
                                         <div class="recommended-badge">ACTUELLEMENT ACTIF</div>
                                     @endif
@@ -582,7 +614,6 @@
                                         <li><i class="fas fa-check"></i> 500 Go de stockage</li>
                                         <li><i class="fas fa-check"></i> Support prioritaire 24/7</li>
                                         <li><i class="fas fa-check"></i> Analytics avancés</li>
-                                        <!--<li><i class="fas fa-check"></i> Intégrations API</li>-->
                                         <li><i class="fas fa-times" style="color: red;"></i> Formation personnalisée</li>
                                     </ul>
                                     @if($entreprise->pack->id == 3 && !$entreprise->trialExpire())
@@ -593,10 +624,10 @@
                                     @else
                                         <button class="pack-btn">Choisir ce pack</button>
                                     @endif
-                                </div>
+                                </div>-->
                                 
                                 <!-- Pack Entreprise -->
-                                <div class="pack-card">
+                                <!--<div class="pack-card">
                                     @if($entreprise->pack->id == 2)
                                         <div class="recommended-badge">ACTUELLEMENT ACTIF</div>
                                     @endif
@@ -623,7 +654,7 @@
                                     @else
                                         <button class="pack-btn">Choisir ce pack</button>
                                     @endif
-                                </div>
+                                </div>-->
                             </div>    
                     </div>
                 </div>

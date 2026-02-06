@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Abonnement;
+use App\Models\Pack;
 use App\Models\PaiementAbonnement;
 use Carbon\Carbon;
 use App\Services\PayTech;
@@ -10,7 +11,7 @@ use Illuminate\Http\Request;
 
 class AbonnementController extends Controller
 {
-    public function initialPaiement()
+    public function initialPaiement(PayTech $paytech)
     {
         $entreprise = request()->user()->entreprise;
         $pack = $entreprise->pack;
@@ -30,46 +31,89 @@ class AbonnementController extends Controller
         //dd($paiement);
 
         // 3️⃣ Initialisation PayTech
+       
+        //require_once __DIR__ . 'PayTech.php';
+
         $paytech = new PayTech(
             config('services.paytech.api_key'),
             config('services.paytech.api_secret')
         );
 
-        // 4️⃣ Envoi vers PayTech
         $response = $paytech->setQuery([
-                'item_name'   => 'Abonnement ' . $pack->nom,
-                'item_price'  => $pack->prix,
-                'command_name'=> 'Abonnement ' . $pack->nom . ' - ' . $entreprise->nom,
+                'item_name' => $pack->nom,
+                'item_price' => $pack->prix,
+                'command_name' => "Paiement {$pack->nom} via PayTech",
             ])
-            ->setRefCommand($refCommande)
+            ->setCustomeField([
+                'item_id' => $pack->id,
+                'time_command' => time(),
+                'ip_user' => $_SERVER['REMOTE_ADDR']
+            ])
+            ->setTestMode(true)
+            ->setCurrency('XOF')
+            ->setRefCommand(uniqid())
             ->setNotificationUrl([
                 'success_url' => route('abonnement.success'),
                 'cancel_url'  => route('abonnement.cancel'),
-                'ipn_url'     => route('abonnement.ipn'),
+                'ipn_url'     => 'https://bmanager.bcmgroupe.com/abonnement.ipn',
             ])
             ->send();
-        //dd($response);
+        dd($response);
+        $data = $response;
 
-        // 5️⃣ Redirection
-        if (isset($response['success']) && $response['success'] == 1) {
+        if ($data['success'] === 1) {
+            header('Location: ' . $data['redirect_url']);
+            exit;
+        }
+    }
+
+
+    // Changement de pack
+    public function changerPack(PayTech $paytech, Pack $p)
+    {
+        $entreprise = request()->user()->entreprise;
+
+        $pack = Pack::findOrFail($p->id);
+
+        // Créer paiement_abonnement
+        $paiement = PaiementAbonnement::create([
+            'entreprise_id' => $entreprise->id,
+            'pack_id' => $pack->id,
+            'statut' => 'en_attente',
+            'reference' => uniqid('CHG_'),
+            'montant' => $pack->prix
+        ]);
+
+        // Init PayTech
+        $paytech = new PayTech(
+            config('services.paytech.api_key'),
+            config('services.paytech.api_secret'));
+
+        $response = $paytech
+            ->setTestMode(true)
+            ->setCurrency('XOF')
+            ->setRefCommand(uniqid())
+            ->setQuery([
+                'item_name' => 'Changement pack : '.$pack->nom,
+                'item_price' => $pack->prix,
+                'command_name' => 'Changement pack - '.$entreprise->nom
+            ])
+            ->setNotificationUrl([
+                'success_url' => route('abonnement.success'),
+                'cancel_url' => route('abonnement.cancel'),
+                'ipn_url' => 'https://bmanager.bcmgroupe.com/abonnement.ipn',
+            ])
+            ->send();
+
+        if ($response['success'] == 1) {
+            // Redirection vers PayTech pour le paiement
             return redirect()->away($response['redirect_url']);
         }
 
-        return back()->withErrors([
-            'paiement' => $response['message'] ?? 'Erreur PayTech'
-            ]);
+        return redirect()->back()->with('error', 'Impossible d’initier le paiement.');
     }
 
-
-    // Paiement Valide
-    public function success(Request $request)
-    {
-        return view('dashboard.abonnement', [
-            'message' => 'Paiement en cours de validation. Merci de patienter.'
-        ]);
-    }
-
-
+    // Validation paiement
     public function ipn(Request $request)
     {
         $reference = $request->ref_command ?? null;
@@ -101,14 +145,20 @@ class AbonnementController extends Controller
 
             $entreprise = $paiement->entreprise;
 
+            // Date de creation de l'entreprise
+            $debut = $entreprise->created_at;
+
+            // Date de fin de l'abonnement
+            $fin = $debut->copy()->addMonth();
+
             // Creer l'abonnement
             Abonnement::create([
                 'entreprise_id' => $paiement->entreprise_id,
                 'pack_id' => $paiement->pack_id,
                 'statut' => 'payé',
                 'montant' => $paiement->montant,
-                'date_debut' =>$entreprise->created_at,
-                'date_fin' => $entreprise->abonnement_expire_le->addMonth(), // ou selon le pack
+                'date_debut' =>$debut,
+                'date_fin' => $fin, // ou selon le pack
             ]);
 
 
@@ -134,6 +184,15 @@ class AbonnementController extends Controller
         return response('Paiement échoué', 200);
     }
 
+
+    // Paiement Valide
+    public function success(Request $request)
+    {
+        return view('dashboard.abonnement', [
+            'message' => 'Paiement en cours de validation. Merci de patienter.'
+        ]);
+    }
+
     
     // Paiement Invalide
     public function cancel(Request $request)
@@ -152,7 +211,4 @@ class AbonnementController extends Controller
             'message' => 'Paiement annulé. Aucun montant n’a été débité.'
         ]);
     }
-
-
-
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\Fournisseur;
+use App\Models\Pack;
 use App\Models\Produit;
 use App\Models\Recette;
 use App\Models\StockMouvement;
@@ -35,6 +36,16 @@ class DashboardController extends Controller
         $ventes = Vente::with('client')->where('entreprise_id', request()->user()->entreprise_id)->limit(3)->latest()->get();
 
         return view('dashboard.index', compact('produits','fournisseurs','mouvements_ent','mouvements_sor','clients','ventes','entreprise')); 
+    }
+
+
+    // Page Abonnement
+     public function abonnement()
+    {
+        $entreprise = request()->user()->entreprise;
+        $packs = Pack::all();
+
+        return view('dashboard.abonnement', compact('entreprise','packs'));
     }
 
 
@@ -108,12 +119,5 @@ class DashboardController extends Controller
         return response()->json(['commandes' => $commandes,'ca' => $ca,'produits' => $produits,'statuts' => $statuts,]);
     }
 
-    // Page Abonnement
-     public function abonnement()
-    {
-        $entreprise = request()->user()->entreprise;
-        $pack = $entreprise->pack;
-
-        return view('dashboard.abonnement', compact('entreprise','pack'));
-    }
+    
 }

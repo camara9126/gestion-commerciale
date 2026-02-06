@@ -65,11 +65,12 @@
                         </div>
                     @endif
 
+                    <!-- Abonnement jour restant <= 5 jours-->
                    @if(auth()->user()->entreprise->abonnementExpireBientot())
                     <div class="alert alert-warning">
                         ⚠️ Votre abonnement expire dans
                         <strong>{{ auth()->user()->entreprise->joursRestantsAbonnement() }}</strong> jours.
-                        <a href="{{ route('abonnement.payer') }}">Renouveler maintenant</a>
+                        <a href="{{ route('abonnement.payer') }}" class="bg-info">Renouveler maintenant</a>
                     </div>
                     @endif
 
@@ -100,6 +101,13 @@
                                 </a>
                             </li>
                         @endif
+                        <li>
+                            @if(auth()->user()->entreprise->abonnementExpireBientot())
+                                ⚠️ Votre abonnement expire dans
+                                <strong>{{ auth()->user()->entreprise->joursRestantsAbonnement() }}</strong> jours.
+                                <a href="{{ route('abonnement.payer') }}" class="bg-info">Renouveler maintenant</a>
+                            @endif
+                        </li>
                     </ul>
                     
                 </div>

@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-
 /**
  * Created by PhpStorm.
  * User: Intech Group
@@ -246,5 +245,4 @@ class PayTech
 
         return $this;
     }
-    
 }

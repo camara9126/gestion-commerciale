@@ -473,7 +473,7 @@
             <nav>
                 <div class="logo">
                     <a href="/">
-                        <img src="{{asset('asset/logo/Logo B.Manager.png')}}" width="50" alt="">
+                        <img src="{{asset('asset/logo/Logo B.Manager.png')}}" width="70" alt="">
                     </a>
                     <!--<i class="fas fa-chart-line"></i>-->
                     <span>Bmanager</span>
@@ -581,10 +581,10 @@
                         <li><i class="fas fa-check"></i> 50 Go de stockage</li>
                         <li><i class="fas fa-check"></i> Gestion de stock basique</li>
                         <li><i class="fas fa-check"></i> Support basique</li>
-                        <li class="disabled"><i class="fas fa-times"></i> Factures illimitées</li>
-                        <li class="disabled"><i class="fas fa-times"></i> Tableaux de bord avancés</li>
-                        <li class="disabled"><i class="fas fa-times"></i> Intégrations API</li>
-                        <li class="disabled"><i class="fas fa-times"></i> Formation personnalisée</li>
+                        <li class="disabled"><i class="fas fa-times text-danger"></i> Factures illimitées</li>
+                        <li class="disabled"><i class="fas fa-times text-danger"></i> Tableaux de bord avancés</li>
+                        <li class="disabled"><i class="fas fa-times text-danger"></i> Intégrations API</li>
+                        <li class="disabled"><i class="fas fa-times text-danger"></i> Formation personnalisée</li>
                     </ul>
                     <!--<a href="{{route('register')}}" class="cta-button" style="width: 100%;">Souscrire</a>-->
                 </div>
@@ -650,7 +650,7 @@
     <section class="cta-section">
         <div class="container">
             <h2>Prêt à transformer votre gestion commerciale ?</h2>
-            <p>Rejoignez plus de 5 000 entreprises qui utilisent déjà BizManager pour optimiser leurs processus et augmenter leurs revenus.</p>
+            <p>Rejoignez plus de 5 000 entreprises qui utilisent déjà B-Manager pour optimiser leurs processus et augmenter leurs revenus.</p>
             <a href="{{route('register')}}" class="cta-button" style="font-size: 1.1rem;">Commencer maintenant</a>
         </div>
     </section>
@@ -660,7 +660,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-column">
-                    <h3>BizManager</h3>
+                    <h3>B-Manager</h3>
                     <p>La solution tout-en-un pour la gestion commerciale moderne. Simplifiez vos processus, augmentez votre productivité et développez votre entreprise.</p>
                 </div>
                 <div class="footer-column">
@@ -685,7 +685,7 @@
                     <h3>Contact</h3>
                     <ul class="footer-links">
                         <li><i class="fas fa-envelope"></i> contact@bcmgroupe.bmanager.com</li>
-                        <li><i class="fas fa-phone"></i> +221 77794 72 58</li>
+                        <li><i class="fas fa-phone"></i> +221 77 794 72 58</li>
                         <li><i class="fas fa-map-marker-alt"></i> Saint-Louis, Senegal</li>
                     </ul>
                 </div>
@@ -743,7 +743,7 @@
         
         // Hero secondary button
         document.querySelector('.secondary-button').addEventListener('click', function() {
-            alert("La démo vidéo de BizManager va s'ouvrir dans une nouvelle fenêtre.");
+            alert("La démo vidéo de B-Manager va s'ouvrir dans une nouvelle fenêtre.");
         });
     </script>
 </body>

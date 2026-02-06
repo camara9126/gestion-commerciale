@@ -14,4 +14,10 @@ class PaiementAbonnement extends Model
         'statut',
         'moyen_paiement'
     ];
+
+    public function abonnement()
+        {
+            return $this->belongsTo(Abonnement::class);
+        }
+    
 }

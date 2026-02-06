@@ -67,6 +67,9 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/abonnement/payer', [AbonnementController::class, 'initialPaiement'])->name('abonnement.payer');
 
+    Route::get('/abonnement/changer/{p}', [AbonnementController::class, 'changerPack'])->name('abonnement.changer');
+
+
     Route::get('/abonnement/success', [AbonnementController::class, 'success'])->name('abonnement.success');
 
     Route::get('/abonnement/cancel', [AbonnementController::class, 'cancel'])->name('abonnement.cancel');
