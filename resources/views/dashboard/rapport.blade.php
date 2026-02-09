@@ -473,7 +473,7 @@ use Illuminate\Support\Facades\Auth;
 </head>
 <body>
     <!-- Sidebar -->
-    @include('partials.Sidebar')
+    @include('partials.sidebar')
     
     <!-- Overlay -->
     <div class="overlay" id="overlay"></div>
