@@ -75,8 +75,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/abonnement/cancel', [AbonnementController::class, 'cancel'])->name('abonnement.cancel');
 });
 
-// Route IPN doit etre public (pas de auth)
+// Route IPN et CHP doivent etre public (pas de auth)
  Route::post('/abonnement/ipn', [AbonnementController::class, 'ipn'])->name('abonnement.ipn');
+ Route::post('/abonnement/chp', [AbonnementController::class, 'chp'])->name('abonnement.chp');
 
 // Route Dashboard
 Route::middleware(['auth', 'entreprise.exists'])->group(function () {

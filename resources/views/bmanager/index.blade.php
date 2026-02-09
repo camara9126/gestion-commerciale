@@ -44,6 +44,11 @@
         <div class="px-3 py-4">
             <ul class="nav flex-column">
                 <li class="nav-item">
+                    <a href="{{ route('dashboard.index') }}" class=" nav-link" data-section="dashboard">
+                        <i class="fas fa-home" style="color: #ff9d1b;"></i> Webmaster
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('entreprise.index') }}" class=" nav-link" data-section="dashboard">
                         <i class="fas fa-home" style="color: #ff9d1b;"></i> Dashboard
                     </a>

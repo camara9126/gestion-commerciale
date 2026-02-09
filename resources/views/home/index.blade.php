@@ -481,7 +481,7 @@
                 <ul class="nav-links">
                     <li><a href="#features">Fonctionnalités</a></li>
                     <li><a href="#pricing">Offres</a></li>
-                    <li><a href="#about">À propos</a></li>
+                    <li><a href="{{route('apropos')}}">À propos</a></li>
                     <li><a href="{{route('contact')}}">Contact</a></li>
                 </ul>
                
@@ -571,12 +571,12 @@
                         <p>Parfait pour les indépendants et petites entreprises</p>
                     </div>
                     <div class="price">
-                        <div class="price-amount">15.000 XOF</div>
+                        <div class="price-amount">10.000 XOF</div>
                         <div class="price-period">par mois</div>
                     </div>
                     <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> Jusqu'à 80 produits</li>
-                        <li><i class="fas fa-check"></i> 100 clients</li>
+                        <li><i class="fas fa-check"></i> Jusqu'à 50 produits</li>
+                        <li><i class="fas fa-check"></i> 50 clients</li>
                         <li><i class="fas fa-check"></i> 1 utilisateur maximum</li>
                         <li><i class="fas fa-check"></i> 50 Go de stockage</li>
                         <li><i class="fas fa-check"></i> Gestion de stock basique</li>
@@ -597,13 +597,13 @@
                         <p>Idéal pour les PME en croissance</p>
                     </div>
                     <div class="price">
-                        <div class="price-amount">20.000 XOF</div>
+                        <div class="price-amount">25.000 XOF</div>
                         <div class="price-period">par mois</div>
                         <div class="price-savings">Économisez 20% avec l'abonnement annuel</div>
                     </div>
                     <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> 200 produits</li>
-                        <li><i class="fas fa-check"></i> 300 Clients</li>
+                        <li><i class="fas fa-check"></i> 500 produits</li>
+                        <li><i class="fas fa-check"></i> 500 Clients</li>
                         <li><i class="fas fa-check"></i> 3 utilisateurs</li>
                         <li><i class="fas fa-check"></i> Factures illimitées</li>
                         <li><i class="fas fa-check"></i> 500 Go de stockage</li>
@@ -622,7 +622,7 @@
                         <p>Solution complète pour les grandes entreprises</p>
                     </div>
                     <div class="price">
-                        <div class="price-amount">30.000 XOF</div>
+                        <div class="price-amount">40.000 XOF</div>
                         <div class="price-period">par mois</div>
                         <div class="price-savings">Économisez 25% avec l'abonnement annuel</div>
                     </div>
@@ -684,7 +684,7 @@
                 <div class="footer-column">
                     <h3>Contact</h3>
                     <ul class="footer-links">
-                        <li><i class="fas fa-envelope"></i> contact@bcmgroupe.bmanager.com</li>
+                        <li><i class="fas fa-envelope"></i> contact@bcmgroupe.com</li>
                         <li><i class="fas fa-phone"></i> +221 77 794 72 58</li>
                         <li><i class="fas fa-map-marker-alt"></i> Saint-Louis, Senegal</li>
                     </ul>

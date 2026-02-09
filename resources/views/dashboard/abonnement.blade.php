@@ -477,9 +477,11 @@
                 <div class="subscription-section">
                     <div class="section-title">
                         <h2><i class="fas fa-crown"></i> Mon Abonnement</h2>
-                        <a href="{{route('abonnement.payer')}}" class="manage-btn">
-                            <i class="fa-solid fa-bag-shopping text-success"></i>Payer l'abonnement
-                        </a>
+                         @if($entreprise->trialExpire())
+                            <a href="{{route('abonnement.payer')}}" class="manage-btn">
+                                <i class="fa-solid fa-bag-shopping text-success"></i>Payer l'abonnement
+                            </a>
+                        @endif
                     </div>
                     
                     <!-- Carte d'abonnement actuel -->
@@ -506,29 +508,20 @@
                                 <h4>Prochain paiement</h4>
                                 <div class="detail-value">{{$entreprise->abonnement_expire_le}}</div>
                             </div>
+
                             <div class="detail-item">
                                 <h4>Prix mensuel</h4>
                                 <div class="detail-value">{{number_format($entreprise->pack->prix, 0, ',', ' ')}} XOF <span style="font-size: 14px; opacity: 0.9;">/mois</span></div>
                             </div>
+
                             <div class="detail-item">
                                 <h4>Utilisateurs inclus</h4>
-                                @if($entreprise->pack->nom == 'starter')
                                     <div class="detail-value">{{$entreprise->pack->max_user}} <span style="font-size: 14px; opacity: 0.9;">utilisateur</span></div>
-                                @elseif($entreprise->pack->nom == 'professionnel')
-                                    <div class="detail-value">{{$entreprise->pack->max_user}} <span style="font-size: 14px; opacity: 0.9;">utilisateurs</span></div>
-                                @else
-                                    <div class="detail-value"><span style="font-size: 14px; opacity: 0.9;">Jusqu'a 10 </span></div>
-                                @endif
                             </div>
+
                             <div class="detail-item">
                                 <h4>Nombre de produits</h4>
-                                @if($entreprise->pack->nom == 'starter')
                                     <div class="detail-value">{{$entreprise->pack->max_produit}} <span style="font-size: 14px; opacity: 0.9;">produits</span></div>
-                                @elseif($entreprise->pack->nom == 'professionnel')
-                                    <div class="detail-value">{{$entreprise->pack->max_produit}} <span style="font-size: 14px; opacity: 0.9;">produits</span></div>
-                                @else
-                                    <div class="detail-value"><span style="font-size: 14px; opacity: 0.9;">illimités</span></div>
-                                @endif
                             </div>
                         </div>
                         

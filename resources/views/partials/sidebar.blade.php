@@ -65,11 +65,13 @@
                             <i class="fas fa-chart-bar" style="color: #ff9d1b;"></i> Rapports
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="#" class=" disabled nav-link" data-section="settings">
-                            <i class="fas fa-cog" style="color: #ff9d1b;"></i> Compte
-                        </a>
-                    </li>                
+                    @if(Auth::user()->role == 'admin')
+                        <li class="nav-item">
+                            <a href="#" class=" disabled nav-link" data-section="settings">
+                                <i class="fas fa-user" style="color: #ff9d1b;"></i> Utilisateurs
+                            </a>
+                        </li>
+                    @endif             
         @else
                     <li class="nav-item">
                         <a href="{{ route('dashboard.index') }}" class="nav-link" data-section="dashboard">
@@ -124,12 +126,13 @@
                             <i class="fas fa-chart-bar" style="color: #ff9d1b;"></i> Rapports
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="{{ route('user.compte') }}" class="nav-link" data-section="settings">
-                            <i class="fas fa-cog" style="color: #ff9d1b;"></i> Compte
-                        </a>
-                    </li>
-                
+                    @if(Auth::user()->role == 'admin')
+                        <li class="nav-item">
+                            <a href="{{ route('user.compte') }}" class="nav-link" data-section="settings">
+                                <i class="fas fa-user" style="color: #ff9d1b;"></i> Utilisateurs
+                            </a>
+                        </li>
+                    @endif
                 
                     <!--<div class="border-top border-secondary">
                         <div class="d-flex align-items-center">

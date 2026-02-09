@@ -101,7 +101,7 @@ class AbonnementController extends Controller
             ->setNotificationUrl([
                 'success_url' => route('abonnement.success'),
                 'cancel_url' => route('abonnement.cancel'),
-                'ipn_url' => 'https://bmanager.bcmgroupe.com/abonnement.ipn',
+                'ipn_url' => 'https://bmanager.bcmgroupe.com/abonnement.chp',
             ])
             ->send();
 
@@ -113,7 +113,62 @@ class AbonnementController extends Controller
         return redirect()->back()->with('error', 'Impossible d’initier le paiement.');
     }
 
-    // Validation paiement
+    // Validation changement de pack
+     public function chp(Request $request)
+    {
+        $reference = $request->ref_command ?? null;
+        $status    = $request->payment_status ?? null;
+
+        if (!$reference) {
+            return response('Référence manquante', 400);
+        }
+        
+        $changement = PaiementAbonnement::where('reference', $reference)->first();
+
+        if (!$changement) {
+            return response('Paiement introuvable', 404);
+        }
+
+        // 🛑 Éviter les doubles traitements
+        if ($changement->statut === 'payé') {
+            return response('Déjà traité', 200);
+
+        }
+
+         $entreprise = $changement->entreprise;
+         $pack = $changement->pack;
+
+
+         if ($status === 'completed') {
+
+          // ✅ Paiement validé
+            $changement->update([
+                'statut' => 'payé',
+                'moyen_paiement' => $request->payment_method,
+                'paid_at' => now(),
+            ]);
+         }
+
+            // Mise a jour abonnement
+            $abonnement = $entreprise->abonnement;
+
+            $abonnement->update([
+                'pack_id' => $pack->id,
+                'montant' => $pack->montant,
+                'date_debut' =>now(),
+                'date_fin' => now()->addMonth(), // ou selon le pack
+            ]);
+
+            // Mise a jour entreprise
+            $entreprise->update([
+                'pack_id' => $pack->id,
+                'abonnement_expire_le' => now()->addMonth(),
+                'trial_actif' => false,
+            ]);
+    }
+
+
+    // Validation paiement abonnement
     public function ipn(Request $request)
     {
         $reference = $request->ref_command ?? null;
