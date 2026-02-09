@@ -21,9 +21,7 @@
      <!-- Icon Image -->
      <link rel="shortcut icon" href="{{asset('asset/logo/Logo B.Manager.png')}}"/>
     
-    <style>
-    
-        
+    <style>    
         .user-info {
             display: flex;
             align-items: center;
@@ -523,6 +521,10 @@
                                 <h4>Nombre de produits</h4>
                                     <div class="detail-value">{{auth()->user()->entreprise->pack->max_produit}} <span style="font-size: 14px; opacity: 0.9;">produits</span></div>
                             </div>
+                             <div class="detail-item">
+                                <h4>Nombre de clients</h4>
+                                    <div class="detail-value">{{auth()->user()->entreprise->pack->max_client}} <span style="font-size: 14px; opacity: 0.9;">clients</span></div>
+                            </div>
                         </div>
                         
                         <div class="subscription-actions">
@@ -654,4 +656,65 @@
     </div>
     
 
-@include('partials.footer')
+    <!-- Footer -->
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <p class="mb-0 text-muted">© <?= now()->year ?> B-Manager. Tous droits réservés.</p>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <p class="mb-0 text-muted">Version 1.0.0</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+
+    <script>
+        // Simulation d'interactions pour la section abonnement
+        document.addEventListener('DOMContentLoaded', function() {
+            // Gestion du bouton "Gérer l'abonnement"
+            const manageBtn = document.querySelector('.manage-btn');
+            manageBtn.addEventListener('click', function() {
+                alert('Redirection vers la page de gestion de l\'abonnement...');
+            });
+            
+            // Gestion des boutons de téléchargement de facture
+            const invoiceBtn = document.querySelector('.primary-btn');
+            invoiceBtn.addEventListener('click', function() {
+                alert('Téléchargement de la dernière facture...');
+            });
+            
+            // Gestion des boutons "Choisir ce pack"
+            const packBtns = document.querySelectorAll('.pack-card:not(.recommended) .pack-btn');
+            packBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const packName = this.closest('.pack-card').querySelector('.pack-name').textContent;
+                    alert(`Vous avez sélectionné le ${packName}. Vous serez redirigé vers la page de paiement.`);
+                });
+            });
+            
+            // Animation des cartes au survol
+            const packCards = document.querySelectorAll('.pack-card');
+            packCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transition = 'all 0.3s ease';
+                });
+            });
+        });
+    </script>
+
+   <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    
+    
+   <script src="{{asset('asset/main.js')}}"></script>
+</body>
+</html>
+    

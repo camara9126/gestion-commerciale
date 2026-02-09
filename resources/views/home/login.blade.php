@@ -443,7 +443,7 @@
         <section class="stats-section">
             <div class="stats-container">
                 <h2>Rejoignez notre communauté</h2>
-                <p>Des milliers de professionnels utilisent déjà GestionPro pour optimiser leur gestion d'entreprise au quotidien.</p>
+                <p>Des milliers de professionnels utilisent déjà B-Manager pour optimiser leur gestion d'entreprise au quotidien.</p>
                 
                 <div class="stats-grid">
                     <div class="stat-item">
@@ -468,15 +468,15 @@
                 </div>
                 
                 <div class="testimonial" style="margin-top: 3rem; font-style: italic; opacity: 0.9;">
-                    <p>"GestionPro a transformé notre façon de travailler. La centralisation des données et les rapports automatisés nous font gagner un temps précieux chaque semaine."</p>
-                    <p style="margin-top: 1rem; font-size: 0.9rem;">- Sophie Martin, Directrice financière</p>
+                    <p>"B-Manager a transformé notre façon de travailler. La centralisation des données et les rapports automatisés nous font gagner un temps précieux chaque semaine."</p>
+                    <p style="margin-top: 1rem; font-size: 0.9rem;">- Aminata Ba, Comptable</p>
                 </div>
             </div>
         </section>
     </div>
     
     <footer class="footer">
-        <p>© 2023 GestionPro. Tous droits réservés. | <a href="#">Politique de confidentialité</a> | <a href="#">Conditions d'utilisation</a> | <a href="#">Support</a></p>
+        <p>© <?= now()->year ?> B-Manager. Tous droits réservés. | <a href="{{route('politiques')}}" target="_blank">Politique de confidentialité</a> | <a href="{{route('politiques')}}" target="_blank">Conditions d'utilisation</a> | <a href="#">Support</a></p>
     </footer>
 
     

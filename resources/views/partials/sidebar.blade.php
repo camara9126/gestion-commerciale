@@ -131,6 +131,11 @@
                         </a>
                     </li>
                     @can('admin')
+                    <li class="nav-item mb-0 mt-0">
+                        <a href="{{ route('dashboard.comptabilite') }}" class="nav-link" data-section="reports">
+                            <i class="fas fa-chart-bar" style="color: #ff9d1b;"></i> Comptabilite
+                        </a>
+                    </li>
                         <li class="nav-item">
                             <a href="{{ route('user.compte') }}" class="nav-link" data-section="settings">
                                 <i class="fas fa-user" style="color: #ff9d1b;"></i> Utilisateurs

@@ -31,9 +31,6 @@ class AbonnementController extends Controller
         //dd($paiement);
 
         // 3️⃣ Initialisation PayTech
-       
-        //require_once __DIR__ . 'PayTech.php';
-
         $paytech = new PayTech(
             config('services.paytech.api_key'),
             config('services.paytech.api_secret')
@@ -72,15 +69,17 @@ class AbonnementController extends Controller
     public function changerPack(PayTech $paytech, Pack $p)
     {
         $entreprise = request()->user()->entreprise;
-
         $pack = Pack::findOrFail($p->id);
+
+        // 1️⃣ Référence unique
+        $refCommande = 'CHP-' . Carbon::now()->format('YmdHis') . '-' . uniqid();
 
         // Créer paiement_abonnement
         $paiement = PaiementAbonnement::create([
             'entreprise_id' => $entreprise->id,
             'pack_id' => $pack->id,
             'statut' => 'en_attente',
-            'reference' => uniqid('CHG_'),
+            'reference' => $refCommande,
             'montant' => $pack->prix
         ]);
 

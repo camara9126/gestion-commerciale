@@ -454,7 +454,7 @@
                     
                     <div class="terms">
                         <input type="checkbox" id="terms" required>
-                        <label for="terms">J'accepte les <a href="{{route('politiques')}}" target="_blank">Conditions d'utilisation</a> et la <a href="{{route('politiques')}}" target="_blank">Politique de confidentialité</a> de GestionPro.</label>
+                        <label for="terms">J'accepte les <a href="{{route('politiques')}}" target="_blank">Conditions d'utilisation</a> et la <a href="{{route('politiques')}}" target="_blank">Politique de confidentialité</a> de B-Manager.</label>
                     </div>
                     
                     <button type="submit" class="btn-primary">Créer mon compte</button>
@@ -483,7 +483,7 @@
         <section class="illustration-section">
             <div class="illustration-container">
                 <h2>Optimisez la gestion de votre entreprise</h2>
-                <p>Rejoignez des milliers d'entreprises qui utilisent déjà GestionPro pour simplifier leurs opérations quotidiennes.</p>
+                <p>Rejoignez des milliers d'entreprises qui utilisent déjà B-Manager pour simplifier leurs opérations quotidiennes.</p>
                 
                 <div class="features">
                     <div class="feature">
@@ -515,7 +515,7 @@
     </div>
     
     <footer class="footer">
-        <p>© <?= now()->year ?> GestionPro. Tous droits réservés. | <a href="#">Politique de confidentialité</a> | <a href="#">Conditions d'utilisation</a></p>
+        <p>© <?= now()->year ?> B-Manager. Tous droits réservés. | <a href="{{route('politiques')}}" target="_blank">Politique de confidentialité</a> | <a href="{{route('politiques')}}" target="_blank">Conditions d'utilisation</a></p>
     </footer>
 
     <script>

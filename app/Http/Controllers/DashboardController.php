@@ -38,6 +38,12 @@ class DashboardController extends Controller
         return view('dashboard.index', compact('produits','fournisseurs','mouvements_ent','mouvements_sor','clients','ventes','entreprise')); 
     }
 
+    // Comptabilite
+    public function comptabilite()
+    {
+        return view('dashboard.comptabilite');
+    }
+
 
     // Page Abonnement
      public function abonnement()

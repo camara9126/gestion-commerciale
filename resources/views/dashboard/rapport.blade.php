@@ -1,7 +1,4 @@
-<?php
 
-use Illuminate\Support\Facades\Auth;
-?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -23,8 +20,8 @@ use Illuminate\Support\Facades\Auth;
     
     <style>
         :root {
-            --primary-color: #4361ee;
-            --secondary-color: #3f37c9;
+            --primary-color: #00778b;
+            --secondary-color: #00778b;
             --success-color: #4cc9f0;
             --light-color: #f8f9fa;
             --dark-color: #212529;

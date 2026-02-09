@@ -83,6 +83,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'entreprise.exists'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
     Route::get('/dashboard.rapport', [DashboardController::class, 'rapport'])->name('dashboard.rapport');
+    Route::get('/dashboard.comptabilite', [DashboardController::class, 'comptabilite'])->name('dashboard.comptabilite');
     Route::get('/dashboard/stats', [DashboardController::class, 'stats'])->name('dashboard.stats');
     Route::get('/abonnement', [DashboardController::class, 'abonnement'])->name('dashboard.abonnement');
 });
