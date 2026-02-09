@@ -697,7 +697,7 @@ CREATE TABLE `users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `entreprise_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `role` enum('admin','gestionnaire') NOT NULL
+  `role` enum('admin','gestionnaire de stock','caissier') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
