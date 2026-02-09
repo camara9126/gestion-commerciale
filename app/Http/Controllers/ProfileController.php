@@ -20,7 +20,7 @@ class ProfileController extends Controller
     public function compte()
     {
         $users = User::where('entreprise_id', request()->user()->entreprise_id)->get();
-        
+
         return view('profile.users', compact('users'));
     }
 
@@ -148,7 +148,7 @@ class ProfileController extends Controller
 
         };
 
-        return view('profile.addUser');
+        return view('profile.adduser');
     }
 
 
