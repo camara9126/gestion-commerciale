@@ -5,12 +5,17 @@ namespace App\Http\Controllers\Commercial;
 use App\Http\Controllers\Controller;
 use App\Models\Client;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
 
 class ClientController extends Controller
 {
+     use AuthorizesRequests;
+
 
     public function index(Request $request)
     {
+        $this->authorize('gerer-ventes');
 
         $clients = Client::where( 'entreprise_id', request()->user()->entreprise_id)->latest()->simplePaginate(10);
 

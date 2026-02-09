@@ -65,45 +65,49 @@
                             <i class="fas fa-chart-bar" style="color: #ff9d1b;"></i> Rapports
                         </a>
                     </li>
-                    @if(Auth::user()->role == 'admin')
+                    @can('admin')
                         <li class="nav-item">
                             <a href="#" class=" disabled nav-link" data-section="settings">
                                 <i class="fas fa-user" style="color: #ff9d1b;"></i> Utilisateurs
                             </a>
                         </li>
-                    @endif             
+                    @endcan             
         @else
                     <li class="nav-item">
                         <a href="{{ route('dashboard.index') }}" class="nav-link" data-section="dashboard">
                             <i class="fas fa-home" style="color: #ff9d1b;"></i> Dashboard
                         </a>
                     </li>
-                    <li class="nav-item mb-0 mt-0">
-                        <a href="{{ route('produits.index') }}" class="nav-link">
-                            <i class="fas fa-list" style="color: #ff9d1b;"></i> Produits
-                        </a>
-                    </li>
-                    <li class="nav-item mb-0 mt-0">
-                        <a href="{{ route('fournisseurs.index') }}" class="nav-link">
-                            <i class="fas fa-truck" style="color: #ff9d1b;"></i> Fournisseurs
-                        </a>
-                    </li>
-                    <li class="nav-item mb-0 mt-0">
-                        <a href="{{ route('mouvements') }}" class="nav-link">
-                            <i class="fas fa-bars-staggered" style="color: #ff9d1b;"></i> Stocks
-                        </a>
-                    </li>
+                    @can('gerer-stock')
+                        <li class="nav-item mb-0 mt-0">
+                            <a href="{{ route('produits.index') }}" class="nav-link">
+                                <i class="fas fa-list" style="color: #ff9d1b;"></i> Produits
+                            </a>
+                        </li>
+                        <li class="nav-item mb-0 mt-0">
+                            <a href="{{ route('fournisseurs.index') }}" class="nav-link">
+                                <i class="fas fa-truck" style="color: #ff9d1b;"></i> Fournisseurs
+                            </a>
+                        </li>
+                        <li class="nav-item mb-0 mt-0">
+                            <a href="{{ route('mouvements') }}" class="nav-link">
+                                <i class="fas fa-bars-staggered" style="color: #ff9d1b;"></i> Stocks
+                            </a>
+                        </li>
+                    @endcan
                     <hr>
-                    <li class="nav-item mb-0 mt-0">
-                        <a href="{{ route('clients.index') }}" class="nav-link">
-                            <i class="fas fa-users" style="color: #ff9d1b;"></i> Clients
-                        </a>
-                    </li>
-                    <li class="nav-item mb-0 mt-0">
-                        <a href="{{ route('ventes.index') }}" class="nav-link">
-                            <i class="fas fa-cart-arrow-down" style="color: #ff9d1b;"></i> Ventes & Factures
-                        </a>
-                    </li> 
+                    @can('gerer-ventes')
+                        <li class="nav-item mb-0 mt-0">
+                            <a href="{{ route('clients.index') }}" class="nav-link">
+                                <i class="fas fa-users" style="color: #ff9d1b;"></i> Clients
+                            </a>
+                        </li>
+                        <li class="nav-item mb-0 mt-0">
+                            <a href="{{ route('ventes.index') }}" class="nav-link">
+                                <i class="fas fa-cart-arrow-down" style="color: #ff9d1b;"></i> Ventes & Factures
+                            </a>
+                        </li> 
+                    @endcan
                     <hr>
                     <li class="nav-item mb-0 mt-0">
                         <a href="{{ route('paiements.index') }}" class="nav-link" data-section="invoices">
@@ -126,13 +130,13 @@
                             <i class="fas fa-chart-bar" style="color: #ff9d1b;"></i> Rapports
                         </a>
                     </li>
-                    @if(Auth::user()->role == 'admin')
+                    @can('admin')
                         <li class="nav-item">
                             <a href="{{ route('user.compte') }}" class="nav-link" data-section="settings">
                                 <i class="fas fa-user" style="color: #ff9d1b;"></i> Utilisateurs
                             </a>
                         </li>
-                    @endif
+                    @endcan
                 
                     <!--<div class="border-top border-secondary">
                         <div class="d-flex align-items-center">

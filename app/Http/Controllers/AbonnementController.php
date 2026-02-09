@@ -58,7 +58,7 @@ class AbonnementController extends Controller
                 'ipn_url'     => 'https://bmanager.bcmgroupe.com/abonnement.ipn',
             ])
             ->send();
-        dd($response);
+        //dd($response);
         $data = $response;
 
         if ($data['success'] === 1) {

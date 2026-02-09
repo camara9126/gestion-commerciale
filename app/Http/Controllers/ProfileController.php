@@ -20,7 +20,7 @@ class ProfileController extends Controller
     public function compte()
     {
         $users = User::where('entreprise_id', request()->user()->entreprise_id)->get();
-
+        
         return view('profile.users', compact('users'));
     }
 

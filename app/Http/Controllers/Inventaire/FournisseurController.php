@@ -5,11 +5,19 @@ namespace App\Http\Controllers\Inventaire;
 use App\Http\Controllers\Controller;
 use App\Models\Fournisseur;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
 
 class FournisseurController extends Controller
 {
+     use AuthorizesRequests;
+
+     
     public function index(Request $request)
     {
+
+    $this->authorize('gerer-stock');
+
         $fournisseurs = Fournisseur::where('entreprise_id', $request->user()->entreprise_id)
             ->latest()
             ->get();

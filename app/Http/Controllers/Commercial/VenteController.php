@@ -9,14 +9,21 @@ use App\Models\Vente;
 use App\Models\VenteItem;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
 
 use function Symfony\Component\Clock\now;
 
 class VenteController extends Controller
 {
 
-   public function index(Request $request)
+   use AuthorizesRequests;
+
+
+    public function index(Request $request)
     {
+        $this->authorize('gerer-ventes');
+
 
         $ventes = Vente::with('client')->where('entreprise_id', $request->user()->entreprise_id)->latest()->simplePaginate(5); 
 
@@ -173,3 +180,4 @@ class VenteController extends Controller
         return $pdf->download('Facture-' . $vente->reference . '.pdf');
     }
 }
+

@@ -26,7 +26,7 @@
                                         @csrf
                                         @method('PUT')
                                         <h2 class="text-center mb-4">Modification produit</h2>
-                                        <div class="row">
+                                        <div class="row mb-2">
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label for="name" class="form-label">Nom produit</label>
@@ -40,17 +40,21 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-6 d-center">
+                                        <div class="row mb-2">
+                                            <div class="col-md-6 mb-3 d-center">
                                                 <label for="fournisseur" class="form-label">Fournisseur</label>
                                                 <select class="form-select" name="fournisseur_id" id="">
                                                     <option value="{{$produit->fournisseur->id}}">{{$produit->fournisseur->nom}}</option>
                                                    
                                                 </select>
                                             </div>
+                                            <div class="col-md-6 mb-3 d-center">
+                                                <label for="fournisseur" class="form-label">Stock</label>
+                                                <input type="text" readonly class="form-control" name="prix_achat" value="{{$produit->stock}}">
+                                            </div>
                                             
                                         </div>
-                                        <div class="row">
+                                        <div class="row mb-2">
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label for="prix achat" class="form-label">Prix d'achat</label>
