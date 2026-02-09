@@ -243,7 +243,7 @@ class AbonnementController extends Controller
     // Paiement Valide
     public function success(Request $request)
     {
-        return view('dashboard.abonnement', [
+        return view('dashboard.success', [
             'message' => 'Paiement en cours de validation. Merci de patienter.'
         ]);
     }
@@ -252,6 +252,7 @@ class AbonnementController extends Controller
     // Paiement Invalide
     public function cancel(Request $request)
     {
+        $packs = Pack::all();
         if ($request->ref_command) {
             $paiement = PaiementAbonnement::where('reference', $request->ref_command)->first();
 
@@ -262,7 +263,7 @@ class AbonnementController extends Controller
             }
         }
 
-        return view('dashboard.abonnement', [
+        return view('dashboard.cancel',compact('packs'), [
             'message' => 'Paiement annulé. Aucun montant n’a été débité.'
         ]);
     }

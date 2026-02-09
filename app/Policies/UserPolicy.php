@@ -44,11 +44,7 @@ class UserPolicy
      */
     public function delete(User $authUser, User $user): bool
     {
-        
-        // suppression pour l'admin seul
-        if($authUser->role !== 'admin') {
-            return false;
-        }
+                
 
         // ID entrprise seulement
         if($authUser->entreprise_id !== $user->entreprise_id) {

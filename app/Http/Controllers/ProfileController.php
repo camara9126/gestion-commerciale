@@ -123,7 +123,6 @@ class ProfileController extends Controller
 
         //Auth::logout();
 
-        $this->authorize('delete', $user);
         $user->delete();
 
         return redirect()->back()->with('success', 'Utilisateur supprimé avec success');

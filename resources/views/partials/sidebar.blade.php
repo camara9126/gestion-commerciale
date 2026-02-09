@@ -8,7 +8,7 @@
             <small class="text-white">{{ Auth::user()->entreprise->adresse }}</small>
         </div>
 
-        @if(!$entreprise->abonnementActif()) 
+        @if(! auth()->user()->entreprise->abonnementActif()) 
             <div class="px-3 py-4">
                 <marquee behavior="" direction="">Activer un abonnement</marquee>
                 <ul class="nav flex-column">

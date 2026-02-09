@@ -372,13 +372,13 @@
             <div class="d-flex align-items-center">
                 <!-- Search Bar - Hidden on mobile -->
                 <div class="d-none d-md-block me-3">
-                    @if($entreprise->isOnTrial())
+                    @if(auth()->user()->entreprise->isOnTrial())
                         <div class="alert alert-info">
-                            🎉 Essai gratuit actif – expire le {{ $entreprise->trial_fin }}
+                            🎉 Essai gratuit actif – expire le {{ auth()->user()->entreprise->trial_fin }}
                         </div>
                     @endif
 
-                    @if($entreprise->trialExpire())
+                    @if(auth()->user()->entreprise->trialExpire())
                         <div class="alert alert-danger">
                             ⛔ Essai expiré – veuillez activer un abonnement
                         </div>
@@ -398,7 +398,7 @@
                 <div class="dropdown me-3">
                     <button class="btn btn-light dropdown-toggle" type="button" id="notificationsDropdown" data-bs-toggle="dropdown">
                                 <i class="fas fa-bell"></i>
-                                @if($entreprise->isOnTrial()  || $entreprise->trialExpire())
+                                @if(auth()->user()->entreprise->isOnTrial()  || auth()->user()->entreprise->trialExpire())
                                     <span class="badge bg-danger rounded-pill">
                                         1
                                     </span>
@@ -406,14 +406,14 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <!--<li><h6 class="dropdown-header">Notifications</h6></li>-->
-                        @if($entreprise->isOnTrial())
+                        @if(auth()->user()->entreprise->isOnTrial())
                         <li>
-                            <a class="dropdown-item alert alert-info" href="#">🎉 Essai gratuit actif – expire le {{ $entreprise->trial_fin }}
+                            <a class="dropdown-item alert alert-info" href="#">🎉 Essai gratuit actif – expire le {{ auth()->user()->entreprise->trial_fin }}
                             </a>
                         </li>
                         @endif
                         <!--<li><a class="dropdown-item" href="#">Paiement reçu de Client XYZ</a></li>-->
-                         @if($entreprise->trialExpire())
+                         @if(auth()->user()->entreprise->trialExpire())
                             <li>
                                 <a class="dropdown-item alert alert-danger" href="#" >⛔ Essai expiré – veuillez activer un abonnement
                                 </a>
@@ -477,7 +477,7 @@
                 <div class="subscription-section">
                     <div class="section-title">
                         <h2><i class="fas fa-crown"></i> Mon Abonnement</h2>
-                         @if($entreprise->trialExpire())
+                         @if(auth()->user()->entreprise->abonnementActif())
                             <a href="{{route('abonnement.payer')}}" class="manage-btn">
                                 <i class="fa-solid fa-bag-shopping text-success"></i>Payer l'abonnement
                             </a>
@@ -488,51 +488,49 @@
                     <div class="subscription-card">
                         <div class="subscription-header">
                             <div class="subscription-title">
-                                <h3>PACK {{strtoupper($entreprise->pack->nom) ?? 'Vide'}}</h3>
+                                <h3>PACK {{strtoupper(auth()->user()->entreprise->pack->nom) ?? 'Vide'}}</h3>
                                 <p >Statut :  
-                                    @if($entreprise->isOnTrial())
+                                    @if(auth()->user()->entreprise->isOnTrial())
                                         <span class="badge bg-success">Essai gratuit actif</span>
-                                    @elseif($entreprise->abonnementValide())
+                                    @elseif(auth()->user()->entreprise->abonnementValide())
                                          <span class="badge bg-success">Actif</span>
-                                    @elseif($entreprise->trialExpire())
+                                    @elseif(auth()->user()->entreprise->trialExpire())
                                         <span class="badge bg-danger">Essai gratuit termine</span>
                                     @endif
                                  </p>
                             </div>
-                            <div class="subscription-badge">{{$entreprise->isOnTrial() ? 'Essai gratuit' : ' '}}</div>
+                            <div class="subscription-badge">{{auth()->user()->entreprise->isOnTrial() ? 'Essai gratuit' : ' '}}</div>
                         </div>
                         
                         <!-- Details abonnement-->
                         <div class="subscription-details">
                             <div class="detail-item">
                                 <h4>Prochain paiement</h4>
-                                <div class="detail-value">{{$entreprise->abonnement_expire_le}}</div>
+                                <div class="detail-value">{{auth()->user()->entreprise->abonnement_expire_le}}</div>
                             </div>
 
                             <div class="detail-item">
                                 <h4>Prix mensuel</h4>
-                                <div class="detail-value">{{number_format($entreprise->pack->prix, 0, ',', ' ')}} XOF <span style="font-size: 14px; opacity: 0.9;">/mois</span></div>
+                                <div class="detail-value">{{number_format(auth()->user()->entreprise->pack->prix, 0, ',', ' ')}} XOF <span style="font-size: 14px; opacity: 0.9;">/mois</span></div>
                             </div>
 
                             <div class="detail-item">
                                 <h4>Utilisateurs inclus</h4>
-                                    <div class="detail-value">{{$entreprise->pack->max_user}} <span style="font-size: 14px; opacity: 0.9;">utilisateur</span></div>
+                                    <div class="detail-value">{{auth()->user()->entreprise->pack->max_user}} <span style="font-size: 14px; opacity: 0.9;">utilisateur</span></div>
                             </div>
 
                             <div class="detail-item">
                                 <h4>Nombre de produits</h4>
-                                    <div class="detail-value">{{$entreprise->pack->max_produit}} <span style="font-size: 14px; opacity: 0.9;">produits</span></div>
+                                    <div class="detail-value">{{auth()->user()->entreprise->pack->max_produit}} <span style="font-size: 14px; opacity: 0.9;">produits</span></div>
                             </div>
                         </div>
                         
                         <div class="subscription-actions">
-                            @if($entreprise->trialExpire())
+                            @if(auth()->user()->entreprise->trialExpire())
                             <a href="{{route('abonnement.payer')}}" class="btn btn-light"><i class="fa fa-card"></i>Abonnement expiré. Veuillez renouveler</a> 
                             </form>
-                            @else
-                                <button class="action-btn secondary-btn">
-                                    <i class="fas fa-history"></i> Historique des paiements
-                                </button>
+                            @elseif(auth()->user()->entreprise->abonnementActif())
+                                    <a href="{{route('abonnement.payer')}}" class="btn btn-light"><i class="fa fa-card"></i> Payer l'abonnement</a>
                             @endif
                         </div>
                     </div>
@@ -546,7 +544,7 @@
                                     <div class="pack-card">
                                         
                                         <div class="pack-header">
-                                            @if($entreprise->pack->nom == $p->nom)
+                                            @if(auth()->user()->entreprise->pack->nom == $p->nom)
                                                 <div class="recommended-badge">ACTUELLEMENT ACTIF</div>
                                             @endif
                                             <div class="pack-name">{{$p->nom}}</div>
@@ -579,7 +577,7 @@
                                                 <li><i class="fas fa-check"></i> Formation personnalisée</li>
                                             @endif
                                         </ul>
-                                        @if($entreprise->pack->nom !==  $p->nom)
+                                        @if(auth()->user()->entreprise->pack->nom !==  $p->nom)
                                             <button class="pack-btn bg-success">
                                                 <a href="{{route('abonnement.changer', $p->id)}}" class="text-white">Choisir ce pack</a>
                                             </button>
@@ -591,7 +589,7 @@
                                 
                                 <!-- Pack Professionnel (recommandé) -->
                                 <!--<div class="pack-card recommended">
-                                    @if($entreprise->pack->id == 3)
+                                    @if(auth()->user()->entreprise->pack->id == 3)
                                         <div class="recommended-badge">ACTUELLEMENT ACTIF</div>
                                     @endif
                                     <div class="pack-header">
@@ -609,9 +607,9 @@
                                         <li><i class="fas fa-check"></i> Analytics avancés</li>
                                         <li><i class="fas fa-times" style="color: red;"></i> Formation personnalisée</li>
                                     </ul>
-                                    @if($entreprise->pack->id == 3 && !$entreprise->trialExpire())
+                                    @if(auth()->user()->entreprise->pack->id == 3 && !auth()->user()->entreprise->trialExpire())
                                         <button class="pack-btn">Pack actuel</button>
-                                    @elseif($entreprise->pack->id == 3 && $entreprise->trialExpire())
+                                    @elseif(auth()->user()->entreprise->pack->id == 3 && auth()->user()->entreprise->trialExpire())
                                         <button class="pack-btn">Pack actuel</button>
                                         <a href="{{route('abonnement.payer')}}" class="btn btn-success">Payer l'abonnement</a>
                                     @else
@@ -621,7 +619,7 @@
                                 
                                 <!-- Pack Entreprise -->
                                 <!--<div class="pack-card">
-                                    @if($entreprise->pack->id == 2)
+                                    @if(auth()->user()->entreprise->pack->id == 2)
                                         <div class="recommended-badge">ACTUELLEMENT ACTIF</div>
                                     @endif
                                     <div class="pack-header">
@@ -639,9 +637,9 @@
                                         <li><i class="fas fa-check"></i> Analytics avancés</li>
                                         <li><i class="fas fa-check"></i> Formation personnalisée</li>
                                     </ul>
-                                    @if($entreprise->pack->id == 2 && !$entreprise->trialExpire())
+                                    @if(auth()->user()->entreprise->pack->id == 2 && !auth()->user()->entreprise->trialExpire())
                                         <button class="pack-btn">Pack actuel</button>
-                                    @elseif($entreprise->pack->id == 2 && $entreprise->trialExpire())
+                                    @elseif(auth()->user()->entreprise->pack->id == 2 && auth()->user()->entreprise->trialExpire())
                                         <button class="pack-btn">Pack actuel</button>
                                         <a href="{{route('abonnement.payer')}}" class="btn btn-success">Payer l'abonnement</a>
                                     @else

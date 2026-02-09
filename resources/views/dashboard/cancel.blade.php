@@ -25,7 +25,7 @@
                             <div class="card">
                             <div class="card-body text-center">
                                 <h5 class="card-title">Paiement de l'abonnement <b>B-Manager</b></h5>
-                                <p class="card-text">Paiement en cours de validation. Merci de patienter.</p>
+                                <p class="card-text">Paiement annulé. Aucun montant n’a été débité.</p>
                                 <a href="{{route('dashboard.index')}}" class="btn btn-warning">Retour table de bord</a>
                             </div>
                             </div>
