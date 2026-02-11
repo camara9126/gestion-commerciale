@@ -131,29 +131,17 @@
                         </a>
                     </li>
                     @can('admin')
-                    <li class="nav-item mb-0 mt-0">
+                    <!--<li class="nav-item mb-0 mt-0">
                         <a href="{{ route('dashboard.comptabilite') }}" class="nav-link" data-section="reports">
                             <i class="fas fa-chart-bar" style="color: #ff9d1b;"></i> Comptabilite
                         </a>
-                    </li>
+                    </li>-->
                         <li class="nav-item">
                             <a href="{{ route('user.compte') }}" class="nav-link" data-section="settings">
                                 <i class="fas fa-user" style="color: #ff9d1b;"></i> Utilisateurs
                             </a>
                         </li>
                     @endcan
-                
-                    <!--<div class="border-top border-secondary">
-                        <div class="d-flex align-items-center">
-                            <div class="user-profile me-3">+</div>
-                            <div>
-                                <a href="{{ route('user.adduser') }}" class="nav-link" data-section="settings">
-                                    <p class="mb-0 fw-bold">Nouveau utilisateur</p>
-                                </a>
-                            <small class="text-muted">Administrateur</small>
-                            </div>
-                        </div>
-                    </div>-->
             
         @endif
                 </ul>
