@@ -102,7 +102,7 @@
                                                 <!-- Catégorie -->
                                                 <div class="col-12 mb-3">
                                                     <label class="form-label">Catégorie</label>
-                                                    <select name="categorie_depense_id" class="form-control">
+                                                    <select name="categorie_depense_id" class="form-control" required>
                                                         <option value="">-- Sélectionner --</option>
                                                         @foreach($categories as $categorie)
                                                             <option value="{{ $categorie->id }}">
@@ -130,9 +130,9 @@
                                                     <select name="mode_paiement" class="form-control" required>
                                                         <option value="">-- Choisir --</option>
                                                         <option value="cash">Cash</option>
-                                                        <option value="mobile_money">Mobile Money</option>
-                                                        <option value="virement">Virement</option>
-                                                        <option value="cheque">Chèque</option>
+                                                        <option value="orange_money">Orange Money</option>
+                                                        <option value="wave">Wave</option>
+                                                        <option value="banque">Banque</option>
                                                     </select>
                                                 </div>
 

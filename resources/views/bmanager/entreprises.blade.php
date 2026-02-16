@@ -60,7 +60,7 @@
                 </li>
                 <li class="nav-item mb-0 mt-0">
                     <a href="{{ route('entreprise.entreprises') }}" class="nav-link">
-                    <i class="fas fa-building" style="color: #ff9d1b;"></i> Entreprises
+                        <i class="fas fa-building" style="color: #ff9d1b;"></i> Entreprises
                     </a>
                 </li>
                 <li class="nav-item mb-0 mt-0">
@@ -178,7 +178,7 @@
                     <div class="stat-card">
                         <div class="col-lg-12">
                             <div class="d-flex justify-content-between align-items-center mb-0">                          
-                                <h5 class="mb-0">Utilisateur</h5>
+                                <h5 class="mb-0">Entreprises</h5>
                                 <a href="{{route('entreprise.index')}}" class="btn btn-outline-danger">
                                         Retour
                                 </a>
@@ -191,20 +191,20 @@
                                                 <thead>
                                                     <tr>
                                                         <th>Nom</th>
-                                                        <th>Entreprise</th>
                                                         <th>Telephone</th>
-                                                        <th>Email</th>
+                                                        <th>Adresse</th>
                                                         <th>Pack</th>
+                                                        <th>Date d'expiration</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach($users as $u)
+                                                    @foreach($entreprises as $e)
                                                     <tr>
-                                                        <td>{{$u->name}}</td>
-                                                        <td>{{$u->entreprise->nom}}</td>
-                                                        <td>{{$u->entreprise->telephone}}</td>
-                                                        <td>{{$u->entreprise->email}}</td>
-                                                        <td>{{$u->entreprise->pack->nom}}</td>
+                                                        <td>{{$e->nom}}</td>
+                                                        <td>{{$e->telephone}}</td>
+                                                        <td>{{$e->adresse ?? 'vide'}}</td>
+                                                        <td>{{$e->pack->nom}}</td>
+                                                        <td>{{$e->abonnement_expire_le}}</td>
                                                     </tr>
                                                     @endforeach
                                                 </tbody>

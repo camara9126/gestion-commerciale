@@ -36,7 +36,7 @@ class AuthenticatedSessionController extends Controller
         } 
 
         //partie super administrateur
-        if($entreprise->id == 2) {
+        if($entreprise->id == 2 && request()->user()->id == 2) {
             return redirect()->route('entreprise.index');
         }
         

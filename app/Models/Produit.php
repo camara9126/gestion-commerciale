@@ -30,4 +30,10 @@ class Produit extends Model
     {
         return $this->belongsTo(Entreprise::class);
     }
+
+        // Alerte stock minimum
+    public static function produitsEnAlerte()
+    {
+        return self::whereColumn('stock', '<=', 'stock_min')->where('entreprise_id', request()->user()->entreprise_id);
+    }
 }

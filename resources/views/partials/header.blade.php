@@ -1,6 +1,11 @@
 <?php
 
+    use App\Models\Produit;
+
     $entreprise = request()->user()->entreprise;
+
+    // Alert sotck
+    $alerte = Produit::produitsEnAlerte()->count();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -53,6 +58,12 @@
             <div class="d-flex align-items-center">
                 <!-- Search Bar - Hidden on mobile -->
                 <div class="d-none d-md-block me-3">
+                     @if($alerte)
+                        <div class="alert alert-danger">
+                            ⛔ Vous avez <b><?= $alerte ?></b> produit(s) en rupture de stock. Merci de mettre a jour !
+                        </div>
+                    @endif
+                    
                     @if($entreprise->isOnTrial())
                         <div class="alert alert-info">
                             🎉 Essai gratuit actif – expire le {{ $entreprise->trial_fin }}
@@ -93,6 +104,12 @@
                             <a class="dropdown-item alert alert-info" href="#">🎉 Essai gratuit actif – expire le {{ $entreprise->trial_fin }}
                             </a>
                         </li>
+                        @endif
+
+                        @if($alerte)
+                            <li>
+                                <a class="dropdown-item alert alert-info" href="{{ route('mouvements') }}">⛔ <b><?= $alerte ?></b> produit(s) est en rupture de stock.</a>
+                            </li>
                         @endif
                         <!--<li><a class="dropdown-item" href="#">Paiement reçu de Client XYZ</a></li>-->
                          @if($entreprise->trialExpire())

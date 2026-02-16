@@ -12,6 +12,13 @@
             <div class="px-3 py-4">
                 <marquee behavior="" direction="">Activer un abonnement</marquee>
                 <ul class="nav flex-column">
+                    @if( auth()->user()->id == 2)
+                        <li class="nav-item">
+                            <a href="{{ route('entreprise.index') }}" class=" nav-link" data-section="dashboard">
+                                <i class="fas fa-circle-check" style="color: #ff9d1b;"></i> Webmaster
+                            </a>
+                        </li>
+                    @endif
                     <li class="nav-item">
                         <a href="#" class=" disabled nav-link" data-section="dashboard">
                             <i class="fas fa-home" style="color: #ff9d1b;"></i> Dashboard
@@ -73,6 +80,13 @@
                         </li>
                     @endcan             
         @else
+                    @if( auth()->user()->id == 2)
+                        <li class="nav-item">
+                            <a href="{{ route('entreprise.index') }}" class=" nav-link" data-section="dashboard">
+                                <i class="fas fa-circle-check" style="color: #ff9d1b;"></i> Webmaster
+                            </a>
+                        </li>
+                    @endif
                     <li class="nav-item">
                         <a href="{{ route('dashboard.index') }}" class="nav-link" data-section="dashboard">
                             <i class="fas fa-home" style="color: #ff9d1b;"></i> Dashboard

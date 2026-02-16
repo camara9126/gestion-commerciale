@@ -16,13 +16,13 @@ class PermissionPolicy
 
     public function isAdmin($user)
     {
-        return $user->role === 'admin';
+        return in_array($user->role, ['admin', 'gestionnaire de stock']);
     }
 
     // Produits / fournisseurs / stock
     public function gererStock($user)
     {
-        return in_array($user->role, ['admin', 'gestionnaire_stock']);
+        return in_array($user->role, ['admin', 'gestionnaire de stock']);
     }
 
     // Client / ventes

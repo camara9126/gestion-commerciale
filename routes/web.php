@@ -90,8 +90,9 @@ Route::middleware(['auth', 'entreprise.exists'])->group(function () {
 
 // Route Super Administrateur (Webmaster)
 Route::middleware(['auth'])->group(function () {
-    Route::get('entreprise.index', [EntrepriseControleer::class, 'index'])->name('entreprise.index');
-    Route::get('entreprise', [EntrepriseControleer::class, 'utilisateurs'])->name('entreprise.utilisateurs');
+    Route::get('/entreprise.index', [EntrepriseControleer::class, 'index'])->name('entreprise.index');
+    Route::get('/entreprise.utilisateurs', [EntrepriseControleer::class, 'utilisateurs'])->name('entreprise.utilisateurs');
+    Route::get('/entreprise.entreprises', [EntrepriseControleer::class, 'entreprise'])->name('entreprise.entreprises');
 });
 
 // Route Inventaire (fournisseurs - produits - stock - mouvements)

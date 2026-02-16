@@ -44,23 +44,23 @@
         <div class="px-3 py-4">
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a href="{{ route('dashboard.index') }}" class=" nav-link" data-section="dashboard">
-                        <i class="fas fa-home" style="color: #ff9d1b;"></i> Webmaster
+                    <a href="{{ route('entreprise.index') }}" class=" nav-link" data-section="dashboard">
+                        <i class="fas fa-circle-check" style="color: #ff9d1b;"></i> Webmaster
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('entreprise.index') }}" class=" nav-link" data-section="dashboard">
+                    <a href="{{ route('dashboard.index') }}" class=" nav-link" data-section="dashboard">
                         <i class="fas fa-home" style="color: #ff9d1b;"></i> Dashboard
                     </a>
                 </li>
                 <li class="nav-item mb-0 mt-0">
                     <a href="{{ route('entreprise.utilisateurs') }}" class=" nav-link">
-                        <i class="fas fa-list" style="color: #ff9d1b;"></i> Utilisateurs
+                        <i class="fas fa-users" style="color: #ff9d1b;"></i> Utilisateurs
                     </a>
                 </li>
                 <li class="nav-item mb-0 mt-0">
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-truck" style="color: #ff9d1b;"></i> Fournisseurs
+                    <a href="{{ route('entreprise.entreprises') }}" class="nav-link">
+                        <i class="fas fa-building" style="color: #ff9d1b;"></i> Entreprises
                     </a>
                 </li>
                 <li class="nav-item mb-0 mt-0">
@@ -83,7 +83,7 @@
                 <button class="menu-toggle" id="menuToggle">
                     <i class="fas fa-bars"></i>
                 </button>
-                <h2 class="h4 mb-0" id="pageTitle">Bienvenue</h2>
+                <h2 class="h4 mb-0" id="pageTitle">Bienvenue {{request()->user()->name }}</h2>
             </div>
             
             <div class="d-flex align-items-center">

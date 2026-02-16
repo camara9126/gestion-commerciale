@@ -41,6 +41,13 @@ class EntrepriseControleer extends Controller
         return view('bmanager.utilisateurs', compact('users'));
     }
 
+    public function entreprise()
+    {
+        $entreprises = Entreprise::where('id', '!=', 2)->limit(10)->latest()->get();
+
+        return view('bmanager.entreprises', compact('entreprises'));
+    }
+
     /**
      * Store a newly created resource in storage.
      */

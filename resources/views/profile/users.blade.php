@@ -40,7 +40,7 @@
                                                 <td>{{$u->name}}</td>
                                                 <td>{{$u->email}}</td>
                                                 <td>{{$u->role}}</td>
-                                                <td>{$u->created_at->format('j / F / Y')}}</td>
+                                                <td>{{$u->created_at->format('j / F / Y')}}</td>
                                                 
                                             @empty
                                                 <tr>

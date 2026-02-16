@@ -27,7 +27,11 @@ class DepenseController extends Controller
 
         $depenses = Depense::with('categorie')->where('entreprise_id', $request->user()->entreprise_id)->when($search, function ($query, $search) {
 
-                $query->where('reference', 'like', "%{$search}%");
+                $query->where('reference', 'like', "%{$search}%")->orWhereHas('categorie', function ($q) use ($search) {
+
+                        $q->where('nom', 'like', "%{$search}%");
+                });
+;
 
         })->latest()->paginate(10)->withQueryString(); // 🔑 garde ?search=;
 

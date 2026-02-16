@@ -34,7 +34,7 @@
                                             <!--<nav class="navbar navbar-light bg-light">-->
                                                 <form method="get" action="{{route('recettes.search')}}" class="form-inline">
                                                    
-                                                    <input class="form-control mr-sm-2" type="search" name="search" placeholder="Rechercher par nom client.." aria-label="Search">                                                            
+                                                    <input class="form-control mr-sm-2" type="search" name="search" placeholder="Rechercher par nom Reference.." aria-label="Search">                                                            
                                                 
                                                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>                                                    
                                                        

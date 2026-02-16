@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Depense;
 use App\Models\Fournisseur;
 use App\Models\Pack;
 use App\Models\Produit;
@@ -12,14 +13,19 @@ use App\Models\Vente;
 use App\Models\VenteItem;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\DB;
 
 //use function Symfony\Component\Clock\now;
 
 class DashboardController extends Controller
 {
+     use AuthorizesRequests;
     // Accueil
     public function index()
     {
+        $this->authorize('admin');
+
         $entreprise = request()->user()->entreprise;
 
         // Redirection abonnenemt si le Essai gratuite est termine
@@ -27,16 +33,25 @@ class DashboardController extends Controller
              return redirect()->route('dashboard.abonnement');
         }
 
-        $fournisseurs = Fournisseur::where('entreprise_id', request()->user()->entreprise_id)->limit(3)->latest()->get();
-        $produits = Produit::with('fournisseur')->where('entreprise_id', request()->user()->entreprise_id)->limit(3)->latest()->get();
-        $mouvements_ent = StockMouvement::where('entreprise_id', request()->user()->entreprise_id)->where('type', 'entree')->limit(3)->latest()->get();
-        $mouvements_sor = StockMouvement::where('entreprise_id', request()->user()->entreprise_id)->where('type', 'sortie')->limit(3)->latest()->get();
+        $alerte = Produit::produitsEnAlerte()->count();
 
-        $clients = Client::where('entreprise_id', request()->user()->entreprise_id)->limit(3)->latest()->get();
+        /* Changement de mois */ 
+        $mois = $request->mois ?? now()->month;
+        $annee = $request->annee ?? now()->year;
+
+        $produits = Produit::with('fournisseur')->where('entreprise_id', request()->user()->entreprise_id)->limit(5)->latest()->get();
+
         $ventes = Vente::with('client')->where('entreprise_id', request()->user()->entreprise_id)->limit(3)->latest()->get();
 
-        return view('dashboard.index', compact('produits','fournisseurs','mouvements_ent','mouvements_sor','clients','ventes','entreprise')); 
+        /* 1️⃣ Commandes par mois */
+        $commandesParJour = Vente::selectRaw('DAY(created_at) jour, COUNT(*) total')->where('entreprise_id', request()->user()->entreprise_id)->whereMonth('created_at', $mois)->whereYear('created_at', $annee)->groupBy('jour')->orderBy('jour')->get();
+
+        $commandesMoisLabels = $commandesParJour->pluck('jour');
+        $commandesMoisData = $commandesParJour->pluck('total');
+
+        return view('dashboard.index', compact('commandesMoisLabels','commandesMoisData','produits','ventes','entreprise','mois','annee','alerte')); 
     }
+
 
     // Comptabilite
     public function comptabilite()
@@ -60,6 +75,7 @@ class DashboardController extends Controller
     {
 
         $entreprise = request()->user()->entreprise;
+        $alerte = Produit::produitsEnAlerte()->count();
 
         /* Changement de mois */ 
         $mois = $request->mois ?? now()->month;
@@ -90,13 +106,120 @@ class DashboardController extends Controller
 
 
         /* 4️⃣ Statut des commandes */
-        $statutCommandes = Vente::where('entreprise_id', $entreprise->id)->selectRaw('statut, COUNT(*) as total')->whereMonth('created_at', $mois)->whereYear('created_at', $annee)->groupBy('statut')->get();
+        $statutCommandes = Vente::where('entreprise_id', $entreprise->id)->where('entreprise_id', $entreprise->id)->selectRaw('statut, COUNT(*) as total')->whereMonth('created_at', $mois)->whereYear('created_at', $annee)->groupBy('statut')->get();
 
         $statutLabels = $statutCommandes->pluck('statut');
         $statutData = $statutCommandes->pluck('total');
 
 
-        return view('dashboard.rapport', compact('commandesMoisLabels','commandesMoisData','caLabels','caData','topProduitsLabels','topProduitsData','statutLabels','statutData', 'entreprise'));
+               /* Changement de mois */ 
+        $mois = $request->mois ?? now()->month;
+        $annee = $request->annee ?? now()->year;
+
+
+        /* 1️⃣ Commandes par mois */
+        $commandesParJour = Vente::selectRaw('DAY(created_at) jour, COUNT(*) total')->where('entreprise_id', $entreprise->id)->whereMonth('created_at', $mois)->whereYear('created_at', $annee)->groupBy('jour')->orderBy('jour')->get();
+
+        $commandesMoisLabels = $commandesParJour->pluck('jour');
+        $commandesMoisData = $commandesParJour->pluck('total');
+
+        /* 2️⃣ Top produits du mois */
+        $topProduits = VenteItem::selectRaw('produit_id, SUM(quantite) as total')->where('entreprise_id', $entreprise->id)->whereMonth('created_at', $mois)->whereYear('created_at', $annee)->groupBy('produit_id')->orderByDesc('total')->with('produit:id,nom')->limit(5)->get();
+
+        $topProduitsLabels = $topProduits->pluck('produit.nom');
+        $topProduitsData = $topProduits->pluck('total');
+
+
+        // ===== 2em SECTION SUR LES DEPENSES ET RECETTES =====
+
+            // ===== MENSUEL =====
+
+            $months = [];
+            $revenues = [];
+            $expenses = [];
+            $profits = [];
+
+            for ($i = 1; $i <= 12; $i++) {
+
+                $recette = Recette::whereMonth('created_at', $i)->where('entreprise_id', $entreprise->id)->whereYear('created_at', now()->year)->sum('montant');
+
+                $depense = Depense::whereMonth('created_at', $i)->where('entreprise_id', $entreprise->id)->whereYear('created_at', now()->year)->sum('montant');
+
+                $months[] = Carbon::create()->month($i)->translatedFormat('F');
+                $revenues[] = round($recette, 2);
+                $expenses[] = round($depense, 2);
+                $profits[] = round($recette - $depense, 2);
+            }
+
+            $monthlyData = [
+                'months' => $months,
+                'revenues' => $revenues,
+                'expenses' => $expenses,
+                'profits' => $profits,
+            ];
+
+            // ===== TRIMESTRIEL =====
+
+            $quarterlyData = [
+                'quarters' => ['T1', 'T2', 'T3', 'T4'],
+                'revenues' => [],
+                'expenses' => [],
+                'profits' => []
+            ];
+
+            for ($q = 1; $q <= 4; $q++) {
+
+                $recette = Recette::where('entreprise_id', $entreprise->id)->whereBetween(DB::raw('MONTH(created_at)'), [($q-1)*3+1, $q*3])->sum('montant');
+
+                $depense = Depense::where('entreprise_id', $entreprise->id)->whereBetween(DB::raw('MONTH(created_at)'), [($q-1)*3+1, $q*3])->sum('montant');
+
+                $quarterlyData['revenues'][] = $recette;
+                $quarterlyData['expenses'][] = $depense;
+                $quarterlyData['profits'][] = $recette - $depense;
+            }
+
+            // ===== ANNUEL (3 dernières années) =====
+
+            $years = [];
+            $yearRevenue = [];
+            $yearExpense = [];
+            $yearProfit = [];
+
+            for ($y = now()->year - 2; $y <= now()->year; $y++) {
+
+                $r = Recette::where('entreprise_id', $entreprise->id)->whereYear('created_at', $y)->sum('montant');
+
+                $d = Depense::where('entreprise_id', $entreprise->id)->whereYear('created_at', $y)->sum('montant');
+
+                $years[] = $y;
+                $yearRevenue[] = $r;
+                $yearExpense[] = $d;
+                $yearProfit[] = $r - $d;
+            }
+
+            $yearlyData = [
+                'years' => $years,
+                'revenues' => $yearRevenue,
+                'expenses' => $yearExpense,
+                'profits' => $yearProfit,
+            ];
+
+
+            // Top produit mois
+            $monthTopProduits = DB::table('vente_items')->join('produits', 'vente_items.produit_id', '=', 'produits.id')->select('produits.nom as produit',
+                        DB::raw('SUM(vente_items.quantite * vente_items.prix_unitaire) as total'))->where('vente_items.entreprise_id', $entreprise->id)->whereMonth('vente_items.created_at', now()->month)->groupBy('produits.nom')->orderByDesc('total')->limit(10)->get();
+
+                $categories = $monthTopProduits->pluck('produit');
+                $amounts = $monthTopProduits->pluck('total');
+
+                
+            // Top produit annee
+            $yearTopProduits = DB::table('vente_items')->join('produits', 'vente_items.produit_id', '=', 'produits.id')->select('produits.nom as produit', DB::raw('SUM(vente_items.quantite * vente_items.prix_unitaire) as total'))->where('vente_items.entreprise_id', $entreprise->id)->whereYear('vente_items.created_at', now()->year)->groupBy('produits.nom')->orderByDesc('total')->limit(10)->get();
+
+            $yearCategories = $yearTopProduits->pluck('produit');
+            $yearAmounts = $yearTopProduits->pluck('total');
+
+        return view('dashboard.rapport', compact('commandesMoisLabels','commandesMoisData','caLabels','caData','topProduitsLabels','topProduitsData','statutLabels','statutData', 'entreprise','alerte','monthlyData','quarterlyData','yearlyData','categories', 'amounts','yearAmounts','yearCategories'));
     }
 
 
