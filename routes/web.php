@@ -33,11 +33,11 @@ Route::get('contact', function () {
 Route::get('politiques-conditions', function () {
     return view('home.politiquesEtConditions');
 })->name('politiques');
-
+    
 
 Route::get('test', function () {
-    $fournisseurs = Fournisseur::where('entreprise_id', Auth::user()->entreprise_id)->latest()->get();
-    $produits = Produit::with('fournisseur')->where('entreprise_id', Auth::user()->entreprise_id)->latest()->get();
+    $fournisseurs = Fournisseur::latest()->get();
+    $produits = Produit::with('fournisseur')->latest()->get();
     return view('dashboard', compact('produits','fournisseurs'));
 });
 
@@ -84,8 +84,12 @@ Route::middleware(['auth', 'entreprise.exists'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
     Route::get('/dashboard.rapport', [DashboardController::class, 'rapport'])->name('dashboard.rapport');
     Route::get('/dashboard.comptabilite', [DashboardController::class, 'comptabilite'])->name('dashboard.comptabilite');
-    Route::get('/dashboard/stats', [DashboardController::class, 'stats'])->name('dashboard.stats');
+    Route::post('/dashboard/support', [DashboardController::class, 'support'])->name('dashboard.support');
     Route::get('/abonnement', [DashboardController::class, 'abonnement'])->name('dashboard.abonnement');
+
+    Route::get('/assistance', function () {
+        return view('dashboard.assistance');
+    })->name('parametre');
 });
 
 // Route Super Administrateur (Webmaster)
@@ -93,6 +97,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/entreprise.index', [EntrepriseControleer::class, 'index'])->name('entreprise.index');
     Route::get('/entreprise.utilisateurs', [EntrepriseControleer::class, 'utilisateurs'])->name('entreprise.utilisateurs');
     Route::get('/entreprise.entreprises', [EntrepriseControleer::class, 'entreprise'])->name('entreprise.entreprises');
+    Route::get('/entreprise.produits', [EntrepriseControleer::class, 'produits'])->name('entreprise.produits');
+    Route::get('/entreprise.fournisseurs', [EntrepriseControleer::class, 'fournisseurs'])->name('entreprise.fournisseurs');
+    Route::get('/entreprise.support', [EntrepriseControleer::class, 'support'])->name('entreprise.support');
+    Route::get('/entreprise/{s}/show', [EntrepriseControleer::class, 'show'])->name('entreprise.show');
+    Route::patch('/entreprise', [EntrepriseControleer::class, 'update'])->name('entreprise.traite');
+    Route::get('/entreprise.search', [EntrepriseControleer::class, 'search'])->name('entreprise.search');
 });
 
 // Route Inventaire (fournisseurs - produits - stock - mouvements)

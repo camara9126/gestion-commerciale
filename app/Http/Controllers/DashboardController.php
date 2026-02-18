@@ -9,6 +9,7 @@ use App\Models\Pack;
 use App\Models\Produit;
 use App\Models\Recette;
 use App\Models\StockMouvement;
+use App\Models\Support;
 use App\Models\Vente;
 use App\Models\VenteItem;
 use Carbon\Carbon;
@@ -224,28 +225,42 @@ class DashboardController extends Controller
 
 
     // Changement de mois
-    public function stats(Request $request)
+    public function support(Request $request)
     {
-        $mois = $request->month;
-        $annee = $request->year;
-        $entrepriseId = request()->user()->entreprise_id;
+        $entreprise = request()->user()->entreprise;
 
-        /* 1️⃣ Commandes par jour du mois */
-        $commandes = Vente::selectRaw('DAY(created_at) jour, COUNT(*) total')->whereMonth('created_at', $mois)->whereYear('created_at', $annee)->where('entreprise_id', $entrepriseId)->groupBy('jour')->orderBy('jour')->get();
+        $request->validate([
+            'user_id',
+            'entreprise_id',
+            'nom_complet' =>'required',
+            'email' => 'required',
+            'telephone' => 'required',
+            'urgence' => 'required',
+            'description' => 'nullable',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
+         // Gestion des l'images
+        if ($request->hasFile('image')) {
+            $filename = time().$request->file('image')->getClientOriginalName();
+            $path = $request->file('image')->storeAs('images', $filename, 'public');
+            $request['image'] = '/storage/' . $path;
+        } else {
+            dd('Aucun fichier image reçu');
+        }
 
-        /* 2️⃣ Chiffre d'affaires */
-        $ca = Recette::whereMonth('created_at', $mois)->whereYear('created_at', $annee)->where('entreprise_id', $entrepriseId)->sum('montant');
+        Support::create([
+        'user_id' => request()->user()->id,
+        'entreprise_id' => $entreprise->id,
+        'nom_complet' => $request->nom_complet,
+        'email' => $request->email,
+        'telephone' => $request->telephone,
+        'urgence' => $request->urgence,
+        'description' => $request->description,
+        'image' => $path,
+        ]);
 
-
-        /* 3️⃣ Top produits */
-        $produits = VenteItem::selectRaw('produit_id, SUM(quantite) total')->whereMonth('created_at', $mois)->whereYear('created_at', $annee)->where('entreprise_id', $entrepriseId)->groupBy('produit_id')->with('produit:id,nom')->orderByDesc('total')->limit(5)->get();
-
-
-        /* 4️⃣ Statut commandes */
-        $statuts = Vente::selectRaw('statut, COUNT(*) total')->whereMonth('created_at', $mois)->whereYear('created_at', $annee)->where('entreprise_id', $entrepriseId)->groupBy('statut')->get();
-
-        return response()->json(['commandes' => $commandes,'ca' => $ca,'produits' => $produits,'statuts' => $statuts,]);
+        return redirect()->back()->with('success', '✅ Demande envoyée. Merci ! Notre équipe va traiter votre requête.');
     }
 
     

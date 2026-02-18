@@ -64,8 +64,18 @@
                     </a>
                 </li>
                 <li class="nav-item mb-0 mt-0">
-                    <a href="#" class=" nav-link">
-                        <i class="fas fa-bars-staggered" style="color: #ff9d1b;"></i> Stocks
+                    <a href="{{ route('entreprise.produits') }}" class="nav-link">
+                        <i class="fas fa-list" style="color: #ff9d1b;"></i> Produits
+                    </a>
+                </li>
+                <li class="nav-item mb-0 mt-0">
+                    <a href="{{ route('entreprise.fournisseurs') }}" class="nav-link">
+                        <i class="fas fa-truck" style="color: #ff9d1b;"></i> Fournisseurs
+                    </a>
+                </li>
+                <li class="nav-item mb-0 mt-0">
+                    <a href="{{ route('entreprise.support') }}" class=" nav-link">
+                        <i class="fas fa-tools" style="color: #ff9d1b;"></i> Supports
                     </a>
                 </li>
             </ul>
@@ -185,35 +195,44 @@
                             </div>
                             <div class="card shadow-sm">
                                 <div class="card-body">
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table data-table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Nom</th>
-                                                        <th>Entreprise</th>
-                                                        <th>Telephone</th>
-                                                        <th>Email</th>
-                                                        <th>Pack</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach($users as $u)
-                                                    <tr>
-                                                        <td>{{$u->name}}</td>
-                                                        <td>{{$u->entreprise->nom}}</td>
-                                                        <td>{{$u->entreprise->telephone}}</td>
-                                                        <td>{{$u->entreprise->email}}</td>
-                                                        <td>{{$u->entreprise->pack->nom}}</td>
-                                                    </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>                                    
-                                
+                                    <div class="table-responsive">
+                                        <!--<nav class="navbar navbar-light bg-light">-->
+                                            <form method="get" action="{{route('entreprise.search')}}" class="form-inline">
+                                            
+                                                <input class="form-control mr-sm-2" type="search" name="search" placeholder="Rechercher utilisateur..." aria-label="Search">                                                            
+                                            
+                                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>                                                    
+                                            
+                                            </form>
+                                        <!--</nav>-->
+                                        <table class="table data-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nom</th>
+                                                    <th>Email</th>
+                                                    <th>Entreprise</th>
+                                                    <th>Role</th>
+                                                    <th>Date de creation</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($users as $u)
+                                                <tr>
+                                                    <td>{{$u->name}}</td>
+                                                    <td>{{$u->email}}</td>
+                                                    <td>{{$u->entreprise->nom}}</td>
+                                                    <td>{{$u->role}}</td>
+                                                    <td>{{$u->created_at}}</td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="d-flex justify-content-center mt-4">
+                                        {{$users->links()}}
+                                    </div>
                                 </div>
-                            </div>                                
+                            </div>
                         </div>
                     </div>
                 </div>

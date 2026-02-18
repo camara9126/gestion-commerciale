@@ -175,52 +175,62 @@
                 
                 <!-- Section utilisateurs -->
                 <div class="row mb-5">
-                    <div class="stat-card">
-                        <div class="col-lg-12">
+                    <div class="stat-card d-flex">
+                        <div class="col-lg-8">
                             <div class="d-flex justify-content-between align-items-center mb-0">                          
-                                <h5 class="mb-0">Entreprises</h5>
-                                <a href="{{route('entreprise.index')}}" class="btn btn-outline-danger">
-                                        Retour
-                                </a>
+                                <h5 class="mb-0">Support</h5>
                             </div>
                             <div class="card shadow-sm">
                                 <div class="card-body">
-                                    <div class="table-responsive">
-                                        <!--<nav class="navbar navbar-light bg-light">-->
-                                            <form method="get" action="{{route('entreprise.search')}}" class="form-inline">
+                                        <form method="post" action="{{route('entreprise.traite', ['support' => $support->id])}}" class="contact-form" enctype="multipart/form-data">
+                                        @csrf
+                                        @method('patch')
+                                        <h2 class="text-center mb-4">Support Client</h2>
+                                        <div class="row">
+                                            <div class="mb-3">
+                                                <label for="name" class="form-label">Image</label>
+                                                <img src="{{asset('storage/'.$support->image)}}" width="100" alt="">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="name" class="form-label">Statut</label>
+                                                <select class="form-select" name="statut">
+                                                    <option value="0" class="badge bg-success">Active</option>
+                                                    <option value="1" class="badge bg-danger">Inactive</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="name" class="form-label">Nom Complet</label>
+                                            <input type="text" class="form-control" name="nom" value="{{$support->nom_complet}}" >
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="telephone" class="form-label">Telephone</label>
+                                            <input type="text" class="form-control" name="telephone" value="{{$support->telephone}}" >
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <label for="email" class="form-label">Email</label>
+                                                    <input type="email" class="form-control" name="email" value="{{$support->email}}" >
+                                                </div>
+                                                <div class="col-6">
+                                                    <label for="email" class="form-label">Urgence</label>
+                                                    <input type="text" class="form-control" name="email" value="{{$support->urgence}}" >
+                                                </div>
+                                            </div>
                                             
-                                                <input class="form-control mr-sm-2" type="search" name="search" placeholder="Rechercher entreprise..." aria-label="Search">                                                            
-                                            
-                                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>                                                    
-                                            
-                                            </form>
-                                        <!--</nav>-->
-                                        <table class="table data-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Nom</th>
-                                                    <th>Telephone</th>
-                                                    <th>Adresse</th>
-                                                    <th>Pack</th>
-                                                    <th>Date d'expiration</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach($entreprises as $e)
-                                                <tr>
-                                                    <td>{{$e->nom}}</td>
-                                                    <td>{{$e->telephone}}</td>
-                                                    <td>{{$e->adresse ?? 'vide'}}</td>
-                                                    <td>{{$e->pack->nom}}</td>
-                                                    <td>{{$e->abonnement_expire_le}}</td>
-                                                </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>                                   
-                                    <div class="d-flex justify-content-center mt-4">
-                                        {{$entreprises->links()}}
-                                    </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="adresse" class="form-label">Description</label>
+                                            <textarea class="form-control" name="adresse" rows="5" >{{$support->description}}</textarea>
+                                        </div>
+                                        <div class="d-grid">
+                                            <button type="submit" class="btn btn-warning btn-lg">Modifier</button>
+                                        </div>
+                                    </form>
+                                                                                         
+                                 
                                 </div>
                             </div>                                
                         </div>

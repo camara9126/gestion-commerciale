@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class AbonnementController extends Controller
 {
-    public function initialPaiement(PayTech $paytech)
+    public function initialPaiement(Request $request)
     {
         $entreprise = request()->user()->entreprise;
         $pack = $entreprise->pack;
@@ -39,20 +39,21 @@ class AbonnementController extends Controller
         $response = $paytech->setQuery([
                 'item_name' => $pack->nom,
                 'item_price' => $pack->prix,
-                'command_name' => "Paiement {$pack->nom} via PayTech",
+                'command_name' => "Paiement Abonnement {$pack->nom} via PayTech",
             ])
             ->setCustomeField([
+                'user_id' => request()->user()->id,
+                'order_id' => $request->order_id,
+                'ip_user' => $_SERVER['REMOTE_ADDR'],
                 'item_id' => $pack->id,
                 'time_command' => time(),
-                'ip_user' => $_SERVER['REMOTE_ADDR']
             ])
-            ->setTestMode(true)
             ->setCurrency('XOF')
             ->setRefCommand(uniqid())
             ->setNotificationUrl([
                 'success_url' => route('abonnement.success'),
                 'cancel_url'  => route('abonnement.cancel'),
-                'ipn_url'     => 'https://bmanager.bcmgroupe.com/abonnement.ipn',
+                'ipn_url'     => 'https://bmanager.bcmgroupe.com/abonnement/ipn',
             ])
             ->send();
         //dd($response);
@@ -65,109 +66,7 @@ class AbonnementController extends Controller
     }
 
 
-    // Changement de pack
-    public function changerPack(PayTech $paytech, Pack $p)
-    {
-        $entreprise = request()->user()->entreprise;
-        $pack = Pack::findOrFail($p->id);
-
-        // 1️⃣ Référence unique
-        $refCommande = 'CHP-' . Carbon::now()->format('YmdHis') . '-' . uniqid();
-
-        // Créer paiement_abonnement
-        $paiement = PaiementAbonnement::create([
-            'entreprise_id' => $entreprise->id,
-            'pack_id' => $pack->id,
-            'statut' => 'en_attente',
-            'reference' => $refCommande,
-            'montant' => $pack->prix
-        ]);
-
-        // Init PayTech
-        $paytech = new PayTech(
-            config('services.paytech.api_key'),
-            config('services.paytech.api_secret'));
-
-        $response = $paytech
-            ->setTestMode(true)
-            ->setCurrency('XOF')
-            ->setRefCommand(uniqid())
-            ->setQuery([
-                'item_name' => 'Changement pack : '.$pack->nom,
-                'item_price' => $pack->prix,
-                'command_name' => 'Changement pack - '.$entreprise->nom
-            ])
-            ->setNotificationUrl([
-                'success_url' => route('abonnement.success'),
-                'cancel_url' => route('abonnement.cancel'),
-                'ipn_url' => 'https://bmanager.bcmgroupe.com/abonnement.chp',
-            ])
-            ->send();
-
-        if ($response['success'] == 1) {
-            // Redirection vers PayTech pour le paiement
-            return redirect()->away($response['redirect_url']);
-        }
-
-        return redirect()->back()->with('error', 'Impossible d’initier le paiement.');
-    }
-
-    // Validation changement de pack
-     public function chp(Request $request)
-    {
-        $reference = $request->ref_command ?? null;
-        $status    = $request->payment_status ?? null;
-
-        if (!$reference) {
-            return response('Référence manquante', 400);
-        }
-        
-        $changement = PaiementAbonnement::where('reference', $reference)->first();
-
-        if (!$changement) {
-            return response('Paiement introuvable', 404);
-        }
-
-        // 🛑 Éviter les doubles traitements
-        if ($changement->statut === 'payé') {
-            return response('Déjà traité', 200);
-
-        }
-
-         $entreprise = $changement->entreprise;
-         $pack = $changement->pack;
-
-
-         if ($status === 'completed') {
-
-          // ✅ Paiement validé
-            $changement->update([
-                'statut' => 'payé',
-                'moyen_paiement' => $request->payment_method,
-                'paid_at' => now(),
-            ]);
-         }
-
-            // Mise a jour abonnement
-            $abonnement = $entreprise->abonnement;
-
-            $abonnement->update([
-                'pack_id' => $pack->id,
-                'montant' => $pack->montant,
-                'date_debut' =>now(),
-                'date_fin' => now()->addMonth(), // ou selon le pack
-            ]);
-
-            // Mise a jour entreprise
-            $entreprise->update([
-                'pack_id' => $pack->id,
-                'abonnement_expire_le' => now()->addMonth(),
-                'trial_actif' => false,
-            ]);
-    }
-
-
-    // Validation paiement abonnement
+   // Validation paiement abonnement
     public function ipn(Request $request)
     {
         $reference = $request->ref_command ?? null;
@@ -237,6 +136,111 @@ class AbonnementController extends Controller
 
         return response('Paiement échoué', 200);
     }
+
+
+    // Changement de pack
+    public function changerPack(PayTech $paytech, Pack $p)
+    {
+        $entreprise = request()->user()->entreprise;
+        $pack = Pack::findOrFail($p->id);
+
+        // 1️⃣ Référence unique
+        $refCommande = 'CHP-' . Carbon::now()->format('YmdHis') . '-' . uniqid();
+
+        // Créer paiement_abonnement
+        $paiement = PaiementAbonnement::create([
+            'entreprise_id' => $entreprise->id,
+            'pack_id' => $pack->id,
+            'statut' => 'en_attente',
+            'reference' => $refCommande,
+            'montant' => $pack->prix
+        ]);
+
+        // Init PayTech
+        $paytech = new PayTech(
+            config('services.paytech.api_key'),
+            config('services.paytech.api_secret'));
+
+        $response = $paytech
+            ->setCurrency('XOF')
+            ->setRefCommand(uniqid())
+            ->setQuery([
+                'item_name' => $pack->nom,
+                'item_price' => $pack->prix,
+                'command_name' => "Changement Pack - {$pack->nom} via PayTech"
+            ])
+
+            ->setNotificationUrl([
+                'success_url' => route('abonnement.success'),
+                'cancel_url' => route('abonnement.cancel'),
+                'ipn_url' => 'https://bmanager.bcmgroupe.com/abonnement/chp',
+            ])
+            ->send();
+
+        if ($response['success'] == 1) {
+            // Redirection vers PayTech pour le paiement
+            return redirect()->away($response['redirect_url']);
+        }
+
+        return redirect()->back()->with('error', 'Impossible d’initier le paiement.');
+    }
+
+    // Validation changement de pack
+     public function chp(Request $request)
+    {
+        $reference = $request->ref_command ?? null;
+        $status    = $request->payment_status ?? null;
+
+        if (!$reference) {
+            return response('Référence manquante', 400);
+        }
+        
+        $changement = PaiementAbonnement::where('reference', $reference)->first();
+
+        if (!$changement) {
+            return response('Paiement introuvable', 404);
+        }
+
+        // 🛑 Éviter les doubles traitements
+        if ($changement->statut === 'payé') {
+            return response('Déjà traité', 200);
+
+        }
+
+         $entreprise = $changement->entreprise;
+         $pack = $changement->pack;
+
+
+         if ($status === 'completed') {
+
+          // ✅ Paiement validé
+            $changement->update([
+                'statut' => 'payé',
+                'moyen_paiement' => $request->payment_method,
+                'paid_at' => now(),
+            ]);
+         }
+
+            // Mise a jour abonnement
+            $abonnement = $entreprise->abonnement;
+
+            $abonnement->update([
+                'pack_id' => $pack->id,
+                'montant' => $pack->montant,
+                'date_debut' =>now(),
+                'date_fin' => now()->addMonth(), // ou selon le pack
+            ]);
+
+            // Mise a jour entreprise
+            $entreprise->update([
+                'pack_id' => $pack->id,
+                'abonnement_expire_le' => now()->addMonth(),
+                'trial_actif' => false,
+            ]);
+    }
+
+
+ 
 
 
     // Paiement Valide

@@ -60,7 +60,17 @@
                 </li>
                 <li class="nav-item mb-0 mt-0">
                     <a href="{{ route('entreprise.entreprises') }}" class="nav-link">
-                        <i class="fas fa-building" style="color: #ff9d1b;"></i> Entreprises
+                    <i class="fas fa-building" style="color: #ff9d1b;"></i> Entreprises
+                    </a>
+                </li>
+                <li class="nav-item mb-0 mt-0">
+                    <a href="{{ route('entreprise.produits') }}" class="nav-link">
+                        <i class="fas fa-list" style="color: #ff9d1b;"></i> Produits
+                    </a>
+                </li>
+                <li class="nav-item mb-0 mt-0">
+                    <a href="{{ route('entreprise.fournisseurs') }}" class="nav-link">
+                        <i class="fas fa-truck" style="color: #ff9d1b;"></i> Fournisseurs
                     </a>
                 </li>
                 <li class="nav-item mb-0 mt-0">
@@ -172,63 +182,70 @@
                             {{ Session::get('danger') }}
                         </div>
                     @endif
-                
-                <!-- Section utilisateurs -->
-                <div class="row mb-5">
-                    <div class="stat-card">
-                        <div class="col-lg-12">
-                            <div class="d-flex justify-content-between align-items-center mb-0">                          
-                                <h5 class="mb-0">Entreprises</h5>
-                                <a href="{{route('entreprise.index')}}" class="btn btn-outline-danger">
-                                        Retour
-                                </a>
-                            </div>
+                        <!-- Section Produits -->
+                        <h3 class="mb-0">Fournisseurs</h3>
+                        <a href="{{route('fournisseurs.create')}}" class="btn btn-success">
+                            <i class="fas fa-plus me-1"></i> Nouveau fournisseur
+                        </a>
+                        <div class="stat-card">        
                             <div class="card shadow-sm">
                                 <div class="card-body">
                                     <div class="table-responsive">
                                         <!--<nav class="navbar navbar-light bg-light">-->
-                                            <form method="get" action="{{route('entreprise.search')}}" class="form-inline">
-                                            
-                                                <input class="form-control mr-sm-2" type="search" name="search" placeholder="Rechercher entreprise..." aria-label="Search">                                                            
+                                            <form method="get" action="{{route('fournisseurs.search')}}" class="form-inline">
+                                                
+                                                <input class="form-control mr-sm-2" type="search" name="search" placeholder="Rechercher par nom ou telephone..." aria-label="Search">                                                            
                                             
                                                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>                                                    
-                                            
+                                                
                                             </form>
-                                        <!--</nav>-->
+                                        <!--</nav> -->
                                         <table class="table data-table">
                                             <thead>
                                                 <tr>
                                                     <th>Nom</th>
                                                     <th>Telephone</th>
                                                     <th>Adresse</th>
-                                                    <th>Pack</th>
-                                                    <th>Date d'expiration</th>
+                                                    <th>Email</th>
+                                                    <th>Statut</th>
+                                                    <th>Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($entreprises as $e)
+                                                @forelse($fournisseurs as $f)
                                                 <tr>
-                                                    <td>{{$e->nom}}</td>
-                                                    <td>{{$e->telephone}}</td>
-                                                    <td>{{$e->adresse ?? 'vide'}}</td>
-                                                    <td>{{$e->pack->nom}}</td>
-                                                    <td>{{$e->abonnement_expire_le}}</td>
+                                                    <td>{{$f->nom}}</td>
+                                                    <td>{{$f->telephone}}</td>
+                                                    <td>{{$f->adresse}}</td>
+                                                    <td>{{$f->email}}</td>
+                                                    <td>
+                                                        @if($f->statut)
+                                                            <span class="badge bg-success">Activé</span>
+                                                            @else
+                                                            <span class="badge bg-danger">Desactivé</span>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <a href="{{route('fournisseurs.edit', $f->id)}}">
+                                                            <i class="fa fa-eye text-primary"></i>
+                                                        </a>
+                                                    </td>                                                        
                                                 </tr>
-                                                @endforeach
+                                                @empty
+                                                    <tr>
+                                                        <td colspan="7" align="center">Donnee vide !</td>
+                                                    </tr>
+                                                @endforelse
                                             </tbody>
                                         </table>
-                                    </div>                                   
+                                    </div>
                                     <div class="d-flex justify-content-center mt-4">
                                         {{$entreprises->links()}}
-                                    </div>
+                                    </div>                                   
                                 </div>
-                            </div>                                
+                            </div>
                         </div>
                     </div>
                 </div>
-     
-                      
             </section>
-        </div>
-        
 @include('partials.footer')

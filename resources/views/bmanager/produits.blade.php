@@ -60,7 +60,17 @@
                 </li>
                 <li class="nav-item mb-0 mt-0">
                     <a href="{{ route('entreprise.entreprises') }}" class="nav-link">
-                        <i class="fas fa-building" style="color: #ff9d1b;"></i> Entreprises
+                    <i class="fas fa-building" style="color: #ff9d1b;"></i> Entreprises
+                    </a>
+                </li>
+                <li class="nav-item mb-0 mt-0">
+                    <a href="{{ route('entreprise.produits') }}" class="nav-link">
+                        <i class="fas fa-list" style="color: #ff9d1b;"></i> Produits
+                    </a>
+                </li>
+                <li class="nav-item mb-0 mt-0">
+                    <a href="{{ route('entreprise.fournisseurs') }}" class="nav-link">
+                        <i class="fas fa-truck" style="color: #ff9d1b;"></i> Fournisseurs
                     </a>
                 </li>
                 <li class="nav-item mb-0 mt-0">
@@ -172,63 +182,70 @@
                             {{ Session::get('danger') }}
                         </div>
                     @endif
-                
-                <!-- Section utilisateurs -->
-                <div class="row mb-5">
-                    <div class="stat-card">
-                        <div class="col-lg-12">
-                            <div class="d-flex justify-content-between align-items-center mb-0">                          
-                                <h5 class="mb-0">Entreprises</h5>
-                                <a href="{{route('entreprise.index')}}" class="btn btn-outline-danger">
-                                        Retour
-                                </a>
-                            </div>
-                            <div class="card shadow-sm">
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <!--<nav class="navbar navbar-light bg-light">-->
-                                            <form method="get" action="{{route('entreprise.search')}}" class="form-inline">
-                                            
-                                                <input class="form-control mr-sm-2" type="search" name="search" placeholder="Rechercher entreprise..." aria-label="Search">                                                            
-                                            
-                                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>                                                    
-                                            
-                                            </form>
-                                        <!--</nav>-->
-                                        <table class="table data-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Nom</th>
-                                                    <th>Telephone</th>
-                                                    <th>Adresse</th>
-                                                    <th>Pack</th>
-                                                    <th>Date d'expiration</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach($entreprises as $e)
-                                                <tr>
-                                                    <td>{{$e->nom}}</td>
-                                                    <td>{{$e->telephone}}</td>
-                                                    <td>{{$e->adresse ?? 'vide'}}</td>
-                                                    <td>{{$e->pack->nom}}</td>
-                                                    <td>{{$e->abonnement_expire_le}}</td>
-                                                </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>                                   
-                                    <div class="d-flex justify-content-center mt-4">
-                                        {{$entreprises->links()}}
-                                    </div>
-                                </div>
-                            </div>                                
+                <!-- Section Produits -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">                          
+                    <h3 class="mb-0">Produits</h3>
+                    <a href="{{route('produits.create')}}" class="btn btn-success">
+                        <i class="fas fa-plus me-1"></i> Nouveau produit
+                    </a>
+                </div>
+                <div class="card shadow-sm">
+                    <div class="card-body">       
+                        <div class="table-responsive">
+                            <!--<nav class="navbar navbar-light bg-light">-->
+                                <form method="get" action="{{route('produits.search')}}" class="form-inline">
+                                    
+                                    <input class="form-control mr-sm-2" type="search" name="search" placeholder="Rechercher par nom produit ou fournisseur..." aria-label="Search">                                                            
+                                
+                                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>                                                    
+                                        
+                                </form>
+                            <!--</nav> -->
+                            <table class="table data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Nom</th>
+                                        <th>Fournisseur</th>
+                                        <th>Prix d'achat</th>
+                                        <th>Prix de vente</th>
+                                        <th>Stock</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse($produits as $p)
+                                    <tr>
+                                        <td>{{$p->code}}</td>
+                                        <td>{{$p->nom}}</td>
+                                        <td>{{$p->fournisseur->nom}}</td>
+                                        <td>{{number_format($p->prix_achat, 0,'',' ')}} XOF</td>
+                                        <td>{{number_format($p->prix_vente, 0,'',' ')}} XOF</td>
+                                        <td>
+                                            @if($p->stock_min >= $p->stock)
+                                                <span class="badge bg-danger">Stock faible</span>
+                                            @else
+                                                {{$p->stock}}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <a href="{{route('produits.edit', $p->id)}}">
+                                                <i class="fa fa-eye text-primary"></i>
+                                            </a>
+                                        </td>                                                        
+                                    </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="7" align="center">Donnee vide !</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
                         </div>
+                        <div class="d-flex justify-content-center mt-4">
+                            {{$produits->links()}}
+                        </div>                                 
                     </div>
                 </div>
-     
-                      
             </section>
-        </div>
-        
-@include('partials.footer')
+  @include('partials.footer')

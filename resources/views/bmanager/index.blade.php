@@ -64,8 +64,8 @@
                     </a>
                 </li>
                 <li class="nav-item mb-0 mt-0">
-                    <a href="#" class=" nav-link">
-                        <i class="fas fa-bars-staggered" style="color: #ff9d1b;"></i> Stocks
+                    <a href="{{ route('entreprise.support') }}" class=" nav-link">
+                        <i class="fas fa-tools" style="color: #ff9d1b;"></i> Supports
                     </a>
                 </li>
             </ul>
@@ -177,34 +177,28 @@
                     <div class="col-12">
                         <div class="stat-card">
                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h5 class="mb-0">Dernières commandes</h5>
-                                <a href="{{route('ventes.index')}}" class="btn btn-sm btn-primary">Voir tout</a>
+                                <h5 class="mb-0">Utilisateurs {{$users->count()}}</h5>
+                                <a href="{{route('entreprise.utilisateurs')}}" class="btn btn-sm btn-primary">Voir tout</a>
                             </div>
                             <div class="table-responsive">
                                 <table class="table data-table">
                                     <thead>
                                         <tr>
-                                            <th>Reference</th>
-                                            <th>Client</th>
-                                            <th>Total</th>
-                                            <th>Date</th>
-                                            <th>Statut</th>
+                                            <th>Nom</th>
+                                            <th>Email</th>
+                                            <th>Entreprise</th>
+                                            <th>Role</th>
+                                            <th>Date de creation</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse($ventes as $v)
+                                        @forelse($users as $u)
                                         <tr>
-                                            <td>{{$v->reference}}</td>
-                                            <td>{{$v->client->nom ?? 'Client supprimee'}}</td>
-                                            <td>{{number_format($v->total, 0, ',','')}}</td>
-                                            <td>{{$v->created_at->format('d/m/y')}}</td>
-                                            <td>
-                                                @if($v->statut == 'payee')
-                                                    <span class="status-badge badge-paid">{{$v->statut}}</span>
-                                                @else
-                                                    <span class="status-badge badge-pending">{{$v->statut}}</span>
-                                                @endif
-                                            </td>
+                                            <td>{{$u->name}}</td>
+                                            <td>{{$u->email}}</td>
+                                            <td>{{$u->entreprise->nom}}</td>
+                                            <td>{{$u->role}}</td>
+                                            <td>{{$u->created_at}}</td>
                                         </tr>
                                         @empty
                                             <tr>
@@ -213,56 +207,6 @@
                                         @endforelse
                                     </tbody>
                                 </table>
-                                <!--<table class="table data-table">
-                                    <thead>
-                                        <tr>
-                                            <th>N° Commande</th>
-                                            <th>Client</th>
-                                            <th>Date</th>
-                                            <th>Montant</th>
-                                            <th>Statut</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td><strong>#ORD-001</strong></td>
-                                            <td>Marie Dubois</td>
-                                            <td>15/05/2023</td>
-                                            <td><strong>€450</strong></td>
-                                            <td><span class="status-badge badge-paid">Payé</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-outline-primary btn-action">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>#ORD-002</strong></td>
-                                            <td>Jean Martin</td>
-                                            <td>14/05/2023</td>
-                                            <td><strong>€890</strong></td>
-                                            <td><span class="status-badge badge-pending">En attente</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-outline-primary btn-action">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>#ORD-003</strong></td>
-                                            <td>Sophie Bernard</td>
-                                            <td>13/05/2023</td>
-                                            <td><strong>€320</strong></td>
-                                            <td><span class="status-badge badge-paid">Payé</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-outline-primary btn-action">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>-->
                             </div>
                         </div>
                     </div>
@@ -272,8 +216,8 @@
                     <div class="stat-card">
                         <div class="col-12">
                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h5 class="mb-0">Liste des clients</h5>
-                                <a href="{{route('clients.index')}}" class="btn btn-sm btn-primary">Voir plus</a>
+                                <h5 class="mb-0">Entreprises {{$entreprises->count()}}</h5>
+                                <a href="{{route('entreprise.entreprises')}}" class="btn btn-sm btn-primary">Voir plus</a>
                             </div>
                             <div class="table-responsive">
                                 <table class="table data-table">
@@ -281,17 +225,19 @@
                                         <tr>
                                             <th>Nom</th>
                                             <th>Telephone</th>
-                                            <th>Email</th>
                                             <th>Adresse</th>
+                                            <th>Pack</th>
+                                            <th>Date d'expiration</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($clients as $c)
+                                        @foreach($entreprises as $e)
                                         <tr>
-                                            <td>{{$c->nom}}</td>
-                                            <td>{{$c->telephone}}</td>
-                                            <td>{{$c->email}}</td>
-                                            <td>{{$c->adresse}}</td>
+                                            <td>{{$e->nom}}</td>
+                                            <td>{{$e->telephone}}</td>
+                                            <td>{{$e->adresse ?? 'vide'}}</td>
+                                            <td>{{$e->pack->nom}}</td>
+                                            <td>{{$e->abonnement_expire_le}}</td>
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -300,198 +246,112 @@
                         </div>
                     </div>
                 </div>
-                <!-- Section Fournisseurs -->
-                <div class="row mb-5">
-                    <div class="stat-card">
-                        <div class="col-lg-12">
-                            <div class="d-flex justify-content-between align-items-center mb-0">                          
-                                <h5 class="mb-0">Fournisseurs</h5>
-                                <a href="{{route('fournisseurs.index')}}" class="btn btn-primary">
-                                        Voir plus
-                                </a>
-                            </div>
-                            <div class="card shadow-sm">
-                                <div class="card-body">
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table data-table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Nom</th>
-                                                        <th>Adresse</th>
-                                                        <th>Telephone</th>
-                                                        <th>Email</th>
-                                                        <th>Statut</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach($fournisseurs as $f)
-                                                    <tr>
-                                                        <td>{{$f->nom}}</td>
-                                                        <td>{{$f->adresse}}</td>
-                                                        <td>{{$f->telephone}}</td>
-                                                        <td>{{$f->email}}</td>
-                                                        <td>
-                                                            @if($f->adresse)
-                                                                <span class="badge bg-success">Activé</span>
-                                                                @else
-                                                                <span class="badge bg-warning">Desactivé</span>
-                                                            @endif
-                                                        </td>
-                                                    </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>                                    
-                                
-                                </div>
-                            </div>                                
-                        </div>
-                    </div>
-                </div>
-
                 <hr>
-                <!-- Section Produits -->
-                <div class="row mb-5">
-                    <div class="stat-card">
-                        <div class="col-lg-12">
-                            <div class="d-flex justify-content-between align-items-center mb-0">                          
-                                <h5 class="mb-0">Produits</h5>
-                                <a href="{{route('produits.index')}}" class="btn btn-primary">
-                                        Voir plus
-                                </a>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="mb-0">Fournisseurs {{$fournisseurs->count()}}</h5>
+                                <a href="{{route('entreprise.fournisseurs')}}" class="btn btn-sm btn-primary">Voir tout</a>
                             </div>
-                            <div class="card shadow-sm">
-                                <div class="card-body">
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table data-table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Nom</th>
-                                                        <th>Code</th>
-                                                        <th>Prix d'achat</th>
-                                                        <th>Stock</th>
-                                                        <th>Fournisseur</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach($produits as $p)
-                                                    <tr>
-                                                        <td>{{$p->nom}}</td>
-                                                        <td>{{$p->code}}</td>
-                                                        <td>{{number_format($p->prix_achat, 0,'','')}} XOF</td>
-                                                        <td>{{$p->stock}}</td>
-                                                        <td>{{$p->fournisseur->nom}}</td>
-                                                    </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>                                    
-                                
-                                </div>
+                            <div class="table-responsive">
+                                <table class="table data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nom</th>
+                                            <th>Telephone</th>
+                                            <th>Adresse</th>
+                                            <th>Email</th>
+                                            <th>Statut</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse($fournisseurs as $f)
+                                        <tr>
+                                            <td>{{$f->nom}}</td>
+                                            <td>{{$f->telephone}}</td>
+                                            <td>{{$f->adresse}}</td>
+                                            <td>{{$f->email}}</td>
+                                            <td>
+                                                @if($f->statut)
+                                                    <span class="badge bg-success">Activé</span>
+                                                    @else
+                                                    <span class="badge bg-danger">Desactivé</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <a href="{{route('fournisseurs.edit', $f->id)}}">
+                                                    <i class="fa fa-eye text-primary"></i>
+                                                </a>
+                                            </td>                                                        
+                                        </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="7" align="center">Donnee vide !</td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
                 <hr>
-                <div class="row mb-4">
-                    <div class="stat-card">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h5 class="mb-0">Historique des mouvements</h5>
-                            <a href="{{route('mouvements')}}" class="btn btn-sm btn-primary">Voir plus</a>
-                        </div>
-                        <!-- Historiques Mouvements -->
-                        <div class="row mb-4">
-                            <div class="col-lg-12">
-                                <div class="stat-card">
-                                    <div class="list-group list-group-flush">
-                                        <div class="table-responsive">
-                                            <table class="table data-table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Reference</th>
-                                                        <th>Produit</th>
-                                                        <th>Quantite</th>
-                                                        <th>Date</th>
-                                                        <th>Statut</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach($mouvements_ent as $m)
-                                                    <tr>
-                                                        <td><strong>{{$m->reference}}</strong></td>
-                                                        <td>{{$m->produit->nom}}</td>
-                                                        <td>{{$m->quantite}}</td>
-                                                        <td>{{$m->created_at->format('j / F / Y')}}</td>
-                                                        <td>
-                                                            @if($f->statut == 'entree')
-                                                                <span class="badge bg-success">entree</span>
-                                                                @else
-                                                                <span class="badge bg-danger">sortie</span>
-                                                            @endif
-                                                        </td>
-                                                    </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="mb-0">Produits {{$produits->count()}}</h5>
+                                <a href="{{route('entreprise.produits')}}" class="btn btn-sm btn-primary">Voir tout</a>
+                            </div>
+                             <div class="table-responsive">
+                                <table class="table data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Code</th>
+                                            <th>Nom</th>
+                                            <th>Fournisseur</th>
+                                            <th>Prix d'achat</th>
+                                            <th>Prix de vente</th>
+                                            <th>Stock</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse($produits as $p)
+                                        <tr>
+                                            <td>{{$p->code}}</td>
+                                            <td>{{$p->nom}}</td>
+                                            <td>{{$p->fournisseur->nom}}</td>
+                                            <td>{{number_format($p->prix_achat, 0,'',' ')}} XOF</td>
+                                            <td>{{number_format($p->prix_vente, 0,'',' ')}} XOF</td>
+                                            <td>
+                                                @if($p->stock_min >= $p->stock)
+                                                    <span class="badge bg-danger">Stock faible</span>
+                                                @else
+                                                    {{$p->stock}}
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <a href="{{route('produits.edit', $p->id)}}">
+                                                    <i class="fa fa-eye text-primary"></i>
+                                                </a>
+                                            </td>                                                        
+                                        </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="7" align="center">Donnee vide !</td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
-                </div>
-                <hr>
-                <!-- Section Commercial -->
-     
-                      
+                </div>                
             </section>
-
-            <section id="finance" class="content-section d-none">
-                <div class="stat-card">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h3>Gestion des commandes</h3>
-                        <button class="btn btn-primary">
-                            <i class="fas fa-plus me-2"></i> Nouvelle commande
-                        </button>
-                    </div>
-                    <p class="text-muted">Gérez ici toutes les commandes de vos clients, suivez leur statut et traitez les paiements.</p>
-                </div>
-            </section>
-            
-            <section id="invoices" class="content-section d-none">
-                <div class="stat-card">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h3>Gestion des factures</h3>
-                        <button class="btn btn-primary">
-                            <i class="fas fa-plus me-2"></i> Nouvelle facture
-                        </button>
-                    </div>
-                    <p class="text-muted">Créez, gérez et suivez les factures pour vos clients dans cette section.</p>
-                </div>
-            </section>
-            
-            <section id="reports" class="content-section d-none">
-                <div class="stat-card">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h3>Rapports et analyses</h3>
-                        <button class="btn btn-primary">
-                            <i class="fas fa-download me-2"></i> Exporter
-                        </button>
-                    </div>
-                    <p class="text-muted">Accédez à des rapports détaillés sur vos ventes, performances et indicateurs clés.</p>
-                </div>
-            </section>
-            
-            <section id="settings" class="content-section d-none">
-                <div class="stat-card">
-                    <h3 class="mb-4">Paramètres de l'application</h3>
-                    <p class="text-muted">Configurez les paramètres de votre application de gestion commerciale.</p>
-                </div>
-            </section>
+        
         </div>
         
 @include('partials.footer')

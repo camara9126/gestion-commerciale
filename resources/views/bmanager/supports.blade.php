@@ -198,28 +198,36 @@
                                         <table class="table data-table">
                                             <thead>
                                                 <tr>
-                                                    <th>Nom</th>
+                                                    <th>Nom Complet</th>
                                                     <th>Telephone</th>
-                                                    <th>Adresse</th>
-                                                    <th>Pack</th>
-                                                    <th>Date d'expiration</th>
+                                                    <th>Email</th>
+                                                    <th>Entreprise</th>
+                                                    <th>Niveau urgence</th>
+                                                    <th>Date</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($entreprises as $e)
+                                                @foreach($supports as $s)
                                                 <tr>
-                                                    <td>{{$e->nom}}</td>
-                                                    <td>{{$e->telephone}}</td>
-                                                    <td>{{$e->adresse ?? 'vide'}}</td>
-                                                    <td>{{$e->pack->nom}}</td>
-                                                    <td>{{$e->abonnement_expire_le}}</td>
+                                                    <td>{{$s->nom_complet}}</td>
+                                                    <td>{{$s->telephone}}</td>
+                                                    <td>{{$s->email}}</td>
+                                                    <td>{{$s->entreprise->nom}}</td>
+                                                    <td>{{$s->urgence}}</td>
+                                                    <td>{{$s->created_at}}</td>
+                                                    <td>
+                                                        <a href="{{route('entreprise.show', $s)}}">
+                                                            <i class="fa fa-eye text-primary"></i>
+                                                        </a>
+                                                    </td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>
                                         </table>
                                     </div>                                   
                                     <div class="d-flex justify-content-center mt-4">
-                                        {{$entreprises->links()}}
+                                        {{$supports->links()}}
                                     </div>
                                 </div>
                             </div>                                

@@ -89,7 +89,7 @@ class PayTech
             'item_price' => PayTech::arrayGet($this->query, 'item_price'),
             'command_name' => PayTech::arrayGet($this->query, 'command_name'),
             'ref_command' => $this->refCommand,
-            'env' => ($this->testMode) ? 'test' : 'prod',
+            'env' => 'prod',
             'currency' => $this->currency,
             'ipn_url' => PayTech::arrayGet($this->notificationUrl, 'ipn_url'),
             'success_url' => $this->isMobile ? $this::MOBILE_SUCCESS_URL : PayTech::arrayGet($this->notificationUrl, 'success_url'),
@@ -102,7 +102,6 @@ class PayTech
             "API_SECRET: {$this->apiSecret}"
         ]);
 
-//var_dump($rawResponse);
 
         /**
          * @var array
