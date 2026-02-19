@@ -182,27 +182,38 @@
                             </div>
                             <div class="card shadow-sm">
                                 <div class="card-body">
-                                        <form method="post" action="{{route('entreprise.traite', ['support' => $support->id])}}" class="contact-form" enctype="multipart/form-data">
+                                    @if ($errors->any())
+                                    <div style="color: red; margin-bottom: 10px;">
+                                        @foreach ($errors->all() as $error)
+                                            <p>{{ $error }}</p>
+                                        @endforeach
+                                    </div>
+                                @endif
+                                        <form method="post" action="{{route('entreprise.update', $support)}}" class="contact-form" enctype="multipart/form-data">
                                         @csrf
-                                        @method('patch')
+                                        @method('put')
                                         <h2 class="text-center mb-4">Support Client</h2>
                                         <div class="row">
-                                            <div class="mb-3">
-                                                <label for="name" class="form-label">Image</label>
-                                                <img src="{{asset('storage/'.$support->image)}}" width="100" alt="">
+                                            <div class="col-6">
+                                                <div class="mb-3">
+                                                    <label for="name" class="form-label">Image</label>
+                                                    <img src="{{asset('storage/'.$support->image)}}" width="100" alt="">
+                                                </div>
                                             </div>
-                                            <div class="mb-3">
-                                                <label for="name" class="form-label">Statut</label>
-                                                <select class="form-select" name="statut">
-                                                    <option value="0" class="badge bg-success">Active</option>
-                                                    <option value="1" class="badge bg-danger">Inactive</option>
-                                                </select>
+                                            <div class="col-6">
+                                                <div class="mb-3">
+                                                    <label for="name" class="form-label">Statut</label>
+                                                    <select class="form-select" name="statut">
+                                                        <option value="0" class="badge bg-success" class="form-control">En attente</option>
+                                                        <option value="1" class="badge bg-danger" class="form-control">Confirmer</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                         
                                         <div class="mb-3">
                                             <label for="name" class="form-label">Nom Complet</label>
-                                            <input type="text" class="form-control" name="nom" value="{{$support->nom_complet}}" >
+                                            <input type="text" class="form-control" name="nom_complet" value="{{$support->nom_complet}}" >
                                         </div>
                                         <div class="mb-3">
                                             <label for="telephone" class="form-label">Telephone</label>
@@ -215,15 +226,15 @@
                                                     <input type="email" class="form-control" name="email" value="{{$support->email}}" >
                                                 </div>
                                                 <div class="col-6">
-                                                    <label for="email" class="form-label">Urgence</label>
-                                                    <input type="text" class="form-control" name="email" value="{{$support->urgence}}" >
+                                                    <label for="name" class="form-label">Urgence</label>
+                                                    <input type="text" class="form-control" name="urgence" value="{{$support->urgence}}" >
                                                 </div>
                                             </div>
                                             
                                         </div>
                                         <div class="mb-3">
                                             <label for="adresse" class="form-label">Description</label>
-                                            <textarea class="form-control" name="adresse" rows="5" >{{$support->description}}</textarea>
+                                            <textarea class="form-control" name="description" rows="5" >{{$support->description}}</textarea>
                                         </div>
                                         <div class="d-grid">
                                             <button type="submit" class="btn btn-warning btn-lg">Modifier</button>

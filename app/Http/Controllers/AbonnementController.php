@@ -49,6 +49,7 @@ class AbonnementController extends Controller
                 'time_command' => time(),
             ])
             ->setCurrency('XOF')
+            ->setCustomeField(['type_paiement' => 'nouvel_abonnement'])
             ->setRefCommand(uniqid())
             ->setNotificationUrl([
                 'success_url' => route('abonnement.success'),
@@ -63,78 +64,6 @@ class AbonnementController extends Controller
             header('Location: ' . $data['redirect_url']);
             exit;
         }
-    }
-
-
-   // Validation paiement abonnement
-    public function ipn(Request $request)
-    {
-        $reference = $request->ref_command ?? null;
-        $status    = $request->payment_status ?? null;
-
-        if (!$reference) {
-            return response('Référence manquante', 400);
-        }
-        
-        $paiement = PaiementAbonnement::where('reference', $reference)->first();
-
-        if (!$paiement) {
-            return response('Paiement introuvable', 404);
-        }
-
-        // 🛑 Éviter les doubles traitements
-        if ($paiement->statut === 'payé') {
-            return response('Déjà traité', 200);
-        }
-
-        if ($status === 'completed') {
-
-            // ✅ Paiement validé
-            $paiement->update([
-                'statut' => 'payé',
-                'moyen_paiement' => $request->payment_method,
-                'paid_at' => now(),
-            ]);
-
-            $entreprise = $paiement->entreprise;
-
-            // Date de creation de l'entreprise
-            $debut = $entreprise->created_at;
-
-            // Date de fin de l'abonnement
-            $fin = $debut->copy()->addMonth();
-
-            // Creer l'abonnement
-            Abonnement::create([
-                'entreprise_id' => $paiement->entreprise_id,
-                'pack_id' => $paiement->pack_id,
-                'statut' => 'payé',
-                'montant' => $paiement->montant,
-                'date_debut' =>$debut,
-                'date_fin' => $fin, // ou selon le pack
-            ]);
-
-
-            // 📅 Activation ou prolongation abonnement
-            $expiration = $entreprise->abonnement_expire_le;
-
-            $entreprise->update([
-                'trial_actif' => false,
-                'abonnement_expire_le' =>
-                    $expiration && $expiration->isFuture()
-                        ? $expiration->addMonth()
-                        : now()->addMonth()
-            ]);
-
-            return response('OK', 200);
-        }
-
-        // ❌ Paiement échoué
-        $paiement->update([
-            'statut' => 'annulé'
-        ]);
-
-        return response('Paiement échoué', 200);
     }
 
 
@@ -163,6 +92,7 @@ class AbonnementController extends Controller
 
         $response = $paytech
             ->setCurrency('XOF')
+            ->setCustomeField(['type_paiement' => 'nouvel_abonnement'])
             ->setRefCommand(uniqid())
             ->setQuery([
                 'item_name' => $pack->nom,
@@ -185,41 +115,112 @@ class AbonnementController extends Controller
         return redirect()->back()->with('error', 'Impossible d’initier le paiement.');
     }
 
-    // Validation changement de pack
-     public function chp(Request $request)
+
+   // Validation paiement abonnement
+    public function ipn(Request $request)
     {
         $reference = $request->ref_command ?? null;
         $status    = $request->payment_status ?? null;
 
+
         if (!$reference) {
             return response('Référence manquante', 400);
         }
-        
-        $changement = PaiementAbonnement::where('reference', $reference)->first();
 
-        if (!$changement) {
-            return response('Paiement introuvable', 404);
-        }
+        $type= $request->custom_field['type_paiement'];
 
-        // 🛑 Éviter les doubles traitements
-        if ($changement->statut === 'payé') {
-            return response('Déjà traité', 200);
+        // fonction pour payer abonnement
+        if ($type == 'nouvel_abonnement') {
+            
+            $paiement = PaiementAbonnement::where('reference', $reference)->first();
 
-        }
+            if (!$paiement) {
+                return response('Paiement introuvable', 404);
+            }
 
-         $entreprise = $changement->entreprise;
-         $pack = $changement->pack;
+            // 🛑 Éviter les doubles traitements
+            if ($paiement->statut === 'payé') {
+                return response('Déjà traité', 200);
+            }
+
+            if ($status === 'completed') {
+
+                // ✅ Paiement validé
+                $paiement->update([
+                    'statut' => 'payé',
+                    'moyen_paiement' => $request->payment_method,
+                    'paid_at' => now(),
+                ]);
+
+                $entreprise = $paiement->entreprise;
+
+                // Date de creation de l'entreprise
+                $debut = $entreprise->created_at;
+
+                // Date de fin de l'abonnement
+                $fin = $debut->copy()->addMonth();
+
+                // Creer l'abonnement
+                Abonnement::create([
+                    'entreprise_id' => $paiement->entreprise_id,
+                    'pack_id' => $paiement->pack_id,
+                    'statut' => 'payé',
+                    'montant' => $paiement->montant,
+                    'date_debut' =>$debut,
+                    'date_fin' => $fin, // ou selon le pack
+                ]);
 
 
-         if ($status === 'completed') {
+                // 📅 Activation ou prolongation abonnement
+                $expiration = $entreprise->abonnement_expire_le;
 
-          // ✅ Paiement validé
-            $changement->update([
-                'statut' => 'payé',
-                'moyen_paiement' => $request->payment_method,
-                'paid_at' => now(),
+                $entreprise->update([
+                    'trial_actif' => false,
+                    'abonnement_expire_le' =>
+                        $expiration && $expiration->isFuture()
+                            ? $expiration->addMonth()
+                            : now()->addMonth()
+                ]);
+
+                return response('OK', 200);
+            }
+
+            // ❌ Paiement échoué
+            $paiement->update([
+                'statut' => 'annulé'
             ]);
-         }
+
+            return response('Paiement échoué', 200);
+        }
+
+        // fonction pour changer pack
+        if ($type == 'changement_pack') {
+
+            $changement = PaiementAbonnement::where('reference', $reference)->first();
+
+            if (!$changement) {
+                return response('Paiement introuvable', 404);
+            }
+
+            // 🛑 Éviter les doubles traitements
+            if ($changement->statut === 'payé') {
+                return response('Déjà traité', 200);
+
+            }
+            
+            $entreprise = $changement->entreprise;
+            $pack = $changement->pack;
+
+
+            if ($status === 'completed') {
+
+            // ✅ Paiement validé
+                $changement->update([
+                    'statut' => 'payé',
+                    'moyen_paiement' => $request->payment_method,
+                    'paid_at' => now(),
+                ]);
+            }
 
             // Mise a jour abonnement
             $abonnement = $entreprise->abonnement;
@@ -237,9 +238,10 @@ class AbonnementController extends Controller
                 'abonnement_expire_le' => now()->addMonth(),
                 'trial_actif' => false,
             ]);
+        }
+
+
     }
-
-
  
 
 

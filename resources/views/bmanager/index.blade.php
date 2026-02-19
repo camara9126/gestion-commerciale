@@ -1,6 +1,9 @@
 <?php
 
+use App\Models\Support;
+
     $entreprise = request()->user()->entreprise;
+    $supports = Support::where('statut', false)->get();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -65,7 +68,7 @@
                 </li>
                 <li class="nav-item mb-0 mt-0">
                     <a href="{{ route('entreprise.support') }}" class=" nav-link">
-                        <i class="fas fa-tools" style="color: #ff9d1b;"></i> Supports
+                        <i class="fas fa-tools" style="color: #ff9d1b;"></i> Supports ({{$supports->count()}})
                     </a>
                 </li>
             </ul>

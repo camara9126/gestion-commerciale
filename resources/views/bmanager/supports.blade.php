@@ -203,6 +203,7 @@
                                                     <th>Email</th>
                                                     <th>Entreprise</th>
                                                     <th>Niveau urgence</th>
+                                                    <th>Statut</th>
                                                     <th>Date</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -213,13 +214,27 @@
                                                     <td>{{$s->nom_complet}}</td>
                                                     <td>{{$s->telephone}}</td>
                                                     <td>{{$s->email}}</td>
-                                                    <td>{{$s->entreprise->nom}}</td>
+                                                    <td>{{$s->entreprise->nom}}</td> 
                                                     <td>{{$s->urgence}}</td>
+                                                    <td>
+                                                        @if($s->statut)
+                                                            <span class="badge bg-success">Confirmé</span>
+                                                            @else
+                                                            <span class="badge bg-danger">En Attente</span>
+                                                        @endif
+                                                    </td>
                                                     <td>{{$s->created_at}}</td>
                                                     <td>
-                                                        <a href="{{route('entreprise.show', $s)}}">
-                                                            <i class="fa fa-eye text-primary"></i>
+                                                        <a href="{{route('entreprise.edit', $s->id)}}" class="btn btn-outline-primary">
+                                                            <i class="fa fa-eye"></i>
                                                         </a>
+                                                        <form action="{{route('entreprise.destroy', $s->id)}}" type="button" method="post" onsubmit="return confirm('Supprimer ?')">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-outline-danger">
+                                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                                            </button>
+                                                        </form>
                                                     </td>
                                                 </tr>
                                                 @endforeach

@@ -9,6 +9,7 @@ use App\Http\Controllers\Finance\DepenseController;
 use App\Http\Controllers\Finance\RecetteController;
 use App\Http\Controllers\Inventaire\FournisseurController;
 use App\Http\Controllers\Inventaire\ProduitController;
+use App\Http\Controllers\PackController;
 use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StockController;
@@ -35,6 +36,11 @@ Route::get('politiques-conditions', function () {
 })->name('politiques');
     
 
+Route::get('faq', function () {
+   
+    return view('home.faq');
+})->name('faq');
+
 Route::get('test', function () {
     $fournisseurs = Fournisseur::latest()->get();
     $produits = Produit::with('fournisseur')->latest()->get();
@@ -52,7 +58,7 @@ Route::get('rapport', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::patch('/entreprise/{entreprise}', [ProfileController::class, 'entrepriseUpdate'])->name('entreprise.update');
+    Route::patch('/profile/{entreprise}', [ProfileController::class, 'entrepriseUpdate'])->name('entreprise.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Ajout utilisateur par l'admin
@@ -67,7 +73,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/abonnement/payer', [AbonnementController::class, 'initialPaiement'])->name('abonnement.payer');
 
-    Route::get('/abonnement/changer/{p}', [AbonnementController::class, 'changerPack'])->name('abonnement.changer');
+    Route::get('/changement/changer/{p}', [PackController::class, 'changerPack'])->name('changement.pack');
 
 
     Route::get('/abonnement/success', [AbonnementController::class, 'success'])->name('abonnement.success');
@@ -76,8 +82,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // Route IPN et CHP doivent etre public (pas de auth)
- Route::post('/abonnement/ipn', [AbonnementController::class, 'ipn'])->name('abonnement.ipn');
- Route::post('/abonnement/chp', [AbonnementController::class, 'chp'])->name('abonnement.chp');
+ Route::post('/abonnement/ipn', [AbonnementController::class, 'ipn']);
 
 // Route Dashboard
 Route::middleware(['auth', 'entreprise.exists'])->group(function () {
@@ -94,14 +99,12 @@ Route::middleware(['auth', 'entreprise.exists'])->group(function () {
 
 // Route Super Administrateur (Webmaster)
 Route::middleware(['auth'])->group(function () {
-    Route::get('/entreprise.index', [EntrepriseControleer::class, 'index'])->name('entreprise.index');
+    Route::resource('/entreprise', EntrepriseControleer::class);
     Route::get('/entreprise.utilisateurs', [EntrepriseControleer::class, 'utilisateurs'])->name('entreprise.utilisateurs');
     Route::get('/entreprise.entreprises', [EntrepriseControleer::class, 'entreprise'])->name('entreprise.entreprises');
     Route::get('/entreprise.produits', [EntrepriseControleer::class, 'produits'])->name('entreprise.produits');
     Route::get('/entreprise.fournisseurs', [EntrepriseControleer::class, 'fournisseurs'])->name('entreprise.fournisseurs');
     Route::get('/entreprise.support', [EntrepriseControleer::class, 'support'])->name('entreprise.support');
-    Route::get('/entreprise/{s}/show', [EntrepriseControleer::class, 'show'])->name('entreprise.show');
-    Route::patch('/entreprise', [EntrepriseControleer::class, 'update'])->name('entreprise.traite');
     Route::get('/entreprise.search', [EntrepriseControleer::class, 'search'])->name('entreprise.search');
 });
 

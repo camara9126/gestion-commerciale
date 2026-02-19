@@ -97,9 +97,6 @@ use App\Models\Produit;
 
         /* Grille principale deux colonnes */
         .support-grid {
-        display: grid;
-        grid-template-columns: 2.3fr 1.9fr;
-        gap: 2.5rem;
         align-items: start;
         }
 
@@ -113,15 +110,12 @@ use App\Models\Produit;
         }
 
         .form-title {
-        font-size: 1.9rem;
-        font-weight: 600;
         margin-bottom: 0.4rem;
         color: #0a2647;
         }
 
         .form-sub {
         color: #456f9c;
-        font-size: 0.95rem;
         margin-bottom: 2rem;
         border-left: 3px solid #3f7eb6;
         padding-left: 1rem;
@@ -134,17 +128,13 @@ use App\Models\Produit;
         .form-group label {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
-        font-weight: 500;
         color: #1e3f5c;
         margin-bottom: 0.4rem;
-        font-size: 0.95rem;
         }
 
         .form-group label i {
         color: #3f7eb6;
         width: 1.2rem;
-        font-size: 1rem;
         }
 
         input, select, textarea {
@@ -152,7 +142,6 @@ use App\Models\Produit;
         padding: 1rem 1.2rem;
         border: 1.5px solid #dae3f0;
         border-radius: 1.8rem;
-        font-size: 1rem;
         background: #f9fcff;
         transition: 0.2s;
         font-family: inherit;
@@ -172,18 +161,15 @@ use App\Models\Produit;
 
         .priority-row {
         display: flex;
-        gap: 1rem;
         align-items: center;
         flex-wrap: wrap;
         }
 
         .priority-option {
-        flex: 1;
         background: #ecf3fa;
         border-radius: 2.5rem;
         padding: 0.7rem 0.2rem;
         text-align: center;
-        font-weight: 500;
         color: #1c3f5e;
         border: 1.5px solid transparent;
         transition: all 0.1s;
@@ -191,7 +177,6 @@ use App\Models\Produit;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 0.4rem;
         }
 
         .priority-option input[type="radio"] {
@@ -211,12 +196,9 @@ use App\Models\Produit;
         padding: 1rem 2rem;
         border-radius: 3rem;
         color: white;
-        font-weight: 600;
-        font-size: 1.2rem;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: 0.8rem;
         width: 100%;
         cursor: pointer;
         transition: 0.2s;
@@ -228,15 +210,9 @@ use App\Models\Produit;
         .btn-submit:hover {
         background: #1d4068;
         transform: scale(1.02);
-        gap: 1rem;
-        }
-
-        .btn-submit i {
-        font-size: 1.2rem;
         }
 
         .legal-note {
-        font-size: 0.8rem;
         color: #6989aa;
         margin-top: 1.3rem;
         text-align: center;
@@ -256,18 +232,14 @@ use App\Models\Produit;
         .faq-header {
         display: flex;
         align-items: center;
-        gap: 1rem;
         margin-bottom: 2.2rem;
         }
 
         .faq-header h2 {
-        font-size: 2rem;
-        font-weight: 600;
         color: #133855;
         }
 
         .faq-header i {
-        font-size: 2.2rem;
         color: #2e7eb0;
         background: white;
         padding: 0.5rem;
@@ -278,7 +250,6 @@ use App\Models\Produit;
         .faq-list {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
         }
 
         .faq-item {
@@ -296,19 +267,15 @@ use App\Models\Produit;
         align-items: center;
         justify-content: space-between;
         cursor: pointer;
-        font-weight: 600;
         color: #1b3f62;
         background: #ffffff;
-        gap: 0.5rem;
         }
 
         .faq-question span {
-        font-size: 1.1rem;
         }
 
         .faq-question i {
         color: #457eb3;
-        font-size: 1.1rem;
         transition: transform 0.2s;
         }
 
@@ -534,6 +501,16 @@ use App\Models\Produit;
 
                     <!-- Grille : formulaire + FAQ -->
                     <div class="support-grid">
+
+                        <!-- COLONNE DROITE : FAQ INTERACTIVE -->
+                        <div class="faq-container">
+                            <div class="faq-header">
+                                <i class="fas fa-circle-question"></i>
+                                <h2><a href="{{ route('faq') }}">Foire aux questions</a></h2>
+                            </div>
+                        </div>
+
+
                         <!-- COLONNE GAUCHE : FORMULAIRE DE CONTACT -->
                         <div class="form-container">
                             <div class="form-title">
@@ -569,19 +546,6 @@ use App\Models\Produit;
                                     <label><i class="fas fa-envelope"></i> Telephone</label>
                                     <input type="text" name="telephone" placeholder="77 123 45 67" required>
                                 </div>
-
-                                <!-- Logiciel / version -->
-                                <!--<div class="form-group">
-                                    <label><i class="fas fa-cube"></i> Logiciel / version</label>
-                                    <select required>
-                                    <option value="" disabled selected>— Sélectionnez —</option>
-                                    <option>DataPro Analytics v4.2</option>
-                                    <option>DesignStudio 2025</option>
-                                    <option>ComptaPro Entreprise</option>
-                                    <option>GestionLab · cloud</option>
-                                    <option>Autre logiciel (legacy)</option>
-                                    </select>
-                                </div>-->
 
                                 <!-- Priorité avec 3 boutons radio stylisés -->
                                 <div class="form-group">
@@ -622,100 +586,6 @@ use App\Models\Produit;
                             </form>
                         </div>
 
-                        <!-- COLONNE DROITE : FAQ INTERACTIVE -->
-                        <div class="faq-container">
-                            <div class="faq-header">
-                            <i class="fas fa-circle-question"></i>
-                            <h2>Foire aux questions</h2>
-                            </div>
-
-                            <div class="faq-list">
-                            <!-- QUESTION 1 (utilisation checkbox+label pour accordéon sans JS) -->
-                            <input type="checkbox" id="faq1" class="faq-checkbox" style="display: none;">
-                            <div class="faq-item">
-                                <label for="faq1" class="faq-question">
-                                <span><i class="fas fa-key" style="margin-right: 10px;"></i> Comment réinitialiser ma licence ?</span>
-                                <i class="fas fa-chevron-down"></i>
-                                </label>
-                                <div class="faq-answer">
-                                <i class="fas fa-arrow-right"></i> Rendez-vous dans le logiciel : menu Aide → « Gérer licence ». Cliquez sur « désactiver » puis reconnectez-vous. Si le problème persiste, utilisez notre formulaire de contact (catégorie licence).
-                                </div>
-                            </div>
-
-                            <!-- QUESTION 2 -->
-                            <input type="checkbox" id="faq2" class="faq-checkbox" style="display: none;">
-                            <div class="faq-item">
-                                <label for="faq2" class="faq-question">
-                                <span><i class="fas fa-cloud-arrow-down" style="margin-right: 10px;"></i> Mes fichiers ne synchronisent pas sur le cloud</span>
-                                <i class="fas fa-chevron-down"></i>
-                                </label>
-                                <div class="faq-answer">
-                                <i class="fas fa-arrow-right"></i> Vérifiez votre connexion, puis l’espace de stockage disponible. Dans le logiciel, cliquez sur « forcer la synchronisation » (coin inférieur droit). Si l'icône reste orange, consultez la base de connaissance.
-                                </div>
-                            </div>
-
-                            <!-- QUESTION 3 -->
-                            <input type="checkbox" id="faq3" class="faq-checkbox" style="display: none;">
-                            <div class="faq-item">
-                                <label for="faq3" class="faq-question">
-                                <span><i class="fas fa-print" style="margin-right: 10px;"></i> L'impression d'états est décalée / tronquée</span>
-                                <i class="fas fa-chevron-down"></i>
-                                </label>
-                                <div class="faq-answer">
-                                <i class="fas fa-arrow-right"></i> Mettez à jour les pilotes d'impression. Dans les paramètres du logiciel, choisissez « format PDF » puis imprimez le PDF. Cela corrige 90% des problèmes de mise en page.
-                                </div>
-                            </div>
-
-                            <!-- QUESTION 4 -->
-                            <input type="checkbox" id="faq4" class="faq-checkbox" style="display: none;">
-                            <div class="faq-item">
-                                <label for="faq4" class="faq-question">
-                                <span><i class="fas fa-database" style="margin-right: 10px;"></i> Comment sauvegarder mes données ?</span>
-                                <i class="fas fa-chevron-down"></i>
-                                </label>
-                                <div class="faq-answer">
-                                <i class="fas fa-arrow-right"></i> Fichier → Exporter → « sauvegarde complète ». Choisissez un dossier sécurisé. Nous conseillons une sauvegarde automatique hebdomadaire (réglable dans Préférences).
-                                </div>
-                            </div>
-
-                            <!-- QUESTION 5 -->
-                            <input type="checkbox" id="faq5" class="faq-checkbox" style="display: none;">
-                            <div class="faq-item">
-                                <label for="faq5" class="faq-question">
-                                <span><i class="fas fa-language" style="margin-right: 10px;"></i> Puis-je changer la langue du logiciel ?</span>
-                                <i class="fas fa-chevron-down"></i>
-                                </label>
-                                <div class="faq-answer">
-                                <i class="fas fa-arrow-right"></i> Oui, Options → Langue. Les langues disponibles : français, anglais, espagnol, allemand. Un redémarrage est nécessaire.
-                                </div>
-                            </div>
-
-                            <!-- QUESTION 6 (encore une pour faire bonne mesure) -->
-                            <input type="checkbox" id="faq6" class="faq-checkbox" style="display: none;">
-                            <div class="faq-item">
-                                <label for="faq6" class="faq-question">
-                                <span><i class="fas fa-clock" style="margin-right: 10px;"></i> Délai de réponse du support ?</span>
-                                <i class="fas fa-chevron-down"></i>
-                                </label>
-                                <div class="faq-answer">
-                                <i class="fas fa-arrow-right"></i> Nous répondons sous 24h ouvrées (souvent en quelques heures). Les demandes urgentes (priorité haute) sont traitées en priorité.
-                                </div>
-                            </div>
-                            </div>
-
-                            <!-- Petit module complémentaire “aide rapide” -->
-                            <hr>
-                            <div class="more-help">
-                            <i class="fas fa-life-ring"></i>
-                            <p><strong>Vous ne trouvez pas votre réponse ?</strong> Utilisez le formulaire, notre équipe vous guidera.</p>
-                            </div>
-
-                            <!-- informations supplémentaires (chat, téléphone) -->
-                            <div style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap; color: #1f4b77;">
-                            <span style="background: white; border-radius: 40px; padding: 0.4rem 1.2rem;"><i class="fas fa-comment"></i> Chat en direct (8h-19h)</span>
-                            <span style="background: white; border-radius: 40px; padding: 0.4rem 1.2rem;"><i class="fas fa-phone-alt"></i> 01 84 80 00 00</span>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </section>

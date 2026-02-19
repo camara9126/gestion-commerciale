@@ -444,6 +444,7 @@
                         <li><a class="dropdown-item" href="{{ route('profile.edit') }}"><i class="fas fa-user me-2"></i> Mon profil</a></li>
                         <li><a class="dropdown-item" href="{{ route('dashboard.abonnement') }}"><i class="fas fa-box-open me-2"></i> Abonnement</a></li>
                         <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ route('parametre') }}"><i class="fas fa-tools me-2"></i> Assistance</a></li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}">
                                         @csrf    
@@ -581,7 +582,7 @@
                                         </ul>
                                         @if(auth()->user()->entreprise->pack->nom !==  $p->nom)
                                             <button class="pack-btn bg-success">
-                                                <a href="{{route('abonnement.changer', $p->id)}}" class="text-white">Choisir ce pack</a>
+                                                <a href="{{route('changement.pack', $p->id)}}" class="text-white">Choisir ce pack</a>
                                             </button>
                                         @else
                                             <button class="pack-btn">Pack actuel</button>

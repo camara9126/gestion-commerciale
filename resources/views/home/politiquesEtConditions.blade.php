@@ -442,7 +442,7 @@
                     <p>Les présentes CGU sont régies par le droit français. Tout litige relèvera des tribunaux compétents de Paris.</p>
                     
                     <div class="update-date">
-                        <p><strong>Dernière mise à jour :</strong> 15 octobre 2023</p>
+                        <p><strong>Dernière mise à jour :</strong> 19 fevrier 2026</p>
                     </div>
                 </div>
                 
@@ -548,7 +548,7 @@
                     <p>Nous pouvons modifier cette politique de confidentialité. Les modifications importantes vous seront notifiées par email ou via le Logiciel.</p>
                     
                     <div class="update-date">
-                        <p><strong>Dernière mise à jour :</strong> 15 octobre 2023</p>
+                        <p><strong>Dernière mise à jour :</strong> 19 fevrier 2026</p>
                         <p>Cette politique est conforme au RGPD et à la Loi Informatique et Libertés modifiée.</p>
                     </div>
                 </div>
@@ -581,13 +581,12 @@
         <div class="container">
             <p>&copy; <?= now()->year ?> B-Manager. Tous droits réservés.</p>
             <div class="footer-links">
-                <a href="index.html">Accueil</a>
-                <a href="contact.html">Contact</a>
-                <a href="terms.html">Conditions d'utilisation</a>
-                <a href="privacy.html">Politique de confidentialité</a>
-                <a href="cookies.html">Politique des cookies</a>
+                <a href="/">Accueil</a>
+                <a href="{{route('contact')}}">Contact</a>
+                <a href="{{route('politiques')}}">Conditions d'utilisation</a>
+                <a href="{{route('politiques')}}">Politique de confidentialité</a>
             </div>
-            <p style="margin-top: 15px; font-size: 0.9rem;">SIRET : 123 456 789 00045 - Siège social : 123 Avenue des Affaires, 75008 Paris</p>
+            <p style="margin-top: 15px; font-size: 0.9rem;">Siège social : Diawlingue, Saint-Louis SENEGAL</p>
         </div>
     </footer>
     

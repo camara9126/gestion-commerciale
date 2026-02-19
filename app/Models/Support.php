@@ -18,6 +18,7 @@ class Support extends Model
         'urgence',
         'description',
         'image',
+        'statut',
     ];
 
         public function entreprise()

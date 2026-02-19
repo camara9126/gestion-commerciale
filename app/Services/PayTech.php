@@ -89,6 +89,7 @@ class PayTech
             'item_price' => PayTech::arrayGet($this->query, 'item_price'),
             'command_name' => PayTech::arrayGet($this->query, 'command_name'),
             'ref_command' => $this->refCommand,
+            'custom_field' => $this->customeField,
             'env' => 'prod',
             'currency' => $this->currency,
             'ipn_url' => PayTech::arrayGet($this->notificationUrl, 'ipn_url'),
@@ -101,7 +102,7 @@ class PayTech
             "API_KEY: {$this->apiKey}",
             "API_SECRET: {$this->apiSecret}"
         ]);
-
+//dd( $rawResponse);
 
         /**
          * @var array

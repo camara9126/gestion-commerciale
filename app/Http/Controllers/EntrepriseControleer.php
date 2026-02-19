@@ -97,7 +97,7 @@ class EntrepriseControleer extends Controller
         return view('bmanager.fournisseurs', compact('fournisseurs'));
     }
 
-       public function support()
+    public function support()
     {
         $supports = Support::latest()->simplePaginate(10);
 
@@ -119,36 +119,48 @@ class EntrepriseControleer extends Controller
      */
     public function show(string $s)
     {
-        $support= Support::findOrFail($s);
-        
-        return view('bmanager.show', compact('support'));
+       // 
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $string)
+    public function edit(string $s)
     {
-        //
+        $support= Support::findOrFail($s);
+       //dd($support); 
+        return view('bmanager.edit', compact('support'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Support $support)
+    public function update(Request $request, string $support)
     {
-        $support= Support::findOrFail($support);
+        $supports= Support::findOrFail($support);
 
         $request->validate([
-           'statut',
+            'nom_complet' =>'required',
+            'email' => 'required',
+            'telephone' => 'required',
+            'urgence' => 'required',
+            'description' => 'nullable',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'statut' => 'required',
         ]);
-dd($support);
 
-        $support->update([
-        'statut' => $request->statut,
+    //dd($request);
+        $supports->update([
+            'nom_complet' => $request->nom_complet,
+            'email' => $request->email,
+            'telephone' => $request->telephone,
+            'urgence' => $request->urgence,
+            'description' => $request->description,
+            'statut' => $request->statut,
         ]);
 
-        return redirect()->back()->with('success', 'message traite avec success');
+
+        return redirect()->route('entreprise.support')->with('success', 'Demande traitée avec success');
     }
 
     /**
@@ -156,6 +168,11 @@ dd($support);
      */
     public function destroy(string $id)
     {
-        //
+         $support= Support::findOrFail($id);
+
+         $support->destroy($id);
+
+        return redirect()->route('entreprise.support')->with('success', 'supprimée avec succès');        
+
     }
 }
