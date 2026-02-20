@@ -38,47 +38,68 @@ use App\Models\Produit;
      
     <style>
 
-        .support-card {
-        max-width: 1500px;
-        width: 100%;
-        background: rgba(255,255,255,0.75);
-        backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
-        border-radius: 3.5rem;
-        box-shadow: 0 25px 50px -10px rgba(0,20,60,0.25), inset 0 0 0 1px rgba(255,255,255,0.6);
-        padding: 3rem 2.5rem;
-        }
+    .support-card {
+      width: 100%;
+      background: rgba(255,255,255,0.75);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-radius: 3.5rem;
+      box-shadow: 0 25px 50px -10px rgba(0,20,60,0.25), inset 0 0 0 1px rgba(255,255,255,0.6);
+      padding: 3rem 2.5rem;
+    }
+     /* en-tête */
+    .support-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 3rem;
+    }
 
-        /* en-tête */
-        .support-header {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 3rem;
-        }
+    .support-header h1 {
+      font-size: 2.5rem;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      background: linear-gradient(130deg, #0B2A4A, #264d7c);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
 
-        .support-header h1 {
-        font-size: 2.2rem;
-        font-weight: 100;
-        letter-spacing: -0.02em;
-        background: linear-gradient(130deg, #0B2A4A, #264d7c);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.7rem;
-        }
+    .support-header h1 i {
+      background: #1e3a5f;
+      background: linear-gradient(145deg, #1e3a5f, #2b4f7b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 2.6rem;
+    }
 
-        .support-header h1 i {
-        background: #1e3a5f;
-        background: linear-gradient(145deg, #1e3a5f, #2b4f7b);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-size: 2.1rem;
-        }
+    .header-badge {
+      background: white;
+      padding: 0.6rem 1.5rem;
+      border-radius: 60px;
+      font-weight: 500;
+      color: #1e3a5f;
+      box-shadow: 0 4px 10px rgba(0,30,60,0.08);
+      border: 1px solid rgba(0,50,100,0.1);
+      font-size: 1rem;
+    }
 
+    .header-badge i {
+      margin-right: 0.5rem;
+      color: #2e7eb0;
+    }
+
+    /* Grille principale deux colonnes */
+    .support-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1.9fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
         .header-badge {
         background: white;
         padding: 0.6rem 1.5rem;
@@ -95,69 +116,72 @@ use App\Models\Produit;
         color: #2e7eb0;
         }
 
-        /* Grille principale deux colonnes */
-        .support-grid {
-        align-items: start;
-        }
+   /* ========== FORMULAIRE ========= */
+    .form-container {
+      background: white;
+      border-radius: 2.5rem;
+      padding: 2rem 1.8rem;
+      box-shadow: 0 20px 35px -10px rgba(0,30,60,0.15);
+      border: 1px solid rgba(255,255,255,0.7);
+    }
 
-        /* ========== FORMULAIRE ========= */
-        .form-container {
-        background: white;
-        border-radius: 2.5rem;
-        padding: 2rem 1.8rem;
-        box-shadow: 0 20px 35px -10px rgba(0,30,60,0.15);
-        border: 1px solid rgba(255,255,255,0.7);
-        }
+    .form-title {
+      font-size: 1.9rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      color: #0a2647;
+    }
 
-        .form-title {
-        margin-bottom: 0.4rem;
-        color: #0a2647;
-        }
+    .form-sub {
+      color: #456f9c;
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+      border-left: 3px solid #3f7eb6;
+      padding-left: 1rem;
+    }
 
-        .form-sub {
-        color: #456f9c;
-        margin-bottom: 2rem;
-        border-left: 3px solid #3f7eb6;
-        padding-left: 1rem;
-        }
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
 
-        .form-group {
-        margin-bottom: 1.5rem;
-        }
+    .form-group label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 500;
+      color: #1e3f5c;
+      margin-bottom: 0.4rem;
+      font-size: 0.95rem;
+    }
 
-        .form-group label {
-        display: flex;
-        align-items: center;
-        color: #1e3f5c;
-        margin-bottom: 0.4rem;
-        }
+    .form-group label i {
+      color: #3f7eb6;
+      width: 1.2rem;
+      font-size: 1rem;
+    }
 
-        .form-group label i {
-        color: #3f7eb6;
-        width: 1.2rem;
-        }
+    input, select, textarea {
+      width: 100%;
+      padding: 1rem 1.2rem;
+      border: 1.5px solid #dae3f0;
+      border-radius: 1.8rem;
+      font-size: 1rem;
+      background: #f9fcff;
+      transition: 0.2s;
+      font-family: inherit;
+    }
 
-        input, select, textarea {
-        width: 100%;
-        padding: 1rem 1.2rem;
-        border: 1.5px solid #dae3f0;
-        border-radius: 1.8rem;
-        background: #f9fcff;
-        transition: 0.2s;
-        font-family: inherit;
-        }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #2b6eae;
+      background: white;
+      box-shadow: 0 6px 14px rgba(27, 85, 170, 0.1);
+    }
 
-        input:focus, select:focus, textarea:focus {
-        outline: none;
-        border-color: #2b6eae;
-        background: white;
-        box-shadow: 0 6px 14px rgba(27, 85, 170, 0.1);
-        }
-
-        textarea {
-        border-radius: 1.5rem;
-        resize: vertical;
-        }
+    textarea {
+      border-radius: 1.5rem;
+      resize: vertical;
+    }
 
         .priority-row {
         display: flex;
@@ -168,7 +192,7 @@ use App\Models\Produit;
         .priority-option {
         background: #ecf3fa;
         border-radius: 2.5rem;
-        padding: 0.7rem 0.2rem;
+        padding: 0.7rem 3.5rem;
         text-align: center;
         color: #1c3f5e;
         border: 1.5px solid transparent;
@@ -218,101 +242,114 @@ use App\Models\Produit;
         text-align: center;
         }
 
-        /* ========== FOIRE AUX QUESTIONS ========= */
-        .faq-container {
-        background: rgba(255,255,255,0.5);
-        backdrop-filter: blur(6px);
-        -webkit-backdrop-filter: blur(6px);
-        border-radius: 2.5rem;
-        padding: 2rem 1.8rem;
-        border: 1px solid rgba(255,255,255,0.7);
-        box-shadow: 0 20px 30px -10px rgba(0,25,45,0.1);
-        }
+ /* ========== FOIRE AUX QUESTIONS ========= */
+    .faq-container {
+      background: rgba(255,255,255,0.5);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-radius: 2.5rem;
+      padding: 2rem 1.8rem;
+      border: 1px solid rgba(255,255,255,0.7);
+      box-shadow: 0 20px 30px -10px rgba(0,25,45,0.1);
+    }
 
-        .faq-header {
-        display: flex;
-        align-items: center;
-        margin-bottom: 2.2rem;
-        }
+    .faq-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2.2rem;
+    }
 
-        .faq-header h2 {
-        color: #133855;
-        }
+    .faq-header h2 {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #133855;
+    }
+    .liste-faq {
+      font-size: 1.5rem;
+      font-weight: 300;
+      color: #133855;
+    }
 
-        .faq-header i {
-        color: #2e7eb0;
-        background: white;
-        padding: 0.5rem;
-        border-radius: 50%;
-        box-shadow: 0 8px 18px rgba(21,80,130,0.1);
-        }
+    .faq-header i {
+      font-size: 2.2rem;
+      color: #2e7eb0;
+      background: white;
+      padding: 0.5rem;
+      border-radius: 50%;
+      box-shadow: 0 8px 18px rgba(21,80,130,0.1);
+    }
 
-        .faq-list {
-        display: flex;
-        flex-direction: column;
-        }
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
 
-        .faq-item {
-        background: white;
-        border-radius: 1.8rem;
-        box-shadow: 0 4px 10px rgba(0,25,45,0.03);
-        border: 1px solid rgba(0,40,80,0.05);
-        overflow: hidden;
-        transition: 0.15s;
-        }
+    .faq-item {
+      background: white;
+      border-radius: 1.8rem;
+      box-shadow: 0 4px 10px rgba(0,25,45,0.03);
+      border: 1px solid rgba(0,40,80,0.05);
+      overflow: hidden;
+      transition: 0.15s;
+    }
 
-        .faq-question {
-        padding: 1.2rem 1.8rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        cursor: pointer;
-        color: #1b3f62;
-        background: #ffffff;
-        }
+    .faq-question {
+      padding: 1.2rem 1.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      font-weight: 600;
+      color: #1b3f62;
+      background: #ffffff;
+      gap: 0.5rem;
+    }
 
-        .faq-question span {
-        }
+    .faq-question span {
+      font-size: 1.1rem;
+    }
 
-        .faq-question i {
-        color: #457eb3;
-        transition: transform 0.2s;
-        }
+    .faq-question i {
+      color: #457eb3;
+      font-size: 1.1rem;
+      transition: transform 0.2s;
+    }
 
-        .faq-checkbox {
-        display: none;
-        }
+    .faq-checkbox {
+      display: none;
+    }
 
-        .faq-answer {
-        max-height: 0;
-        opacity: 0;
-        padding: 0 1.8rem;
-        background: #f4faff;
-        color: #264e73;
-        transition: 0.3s ease-in-out;
-        border-top: 0 solid transparent;
-        line-height: 1.5;
-        pointer-events: none;
-        }
+    .faq-answer {
+      max-height: 0;
+      opacity: 0;
+      padding: 0 1.8rem;
+      background: #f4faff;
+      color: #264e73;
+      transition: 0.3s ease-in-out;
+      border-top: 0 solid transparent;
+      line-height: 1.5;
+      pointer-events: none;
+    }
 
-        .faq-checkbox:checked + .faq-item .faq-answer {
-        max-height: 200px;      /* assez pour les réponses */
-        opacity: 1;
-        padding: 1.2rem 1.8rem;
-        border-top-width: 1px;
-        border-color: #c3dffa;
-        pointer-events: auto;
-        }
+    .faq-checkbox:checked + .faq-item .faq-answer {
+      max-height: 200px;      /* assez pour les réponses */
+      opacity: 1;
+      padding: 1.2rem 1.8rem;
+      border-top-width: 1px;
+      border-color: #c3dffa;
+      pointer-events: auto;
+    }
 
-        .faq-checkbox:checked + .faq-item .faq-question i {
-        transform: rotate(180deg);
-        }
+    .faq-checkbox:checked + .faq-item .faq-question i {
+      transform: rotate(180deg);
+    }
 
-        .faq-item:hover {
-        background: #f4fbff;
-        border-color: #b7d6f3;
-        }
-
+    .faq-item:hover {
+      background: #f4fbff;
+      border-color: #b7d6f3;
+    }
         .more-help {
         margin-top: 2rem;
         background: #e1edfc;
@@ -340,30 +377,30 @@ use App\Models\Produit;
         margin: 1rem 0;
         }
 
-        /* adaptatif mobile */
-        @media (max-width: 900px) {
-        .support-grid {
-            grid-template-columns: 1fr;
-        }
-        .support-card {
-            padding: 2rem 1.2rem;
-            border-radius: 2rem;
-        }
-        .support-header {
-            flex-direction: column;
-            align-items: start;
-            gap: 1rem;
-        }
-        }
+      /* adaptatif mobile */
+    @media (max-width: 900px) {
+      .support-grid {
+        grid-template-columns: 1fr;
+      }
+      .support-card {
+        padding: 2rem 1.2rem;
+        border-radius: 2rem;
+      }
+      .support-header {
+        flex-direction: column;
+        align-items: start;
+        gap: 1rem;
+      }
+    }
 
         /* petite astuce pour les icônes dans les réponses */
         .faq-answer i {
-        margin-right: 0.5rem;
+        margin-right: 1.5rem;
         color: #3f7eb6;
         }
 
         .note-urgence {
-        font-size: 0.9rem;
+        font-size: .9rem;
         color: #4d6e8f;
         margin-top: 0.4rem;
         }
@@ -485,42 +522,125 @@ use App\Models\Produit;
                         <div class="header-badge">
                             <i class="fas fa-clock"></i> Disponible 24/7 · temps réel
                         </div>
-                        @if(Session::has('success'))
-                                <div class="alert alert-success" role="alert">
-                                    {{ Session::get('success') }}
-                                </div>
-                            @elseif(Session::has('danger'))
-                                <div class="alert alert-danger" role="alert">
-                                    {{ Session::get('danger') }}
-                                </div>
-                            @endif
-                        <P>
-                            Besoin d’aide ? <br> Notre équipe est disponible pour vous accompagner dans l’utilisation du logiciel, résoudre vos problèmes techniques ou répondre à vos questions.
-                        </P>
                     </div>
 
                     <!-- Grille : formulaire + FAQ -->
                     <div class="support-grid">
 
-                        <!-- COLONNE DROITE : FAQ INTERACTIVE -->
+                       <!-- COLONNE DROITE : FAQ INTERACTIVE -->
                         <div class="faq-container">
                             <div class="faq-header">
                                 <i class="fas fa-circle-question"></i>
-                                <h2><a href="{{ route('faq') }}">Foire aux questions</a></h2>
+                                <h2>Foire aux questions</h2>
+                            </div>
+
+                            <div class="faq-list">
+                                <!-- QUESTION 1 (utilisation du logiciel sur mobile) -->
+                                <input type="checkbox" id="faq1" class="faq-checkbox" style="display: none;">
+                                <div class="faq-item">
+                                    <label for="faq1" class="faq-question">
+                                        <span> 1. Puis-je utiliser le logiciel sur mobile ?</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </label>
+                                    <div class="faq-answer">
+                                        <i class="fas fa-arrow-right"></i> Oui, notre logiciel est responsive et accessible depuis n’importe quel navigateur mobile. Une application native est également prévue bientot.
+                                    </div>
+                                </div>
+                                <!-- QUESTION 2 securisation des donnees) -->
+                                <input type="checkbox" id="faq2" class="faq-checkbox" style="display: none;">
+                                <div class="faq-item">
+                                    <label for="faq2" class="faq-question">
+                                        <span> 2.  Mes données sont-elles sécurisées ?</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </label>
+                                    <div class="faq-answer">
+                                        <i class="fas fa-arrow-right"></i> Absolument. Toutes les données sont chiffrées (SSL 256 bits) et hébergées. Nous effectuons des sauvegardes quotidiennes. 
+                                    </div>
+                                </div>
+                                <!-- QUESTION 3 (abonnement inactive) -->
+                                <input type="checkbox" id="faq3" class="faq-checkbox" style="display: none;">
+                                <div class="faq-item">
+                                    <label for="faq3" class="faq-question">
+                                        <span> 3. Mon paiement a été débité mais mon abonnement n’est pas activé, que faire ?</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </label>
+                                    <div class="faq-answer">
+                                        <i class="fas fa-arrow-right"></i> OPatientez 5 à 10 minutes (parfois le temps de confirmation). Si toujours rien, contactez le support, nous activerons manuellement.
+                                    </div>
+                                </div>
+                                <!-- QUESTION 4 (changement pack) -->
+                                <input type="checkbox" id="faq4" class="faq-checkbox" style="display: none;">
+                                <div class="faq-item">
+                                    <label for="faq4" class="faq-question">
+                                        <span> 4. Puis-je changer de pack à tout moment ?</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </label>
+                                    <div class="faq-answer">
+                                        <i class="fas fa-arrow-right"></i> Oui, vous pouvez évoluer vers un pack supérieur immédiatement (prorata). Pour un pack inférieur, le changement se fait en fin de cycle.
+                                    </div>
+                                </div>
+                                <!-- QUESTION 5 (expiration abonnement) -->
+                                <input type="checkbox" id="faq5" class="faq-checkbox" style="display: none;">
+                                <div class="faq-item">
+                                    <label for="faq5" class="faq-question">
+                                        <span> 5. Que se passe-t-il si mon abonnement expire ?</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </label>
+                                    <div class="faq-answer">
+                                        <i class="fas fa-arrow-right"></i> Vous basculez en mode lecture seule pendant 15 jours. Passé ce délai, certaines fonctionnalités seront désactivées. Pensez à renouveler !
+                                    </div>
+                                </div>
+                                <!-- QUESTION 6 (ajout, modification et suppression produit) -->
+                                <input type="checkbox" id="faq6" class="faq-checkbox" style="display: none;">
+                                <div class="faq-item">
+                                    <label for="faq6" class="faq-question">
+                                        <span> 6. Comment ajouter, modifier ou supprimer un produit ?</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </label>
+                                    <div class="faq-answer">
+                                        <i class="fas fa-arrow-right"></i> Dans la section "Produit", cliquez sur le bouton <b>Nouveau produit</b> en haut à droite. Pour modifier, cliquer sur l'icon bleu du colonne "Statut" dans la liste. Modifier les infos souhaitées et enregistrer. Pour supprimer un produit , il suffit de cliquer sur l'icon rouge et confirmer la suppréssion. Attention : suppression définitive.
+                                    </div>
+                                </div>
+                                <!-- QUESTION 7 (gestion de stocks) -->
+                                <input type="checkbox" id="faq7" class="faq-checkbox" style="display: none;">
+                                <div class="faq-item">
+                                    <label for="faq7" class="faq-question">
+                                        <span> 7. Comment gérer le stock ?</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </label>
+                                    <div class="faq-answer">
+                                        <i class="fas fa-arrow-right"></i> VoChaque vente diminue le stock automatiquement. Vous pouvez aussi faire des ajustements manuels via "Inventaire" > "Stocks".
+                                    </div>
+                                </div>
+                                <!-- QUESTION 8 (ajout utilisateur) -->
+                                <input type="checkbox" id="faq8" class="faq-checkbox" style="display: none;">
+                                <div class="faq-item">
+                                    <label for="faq8" class="faq-question">
+                                        <span> 8. Comment ajouter un utilisateur ?</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </label>
+                                    <div class="faq-answer">
+                                        <i class="fas fa-arrow-right"></i> Dans la section "Utilisateurs", cliquez sur "Nouveau utilisateur". Saisissez son email et choisissez son rôle.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="faq-header">
+                                <p class="liste-faq">
+                                    Visiter la liste des <b>FAQ</b> en cliquant sur <a href="{{route('faq')}}" class="btn btn-info">Ce bouton</a>.
+                                </p>
                             </div>
                         </div>
-
 
                         <!-- COLONNE GAUCHE : FORMULAIRE DE CONTACT -->
                         <div class="form-container">
                             <div class="form-title">
-                            <i class="fas fa-paper-plane" style="color: #1e5b9e; margin-right: 0.3rem;"></i> Contacter le support
+                                <i class="fas fa-paper-plane" style="color: #1e5b9e; margin-right: 0.3rem;"></i> Contacter le support
                             </div>
                             <div class="form-sub">
-                            Remplissez ce formulaire, nous vous répondons sous 24h (souvent moins ⚡)
+                                Remplissez ce formulaire, nous vous répondons sous 24h (souvent moins ⚡)
                             </div>
 
-                             @if ($errors->any())
+                            @if ($errors->any())
                                 <div style="color: red; margin-bottom: 10px;">
                                     @foreach ($errors->all() as $error)
                                         <p>{{ $error }}</p>
@@ -543,7 +663,7 @@ use App\Models\Produit;
 
                                 <!-- Telephone -->
                                 <div class="form-group">
-                                    <label><i class="fas fa-envelope"></i> Telephone</label>
+                                    <label><i class="fas fa-phone"></i> Telephone</label>
                                     <input type="text" name="telephone" placeholder="77 123 45 67" required>
                                 </div>
 
@@ -583,9 +703,8 @@ use App\Models\Produit;
                                 <div class="legal-note">
                                     <i class="fas fa-shield-alt"></i> Aucun spam, données protégées.
                                 </div>
-                            </form>
+                            </form>                
                         </div>
-
                     </div>
                 </div>
             </section>

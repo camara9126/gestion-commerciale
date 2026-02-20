@@ -123,11 +123,14 @@ class ProduitController extends Controller
     public function destroy(Request $request, Produit $produit)
     {
         $this->authorizeEntreprise($produit, $request);
+        if($produit->statut == true) {
+             $produit->update(['statut' => false]);
 
-        $produit->update(['statut' => false]);
+             return redirect()->route('produits.index')->with('success', 'Produit désactivé');
+        } else
+            $produit->update(['statut' => true]);
 
-        return redirect()->route('produits.index')
-            ->with('success', 'Produit désactivé');
+        return redirect()->route('produits.index')->with('success', 'Produit activé');
     }
 
     private function authorizeEntreprise(Produit $produit, Request $request)

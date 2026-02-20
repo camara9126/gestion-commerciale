@@ -63,6 +63,15 @@
                                                                 <i class="fa fa-eye text-primary"></i>
                                                             </a>
                                                         </td>
+                                                        <td>
+                                                             <form action="{{route('clients.destroy', $c->id)}}" type="button" method="post" onsubmit="return confirm('Supprimer ?')">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn btn-outline-danger">
+                                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                                </button>
+                                                            </form>
+                                                        </td>
                                                     </tr>
                                                     @empty
                                                     <tr>

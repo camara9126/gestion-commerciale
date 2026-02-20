@@ -116,7 +116,7 @@ Route::middleware(['auth', 'entreprise.exists'])->group(function () {
     Route::get('/fournisseurs.search', [FournisseurController::class, 'search'])->name('fournisseurs.search');
 
     // Produits
-    Route::resource('produits', ProduitController::class)->except(['show']);
+    Route::resource('produits', ProduitController::class);
     Route::get('/produits.search', [ProduitController::class, 'search'])->name('produits.search');
 
     // Mouvements
