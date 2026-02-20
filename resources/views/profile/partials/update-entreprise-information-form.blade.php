@@ -16,7 +16,7 @@
         </header>
 
         @foreach($entreprise as $entreprise)
-        <form method="post" action="{{ route('entreprise.update', $entreprise) }}" class="mt-6 space-y-6">
+        <form method="post" action="{{ route('entreprise.eUpdate', $entreprise) }}" class="mt-6 space-y-6">
             @csrf
             @method('patch')
 
