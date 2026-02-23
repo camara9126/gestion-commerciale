@@ -70,4 +70,3 @@ class StockController extends Controller
 
 
 }
-$this->authorize('gerer-stock');

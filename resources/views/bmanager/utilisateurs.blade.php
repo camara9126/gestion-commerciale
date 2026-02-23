@@ -210,7 +210,7 @@
                                                 <tr>
                                                     <th>Nom</th>
                                                     <th>Email</th>
-                                                    <th>Entreprise</th>
+                                                    <th>ID Entreprise</th>
                                                     <th>Role</th>
                                                     <th>Date de creation</th>
                                                 </tr>
@@ -220,7 +220,7 @@
                                                 <tr>
                                                     <td>{{$u->name}}</td>
                                                     <td>{{$u->email}}</td>
-                                                    <td>{{$u->entreprise->nom}}</td>
+                                                    <td>{{$u->entreprise_id}}</td>
                                                     <td>{{$u->role}}</td>
                                                     <td>{{$u->created_at}}</td>
                                                 </tr>

@@ -571,7 +571,7 @@
                         <p>Parfait pour les indépendants et petites entreprises</p>
                     </div>
                     <div class="price">
-                        <div class="price-amount">10.000 XOF</div>
+                        <div class="price-amount">15.000 XOF</div>
                         <div class="price-period">par mois</div>
                     </div>
                     <ul class="pricing-features">

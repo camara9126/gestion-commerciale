@@ -428,10 +428,10 @@
                     
                 </div>
                 
-                <!-- Mobile Search Button -->
+                <!-- Mobile Search Button 
                 <button class="btn btn-light d-md-none me-2" id="mobileSearchBtn">
                     <i class="fas fa-search"></i>
-                </button>
+                </button>-->
                 
                 <!-- User Menu -->
                 <div class="dropdown">
@@ -679,7 +679,7 @@
             // Gestion du bouton "Gérer l'abonnement"
             const manageBtn = document.querySelector('.manage-btn');
             manageBtn.addEventListener('click', function() {
-                alert('Redirection vers la page de gestion de l\'abonnement...');
+                alert('Redirection vers la page vers la page de paiement.');
             });
             
             // Gestion des boutons de téléchargement de facture

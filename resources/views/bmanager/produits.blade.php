@@ -210,7 +210,6 @@
                                         <th>Prix d'achat</th>
                                         <th>Prix de vente</th>
                                         <th>Stock</th>
-                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -227,12 +226,7 @@
                                             @else
                                                 {{$p->stock}}
                                             @endif
-                                        </td>
-                                        <td>
-                                            <a href="{{route('produits.edit', $p->id)}}">
-                                                <i class="fa fa-eye text-primary"></i>
-                                            </a>
-                                        </td>                                                        
+                                        </td>                                                    
                                     </tr>
                                     @empty
                                         <tr>

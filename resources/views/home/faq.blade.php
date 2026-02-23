@@ -99,7 +99,7 @@
         }
 
         .nav-button {
-            background-color: var(--secondary);
+            background-color: #00778b;
             color: white;
             border: none;
             padding: 10px 15px;
@@ -117,7 +117,6 @@
         .mobile-menu {
             display: none;
             font-size: 1.5rem;
-            padding-left: 0;
             cursor: pointer;
         }
         
@@ -292,6 +291,55 @@
             .faq-nav { border-radius: 30px; }
             .section-title { font-size: 1.3rem; }
         }
+
+                /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .pricing-card.popular {
+                transform: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .hero-buttons button {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .hero {
+                padding: 120px 0 60px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -304,13 +352,6 @@
                     <!--<i class="fas fa-chart-line"></i>-->
                     <span>Bmanager</span>
                 </div>
-                <ul class="nav-links">
-                    <li><a href="#features">Fonctionnalités</a></li>
-                    <li><a href="#pricing">Offres</a></li>
-                    <li><a href="{{route('apropos')}}">À propos</a></li>
-                    <li><a href="{{route('contact')}}">Contact</a></li>
-                </ul>
-               
 
                 @auth
                     <a href="{{route('dashboard.index')}}" class="nav-button">Dashboard</a>
@@ -447,6 +488,56 @@
                 // Empêche la fermeture si on clique sur un lien interne (mais pas de lien ici)
                 this.classList.toggle('active');
             });
+        });
+    </script>
+        <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu').addEventListener('click', function() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'block';
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    if(window.innerWidth <= 768) {
+                        document.querySelector('.nav-links').style.display = 'none';
+                    }
+                }
+            });
+        });
+
+        // Pricing card interactions
+        document.querySelectorAll('.pricing-card .cta-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const plan = this.closest('.pricing-card').querySelector('h3').textContent;
+                  alert(`Merci pour votre intérêt pour le plan ${plan}! Vous allez être redirigé vers le formulaire d'inscription.`);
+            });
+        });
+
+        // CTA buttons
+        document.querySelectorAll('.cta-button:not(.pricing-card .cta-button)').forEach(button => {
+            button.addEventListener('click', function() {
+                alert("Excellent choix! Vous allez être redirigé vers le formulaire de connexion.");
+            });
+        });
+        
+        // Hero secondary button
+        document.querySelector('.secondary-button').addEventListener('click', function() {
+            alert("La démo vidéo de B-Manager va s'ouvrir dans une nouvelle fenêtre.");
         });
     </script>
 </body>

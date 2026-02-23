@@ -64,6 +64,16 @@
                     </a>
                 </li>
                 <li class="nav-item mb-0 mt-0">
+                    <a href="{{ route('entreprise.produits') }}" class="nav-link">
+                        <i class="fas fa-list" style="color: #ff9d1b;"></i> Produits
+                    </a>
+                </li>
+                <li class="nav-item mb-0 mt-0">
+                    <a href="{{ route('entreprise.fournisseurs') }}" class="nav-link">
+                        <i class="fas fa-truck" style="color: #ff9d1b;"></i> Fournisseurs
+                    </a>
+                </li>
+                <li class="nav-item mb-0 mt-0">
                     <a href="{{ route('entreprise.support') }}" class=" nav-link">
                         <i class="fas fa-tools" style="color: #ff9d1b;"></i> Supports
                     </a>

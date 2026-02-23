@@ -81,7 +81,7 @@
                                                                 <form action="{{route('produits.destroy', $p->id)}}" type="button" method="post" onsubmit="return confirm('Desactiver ?')">
                                                                     @csrf
                                                                     @method('DELETE')
-                                                                    <button type="submit" class="btn btn-outline-danger">
+                                                                    <button type="submit" class="btn btn-outline-danger" title="desactiver">
                                                                         <i class="fa fa-times" aria-hidden="true"></i>
                                                                     </button>
                                                                 </form>
@@ -89,8 +89,8 @@
                                                                 <form action="{{route('produits.destroy', $p->id)}}" type="button" method="post" onsubmit="return confirm('Activer ?')">
                                                                     @csrf
                                                                     @method('DELETE')
-                                                                    <button type="submit" class="btn btn-outline-success">
-                                                                        <i class="fa fa-file-invoice" aria-hidden="true"></i>
+                                                                    <button type="submit" class="btn btn-outline-success" title="activer">
+                                                                        <i class="fa-solid fa-check" aria-hidden="true"></i>
                                                                     </button>
                                                                 </form>
                                                                 @endif

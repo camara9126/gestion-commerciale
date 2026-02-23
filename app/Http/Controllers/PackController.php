@@ -38,7 +38,7 @@ class PackController extends Controller
         $response = $paytech
             ->setCurrency('XOF')
              ->setCustomeField(['type_paiement' => 'changement_pack'])
-            ->setRefCommand(uniqid())
+            ->setRefCommand($refCommande)
             ->setQuery([
                 'item_name' => $pack->nom,
                 'item_price' => $pack->prix,

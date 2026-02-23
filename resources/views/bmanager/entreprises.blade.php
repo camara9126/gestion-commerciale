@@ -64,6 +64,16 @@
                     </a>
                 </li>
                 <li class="nav-item mb-0 mt-0">
+                    <a href="{{ route('entreprise.produits') }}" class="nav-link">
+                        <i class="fas fa-list" style="color: #ff9d1b;"></i> Produits
+                    </a>
+                </li>
+                <li class="nav-item mb-0 mt-0">
+                    <a href="{{ route('entreprise.fournisseurs') }}" class="nav-link">
+                        <i class="fas fa-truck" style="color: #ff9d1b;"></i> Fournisseurs
+                    </a>
+                </li>
+                <li class="nav-item mb-0 mt-0">
                     <a href="{{ route('entreprise.support') }}" class=" nav-link">
                         <i class="fas fa-tools" style="color: #ff9d1b;"></i> Supports
                     </a>
@@ -198,6 +208,7 @@
                                         <table class="table data-table">
                                             <thead>
                                                 <tr>
+                                                    <th>ID</th>
                                                     <th>Nom</th>
                                                     <th>Telephone</th>
                                                     <th>Adresse</th>
@@ -208,6 +219,7 @@
                                             <tbody>
                                                 @foreach($entreprises as $e)
                                                 <tr>
+                                                    <td>{{$e->id}}</td>
                                                     <td>{{$e->nom}}</td>
                                                     <td>{{$e->telephone}}</td>
                                                     <td>{{$e->adresse ?? 'vide'}}</td>

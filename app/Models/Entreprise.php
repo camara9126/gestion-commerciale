@@ -77,7 +77,7 @@ class Entreprise extends Model
 
      public function abonnementActif()
     {
-        return $this->hasOne(Entreprise::class)->where('trial_actif', true)->where('abonnement_expire_le', '>=', now());
+        return $this->hasOne(Entreprise::class)->where('trial_actif', true);
     }
     
     public function abonnementValide() : bool

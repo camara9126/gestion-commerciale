@@ -208,7 +208,6 @@
                                                     <th>Adresse</th>
                                                     <th>Email</th>
                                                     <th>Statut</th>
-                                                    <th>Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -225,11 +224,6 @@
                                                             <span class="badge bg-danger">Desactivé</span>
                                                         @endif
                                                     </td>
-                                                    <td>
-                                                        <a href="{{route('fournisseurs.edit', $f->id)}}">
-                                                            <i class="fa fa-eye text-primary"></i>
-                                                        </a>
-                                                    </td>                                                        
                                                 </tr>
                                                 @empty
                                                     <tr>
@@ -240,7 +234,7 @@
                                         </table>
                                     </div>
                                     <div class="d-flex justify-content-center mt-4">
-                                        {{$entreprises->links()}}
+                                        {{$fournisseurs->links()}}
                                     </div>                                   
                                 </div>
                             </div>

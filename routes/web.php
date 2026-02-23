@@ -121,8 +121,8 @@ Route::middleware(['auth', 'entreprise.exists'])->group(function () {
 
     // Mouvements
     Route::get('/mouvements', function () {
-        $mouvements_ent = StockMouvement::where('entreprise_id', request()->user()->entreprise_id)->where('type', 'entree')->latest()->simplePaginate(10);
-        $mouvements_sor = StockMouvement::where('entreprise_id', request()->user()->entreprise_id)->where('type', 'sortie')->latest()->simplePaginate(10);
+        $mouvements_ent = StockMouvement::where('entreprise_id', request()->user()->entreprise_id)->where('type', 'entree')->latest()->simplePaginate(5);
+        $mouvements_sor = StockMouvement::where('entreprise_id', request()->user()->entreprise_id)->where('type', 'sortie')->latest()->simplePaginate(5);
         $produits = Produit::with('fournisseur')->where('entreprise_id', Auth::user()->entreprise_id)->latest()->get();
 
         return view('inventaire.mouvements.index', compact('mouvements_ent','mouvements_sor','produits'));

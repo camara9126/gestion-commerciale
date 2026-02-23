@@ -7,6 +7,7 @@ use App\Models\Abonnement;
 use App\Models\Entreprise;
 use App\Models\Pack;
 use App\Models\User;
+use App\Notifications\NewUserNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -64,6 +65,11 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+
+        // Envoi de notification après création du user
+        $admin = User::where('role', 'admin')->first();
+
+        $admin->notify(new NewUserNotification($user));
 
         return redirect(route('dashboard.index', absolute: false));
     }

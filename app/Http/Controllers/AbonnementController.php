@@ -28,7 +28,6 @@ class AbonnementController extends Controller
             'statut'        => 'en_attente',
             'paid_at'       => now(),
         ]);
-        //dd($paiement);
 
         // 3️⃣ Initialisation PayTech
         $paytech = new PayTech(
@@ -50,7 +49,7 @@ class AbonnementController extends Controller
             ])
             ->setCurrency('XOF')
             ->setCustomeField(['type_paiement' => 'nouvel_abonnement'])
-            ->setRefCommand(uniqid())
+            ->setRefCommand($refCommande)
             ->setNotificationUrl([
                 'success_url' => route('abonnement.success'),
                 'cancel_url'  => route('abonnement.cancel'),
@@ -92,7 +91,7 @@ class AbonnementController extends Controller
 
         $response = $paytech
             ->setCurrency('XOF')
-            ->setCustomeField(['type_paiement' => 'nouvel_abonnement'])
+            ->setCustomeField(['nouvel_abonnement'])
             ->setRefCommand(uniqid())
             ->setQuery([
                 'item_name' => $pack->nom,
@@ -103,7 +102,7 @@ class AbonnementController extends Controller
             ->setNotificationUrl([
                 'success_url' => route('abonnement.success'),
                 'cancel_url' => route('abonnement.cancel'),
-                'ipn_url' => 'https://bmanager.bcmgroupe.com/abonnement/chp',
+                'ipn_url' => 'https://bmanager.bcmgroupe.com/abonnement/ipn',
             ])
             ->send();
 

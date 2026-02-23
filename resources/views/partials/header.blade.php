@@ -52,7 +52,7 @@
                 <button class="menu-toggle" id="menuToggle">
                     <i class="fas fa-bars"></i>
                 </button>
-                <h2 class="h4 mb-0" id="pageTitle">Bienvenue</h2>
+                <h2 class="h4 mb-0" id="pageTitle">Bienvenue {{request()->user()->name}}</h2>
             </div>
             
             <div class="d-flex align-items-center">
@@ -129,10 +129,10 @@
                     
                 </div>
                 
-                <!-- Mobile Search Button -->
+                <!-- Mobile Search Button 
                 <button class="btn btn-light d-md-none me-2" id="mobileSearchBtn">
                     <i class="fas fa-search"></i>
-                </button>
+                </button>-->
                 
                 <!-- User Menu -->
                 <div class="dropdown">
