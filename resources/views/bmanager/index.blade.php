@@ -186,118 +186,32 @@ use App\Models\Support;
                         </div>
                     @endif
                 <!-- Recent Orders -->
+       
                 <div class="row">
                     <div class="col-12">
                         <div class="stat-card">
                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h5 class="mb-0">Utilisateurs {{$users->count()}}</h5>
-                                <a href="{{route('entreprise.utilisateurs')}}" class="btn btn-sm btn-primary">Voir tout</a>
+                                <h5 class="mb-0">Nouveau Utilisateur {{request()->user()->unreadNotifications->count()}}</h5>
                             </div>
                             <div class="table-responsive">
                                 <table class="table data-table">
                                     <thead>
                                         <tr>
-                                            <th>Nom</th>
-                                            <th>Email</th>
-                                            <th>Entreprise</th>
-                                            <th>Role</th>
+                                            <th>Message</th>
                                             <th>Date de creation</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse($users as $u)
+                                        @forelse(request()->user()->unreadNotifications as $new)
                                         <tr>
-                                            <td>{{$u->name}}</td>
-                                            <td>{{$u->email}}</td>
-                                            <td>{{$u->entreprise->nom}}</td>
-                                            <td>{{$u->role}}</td>
-                                            <td>{{$u->created_at}}</td>
-                                        </tr>
-                                        @empty
-                                            <tr>
-                                                <td colspan="7" align="center">Donnee vide !</td>
-                                            </tr>
-                                        @endforelse
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="stat-card">
-                        <div class="col-12">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h5 class="mb-0">Entreprises {{$entreprises->count()}}</h5>
-                                <a href="{{route('entreprise.entreprises')}}" class="btn btn-sm btn-primary">Voir plus</a>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table data-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Nom</th>
-                                            <th>Telephone</th>
-                                            <th>Adresse</th>
-                                            <th>Pack</th>
-                                            <th>Date d'expiration</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($entreprises as $e)
-                                        <tr>
-                                            <td>{{$e->nom}}</td>
-                                            <td>{{$e->telephone}}</td>
-                                            <td>{{$e->adresse ?? 'vide'}}</td>
-                                            <td>{{$e->pack->nom}}</td>
-                                            <td>{{$e->abonnement_expire_le}}</td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="stat-card">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h5 class="mb-0">Fournisseurs {{$fournisseurs->count()}}</h5>
-                                <a href="{{route('entreprise.fournisseurs')}}" class="btn btn-sm btn-primary">Voir tout</a>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table data-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Nom</th>
-                                            <th>Telephone</th>
-                                            <th>Adresse</th>
-                                            <th>Email</th>
-                                            <th>Statut</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @forelse($fournisseurs as $f)
-                                        <tr>
-                                            <td>{{$f->nom}}</td>
-                                            <td>{{$f->telephone}}</td>
-                                            <td>{{$f->adresse}}</td>
-                                            <td>{{$f->email}}</td>
-                                            <td>
-                                                @if($f->statut)
-                                                    <span class="badge bg-success">Activé</span>
-                                                    @else
-                                                    <span class="badge bg-danger">Desactivé</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <a href="{{route('fournisseurs.edit', $f->id)}}">
-                                                    <i class="fa fa-eye text-primary"></i>
+                                           <td>{{ $new->data['message'] }}</td>
+                                           <td>{{ $new->created_at }}</td>
+                                           <td>
+                                                <a href="{{route('notification.read', $new->id)}}" class="btn btn-success" title="marquer comme lu">
+                                                    <i class="fa-solid fa-check" aria-hidden="true"></i>
                                                 </a>
-                                            </td>                                                        
+                                           </td>                 
                                         </tr>
                                         @empty
                                             <tr>
@@ -310,59 +224,7 @@ use App\Models\Support;
                         </div>
                     </div>
                 </div>
-                <hr>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="stat-card">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h5 class="mb-0">Produits {{$produits->count()}}</h5>
-                                <a href="{{route('entreprise.produits')}}" class="btn btn-sm btn-primary">Voir tout</a>
-                            </div>
-                             <div class="table-responsive">
-                                <table class="table data-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Code</th>
-                                            <th>Nom</th>
-                                            <th>Fournisseur</th>
-                                            <th>Prix d'achat</th>
-                                            <th>Prix de vente</th>
-                                            <th>Stock</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @forelse($produits as $p)
-                                        <tr>
-                                            <td>{{$p->code}}</td>
-                                            <td>{{$p->nom}}</td>
-                                            <td>{{$p->fournisseur->nom}}</td>
-                                            <td>{{number_format($p->prix_achat, 0,'',' ')}} XOF</td>
-                                            <td>{{number_format($p->prix_vente, 0,'',' ')}} XOF</td>
-                                            <td>
-                                                @if($p->stock_min >= $p->stock)
-                                                    <span class="badge bg-danger">Stock faible</span>
-                                                @else
-                                                    {{$p->stock}}
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <a href="{{route('produits.edit', $p->id)}}">
-                                                    <i class="fa fa-eye text-primary"></i>
-                                                </a>
-                                            </td>                                                        
-                                        </tr>
-                                        @empty
-                                            <tr>
-                                                <td colspan="7" align="center">Donnee vide !</td>
-                                            </tr>
-                                        @endforelse
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>                
+               
             </section>
         
         </div>

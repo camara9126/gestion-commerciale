@@ -20,7 +20,7 @@
                             {{ Session::get('danger') }}
                         </div>
                     @endif
-                    <div class="card col-10 shadow-sm">
+                    <div class="card col-md-10 shadow-sm">
                         <div class="card-body">
                             @if ($errors->any())
                                 <div style="color: red; margin-bottom: 10px;">
@@ -29,13 +29,13 @@
                                     @endforeach
                                 </div>
                             @endif
-                            <h2>Nouvelle vente</h2>
+                            <h2 class="text-center mb-2">Nouvelle vente</h2>
 
                             <form action="{{ route('ventes.store') }}" method="POST" class="contact-form">
                                 @csrf
                                 {{-- CLIENT --}}
-                                <div class="row">
-                                    <div class="col-8">
+                                <div class="row mt-2">
+                                    <div class="col-7">
                                         <div class="mb-3">
                                             <label for="name" class="form-label">Client</label><br>
                                             <select name="client_id" class="form-select" required>
@@ -48,10 +48,13 @@
                                             </select>
                                         </div>                                
                                     </div>
-                                    <div class="col-4 mt-4">
-                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#clientModal">
-                                            + Nouveau client
-                                        </button>
+                                    <div class="col-5">
+                                        <div class="mb-3">
+                                            <label for="name" class="form-label">Nouveau Client</label><br>
+                                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#clientModal">
+                                                Ajouter
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -59,19 +62,16 @@
 
                                 {{-- PRODUITS --}}
                                 
-                                <div class="row">
+                                <div class="row mt-3">
                                     <div class="col-6">
                                         <h4>Produits</h4>
-                                    </div>
-                                    <div class="col-6">
-                                        <b>TVA ({{$entreprise->taux_tva}} %)</b>
                                     </div>
                                 </div>
 
                                 <table border="1" cellpadding="8" width="100%">
                                     <thead>
                                         <tr>
-                                            <th>Produit</th>
+                                            <th>Nom Produit</th>
                                             <th>Quantité</th>
                                         </tr>
                                     </thead>
@@ -84,7 +84,7 @@
                                                     <option value="">-- Choisir --</option>
                                                     @foreach($produits as $produit)
                                                         <option value="{{ $produit->id }}">
-                                                            {{ $produit->nom }} : prix de vente({{number_format($produit->prix_vente, 0, ',',' ')}} XOF)
+                                                            {{ $produit->nom }} : prix de vente({{number_format($produit->prix_vente, 0, ',',' ')}} XOF/U)
                                                         </option>
                                                     @endforeach
                                                 </select>

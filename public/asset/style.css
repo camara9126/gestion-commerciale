@@ -28,6 +28,10 @@
             transition: all 0.3s;
             box-shadow: 3px 0 10px rgba(0,0,0,0.1);
         }
+        h3{
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
         
         .sidebar-header {
             padding: 20px;

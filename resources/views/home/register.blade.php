@@ -399,16 +399,6 @@
                                 <div class="error-message" id="companyError">Veuillez saisir le nom de votre entreprise</div>
                             </div>
                         </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="company">TVA</label>
-                                <div class="input-with-icon">
-                                    <i class="fa-percent"></i>
-                                    <input type="text" id="tva" name="taux_tva" placeholder="Exp : 18" >
-                                </div>
-                                <div class="error-message" id="companyError">Veuillez saisir le TVA de votre entreprise</div>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="row">

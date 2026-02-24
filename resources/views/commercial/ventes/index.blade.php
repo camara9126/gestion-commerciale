@@ -52,7 +52,8 @@
                                                 <tr>
                                                     <th>Reference</th>
                                                     <th>Client</th>
-                                                    <th>Total TTC</th>
+                                                    <th>Total HT</th>
+                                                    <!--<th>Total TTC</th>-->
                                                     <th>Montant Payer</th>
                                                     <th>Montant Restant</th>
                                                     <th>Date</th>
@@ -66,7 +67,8 @@
                                                 <tr>
                                                     <td>{{$v->reference}}</td>
                                                     <td>{{$v->client->nom ?? 'Client supprimee'}}</td>
-                                                    <td>{{number_format($v->total_ttc, 0, ',',' ')}} XOF</td>
+                                                    <td>{{number_format($v->total, 0, ',',' ')}} XOF</td>
+                                                    <!--<td>{{number_format($v->total_ttc, 0, ',',' ')}} XOF</td>-->
                                                     <td>{{number_format($v->montant_paye, 0, ',', ' ')}} XOF</td>
                                                     <td>{{number_format($v->montant_restant, 0, ',',' ')}} XOF</td>
                                                     <td>{{$v->created_at->format('d/m/y')}}</td>
@@ -81,24 +83,22 @@
                                                     </td>
                                                     <td>
                                                         @if($v->montant_restant == 0)
-                                                            <button type="button" class="btn">
+                                                            <button type="button" class="btn btn-secondary">
                                                                  Payée
                                                             </button>
                                                         @else
-                                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-id="{{$v->id}}" data-bs-target="#paiementModal">
-                                                            + Payer
+                                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-id="{{$v->id}}" data-bs-target="#paiementModal">Payer
                                                         </button>
                                                         @endif
                                                     </td>
                                                     @if($v->statut == 'payee')
                                                         <td>
                                                                 <div class="row">
-                                                                    <div class="col-3">
+                                                                    <div class="col-md-6">
                                                                         <a href="{{route('ventes.show', $v->id)}}" class="btn btn-outline-warning mr-2" title="afficher la facture">
                                                                             <i class="fa fa-eye text-warning"></i>
                                                                         </a>
-                                                                    </div>
-                                                                    <div class="col-3">
+                                                                   
                                                                         <a href="{{route('ventes.facture', $v->id)}}" class="btn btn-outline-primary ml-2" title="telecharger la facture">
                                                                             <i class="fas fa-file-invoice text-primary"></i>
                                                                         </a>

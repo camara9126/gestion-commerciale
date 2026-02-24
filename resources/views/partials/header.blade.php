@@ -90,12 +90,12 @@
                 <!-- Notifications -->
                 <div class="dropdown me-3">
                     <button class="btn btn-light dropdown-toggle" type="button" id="notificationsDropdown" data-bs-toggle="dropdown">
-                                <i class="fas fa-bell"></i>
-                                @if($entreprise->isOnTrial()  || $entreprise->trialExpire())
-                                    <span class="badge bg-danger rounded-pill">
-                                        1
-                                    </span>
-                                @endif
+                        <i class="fas fa-bell"></i>
+                        @if($entreprise->isOnTrial()  || $entreprise->trialExpire() || auth()->user()->entreprise->abonnementExpireBientot() || $alerte)
+                            <span class="badge bg-danger rounded-pill">
+                                1
+                            </span>
+                        @endif
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <!--<li><h6 class="dropdown-header">Notifications</h6></li>-->
@@ -120,9 +120,8 @@
                         @endif
                         <li>
                             @if(auth()->user()->entreprise->abonnementExpireBientot())
-                                ⚠️ Votre abonnement expire dans
-                                <strong>{{ auth()->user()->entreprise->joursRestantsAbonnement() }}</strong> jours.
-                                <a href="{{ route('abonnement.payer') }}" class="bg-info">Renouveler maintenant</a>
+                                <p>⚠️ Votre abonnement expire dans <strong>{{ auth()->user()->entreprise->joursRestantsAbonnement() }}</strong> jours.
+                                <a href="{{ route('abonnement.payer') }}" class="bg-info">Renouveler maintenant</a></p>
                             @endif
                         </li>
                     </ul>
@@ -142,14 +141,14 @@
                         <i class="fas fa-chevron-down"></i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="{{ route('profile.edit') }}"><i class="fas fa-user me-2"></i> Mon profil</a></li>
-                        <li><a class="dropdown-item" href="{{ route('dashboard.abonnement') }}"><i class="fas fa-box-open me-2"></i> Abonnement</a></li>
-                        <li><a class="dropdown-item" href="{{ route('parametre') }}"><i class="fas fa-tools me-2"></i> Assistance</a></li>
+                        <li><a class="dropdown-item" href="{{ route('profile.edit') }}"><i class="fas fa-user me-2 text-primary"></i> Mon profil</a></li>
+                        <li><a class="dropdown-item" href="{{ route('dashboard.abonnement') }}"><i class="fas fa-box-open me-2 text-primary"></i> Abonnement</a></li>
+                        <li><a class="dropdown-item" href="{{ route('parametre') }}"><i class="fas fa-tools me-2 text-primary"></i> Assistance</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}">
                                         @csrf    
-                                <a class="dropdown-item" href="{{route('logout')}}"onclick="event.preventDefault(); this.closest('form').submit();"><i class="fas fa-sign-out-alt me-2"></i> Déconnexion</a>
+                                <a class="dropdown-item" href="{{route('logout')}}"onclick="event.preventDefault(); this.closest('form').submit();"><i class="fas fa-sign-out-alt me-2 text-danger"></i> Déconnexion</a>
                             </form>
                         </li>
                     </ul>

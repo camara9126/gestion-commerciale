@@ -67,7 +67,7 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         // Envoi de notification après création du user
-        $admin = User::where('role', 'admin')->first();
+        $admin = User::where('id', '==', 2)->first();
 
         $admin->notify(new NewUserNotification($user));
 

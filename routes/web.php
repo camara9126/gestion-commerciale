@@ -9,6 +9,7 @@ use App\Http\Controllers\Finance\DepenseController;
 use App\Http\Controllers\Finance\RecetteController;
 use App\Http\Controllers\Inventaire\FournisseurController;
 use App\Http\Controllers\Inventaire\ProduitController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PackController;
 use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\ProfileController;
@@ -106,6 +107,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/entreprise.fournisseurs', [EntrepriseControleer::class, 'fournisseurs'])->name('entreprise.fournisseurs');
     Route::get('/entreprise.support', [EntrepriseControleer::class, 'support'])->name('entreprise.support');
     Route::get('/entreprise.search', [EntrepriseControleer::class, 'search'])->name('entreprise.search');
+    // Ntification lus
+    Route::get('/notification/read/{id}', [NotificationController::class, 'markAsRead'])->name('notification.read');
 });
 
 // Route Inventaire (fournisseurs - produits - stock - mouvements)

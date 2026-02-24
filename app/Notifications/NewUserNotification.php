@@ -55,7 +55,7 @@ class NewUserNotification extends Notification
     {
         return [
             'message' => 'Nouvel utilisateur : '.$this->user->name, 
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ];
     }
 }

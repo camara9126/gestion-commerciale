@@ -21,7 +21,7 @@
                             {{ Session::get('danger') }}
                         </div>
                     @endif
-                <div class="card col-10 shadow-sm">
+                <div class="card col-md-10 shadow-sm">
                     <div class="card-body">
                         @if ($errors->any())
                             <div style="color: red; margin-bottom: 10px;">

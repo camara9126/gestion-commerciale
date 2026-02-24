@@ -147,7 +147,7 @@ class VenteController extends Controller
 
     }
 
-        return redirect()->route('ventes.index')->with('success','Vente effectue, veuillez enregistrer un mouvement de sortie');
+        return redirect()->route('ventes.index')->with('success','Vente effectue avec success');
     }
 
 

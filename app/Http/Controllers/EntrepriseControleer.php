@@ -21,12 +21,9 @@ class EntrepriseControleer extends Controller
     {
         $entreprise = request()->user()->entreprise;
 
-        $fournisseurs = Fournisseur::where('entreprise_id', '!=', 2)->limit(3)->latest()->get();
-        $produits = Produit::where('entreprise_id', '!=', 2)->limit(3)->latest()->get();
-        $entreprises = Entreprise::where('id', '!=', 2)->limit(3)->latest()->get();
-        $users = User::where('id', '!=', 2)->limit(3)->latest()->get();
+        $users = User::where('id', '!=', 2)->first();
 
-        return view('bmanager.index', compact('produits','fournisseurs','entreprises','users','entreprise')); 
+        return view('bmanager.index', compact('users','entreprise')); 
     }
 
     public function search(Request $request)

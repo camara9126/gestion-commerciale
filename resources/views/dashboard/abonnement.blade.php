@@ -208,7 +208,7 @@
         /* Section des packs disponibles */
         .available-packs {
             margin-top: 40px;
-             position: relative;
+            position: relative;
         }
         
         .packs-grid {
@@ -364,7 +364,7 @@
                 <button class="menu-toggle" id="menuToggle">
                     <i class="fas fa-bars"></i>
                 </button>
-                <h2 class="h4 mb-0" id="pageTitle">Bienvenue</h2>
+                <h2 class="h4 mb-0" id="pageTitle">Bienvenue {{ auth()->user()->name }}</h2>
             </div>
             
             <div class="d-flex align-items-center">
@@ -395,12 +395,12 @@
                 <!-- Notifications -->
                 <div class="dropdown me-3">
                     <button class="btn btn-light dropdown-toggle" type="button" id="notificationsDropdown" data-bs-toggle="dropdown">
-                                <i class="fas fa-bell"></i>
-                                @if(auth()->user()->entreprise->isOnTrial()  || auth()->user()->entreprise->trialExpire())
-                                    <span class="badge bg-danger rounded-pill">
-                                        1
-                                    </span>
-                                @endif
+                        <i class="fas fa-bell"></i>
+                        @if($entreprise->isOnTrial()  || $entreprise->trialExpire() || auth()->user()->entreprise->abonnementExpireBientot() || $alerte)
+                            <span class="badge bg-danger rounded-pill">
+                                1
+                            </span>
+                        @endif
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <!--<li><h6 class="dropdown-header">Notifications</h6></li>-->
@@ -441,14 +441,14 @@
                         <i class="fas fa-chevron-down"></i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="{{ route('profile.edit') }}"><i class="fas fa-user me-2"></i> Mon profil</a></li>
-                        <li><a class="dropdown-item" href="{{ route('dashboard.abonnement') }}"><i class="fas fa-box-open me-2"></i> Abonnement</a></li>
+                        <li><a class="dropdown-item" href="{{ route('profile.edit') }}"><i class="fas fa-user me-2 text-primary"></i> Mon profil</a></li>
+                        <li><a class="dropdown-item" href="{{ route('dashboard.abonnement') }}"><i class="fas fa-box-open me-2 text-primary"></i> Abonnement</a></li>
+                        <li><a class="dropdown-item" href="{{ route('parametre') }}"><i class="fas fa-tools me-2 text-primary"></i> Assistance</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{{ route('parametre') }}"><i class="fas fa-tools me-2"></i> Assistance</a></li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}">
                                         @csrf    
-                                <a class="dropdown-item" href="{{route('logout')}}"onclick="event.preventDefault(); this.closest('form').submit();"><i class="fas fa-sign-out-alt me-2"></i> Déconnexion</a>
+                                <a class="dropdown-item" href="{{route('logout')}}"onclick="event.preventDefault(); this.closest('form').submit();"><i class="fas fa-sign-out-alt me-2 text-danger"></i> Déconnexion</a>
                             </form>
                         </li>
                     </ul>
