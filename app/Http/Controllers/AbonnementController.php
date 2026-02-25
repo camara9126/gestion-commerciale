@@ -36,7 +36,7 @@ class AbonnementController extends Controller
         );
 
         // Calcule pourcentage Paytech (2%)
-        $commission = $pack->prix * (0.02);
+        $commission = round($pack->prix * 0.02);
         $prix_ht = $pack->prix - $commission;
         
         $response = $paytech->setQuery([

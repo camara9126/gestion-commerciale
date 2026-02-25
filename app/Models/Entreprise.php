@@ -77,12 +77,12 @@ class Entreprise extends Model
 
      public function abonnementActif()
     {
-        return $this->hasOne(Entreprise::class)->where('trial_actif', true);
+        return $this->hasOne(Entreprise::class)->where('id', '!=', 2)->where('trial_actif', true);
     }
     
     public function abonnementValide() : bool
     {
-        return $this->abonnements()->where('statut', 'payé')->where('date_fin', '>=', now())->exists(); // Exp : le 15/01 > aujourd'hui(05/01)
+        return $this->abonnements()->where('id', '!=', 2)->where('statut', 'payé')->where('date_fin', '>=', now())->exists(); // Exp : le 15/01 > aujourd'hui(05/01)
     }
 
     public function isOnTrial() : bool

@@ -66,8 +66,9 @@ class DashboardController extends Controller
     {
         $entreprise = request()->user()->entreprise;
         $packs = Pack::all();
+        $alerte = Produit::produitsEnAlerte()->count();
 
-        return view('dashboard.abonnement', compact('entreprise','packs'));
+        return view('dashboard.abonnement', compact('entreprise','packs','alerte'));
     }
 
 
