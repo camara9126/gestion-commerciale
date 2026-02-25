@@ -37,7 +37,9 @@ class PackController extends Controller
 
 
         // Calcule pourcentage Paytech (2%)
-        $prix_ht= $pack->prix *(2/100);
+        $commission = ($pack->prix) * (2 / 100);
+        $prix_ht = $pack->prix - $commission;
+
         $response = $paytech
 
             ->setCurrency('XOF')
