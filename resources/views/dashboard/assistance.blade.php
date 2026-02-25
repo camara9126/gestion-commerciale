@@ -248,7 +248,6 @@ use App\Models\Produit;
       backdrop-filter: blur(6px);
       -webkit-backdrop-filter: blur(6px);
       border-radius: 2.5rem;
-      padding: 2rem 1.8rem;
       border: 1px solid rgba(255,255,255,0.7);
       box-shadow: 0 20px 30px -10px rgba(0,25,45,0.1);
     }
@@ -261,21 +260,20 @@ use App\Models\Produit;
     }
 
     .faq-header h2 {
-      font-size: 2rem;
-      font-weight: 600;
+      font-size: 1.5rem;
+      font-weight: 400;
       color: #133855;
     }
     .liste-faq {
-      font-size: 1.5rem;
-      font-weight: 300;
+      font-size: 1rem;
+      font-weight: 200;
       color: #133855;
     }
 
     .faq-header i {
-      font-size: 2.2rem;
+      font-size: 2rem;
       color: #2e7eb0;
       background: white;
-      padding: 0.5rem;
       border-radius: 50%;
       box-shadow: 0 8px 18px rgba(21,80,130,0.1);
     }
@@ -296,12 +294,12 @@ use App\Models\Produit;
     }
 
     .faq-question {
-      padding: 1.2rem 1.8rem;
+      padding: 1.2rem 1.5rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
       cursor: pointer;
-      font-weight: 600;
+      font-weight: 500;
       color: #1b3f62;
       background: #ffffff;
       gap: 0.5rem;
@@ -336,7 +334,7 @@ use App\Models\Produit;
     .faq-checkbox:checked + .faq-item .faq-answer {
       max-height: 200px;      /* assez pour les réponses */
       opacity: 1;
-      padding: 1.2rem 1.8rem;
+      padding: 1.2rem 1.5rem;
       border-top-width: 1px;
       border-color: #c3dffa;
       pointer-events: auto;
@@ -523,10 +521,19 @@ use App\Models\Produit;
                             <i class="fas fa-clock"></i> Disponible 24/7 · temps réel
                         </div>
                     </div>
-
+                        @if(Session::has('success'))
+                            <div class="alert alert-success" role="alert">
+                                {{ Session::get('success') }}
+                            </div>
+                        @elseif(Session::has('danger'))
+                            <div class="alert alert-danger" role="alert">
+                                {{ Session::get('danger') }}
+                            </div>
+                        @endif
+                        
                     <!-- Grille : formulaire + FAQ -->
                     <div class="support-grid">
-
+                      
                        <!-- COLONNE DROITE : FAQ INTERACTIVE -->
                         <div class="faq-container">
                             <div class="faq-header">
@@ -629,6 +636,16 @@ use App\Models\Produit;
                                     Visiter la liste des <b>FAQ</b> en cliquant sur <a href="{{route('faq')}}" class="btn btn-info">Ce bouton</a>.
                                 </p>
                             </div>
+                             <div class="px-2 py-2 mt-0">
+                            <h2 class="fw-bold mb-2">Nous Contactez</h2>
+                            <ul class="nav flex-column mb-3">
+                                <li>Email : bmanager@bcmgroupe.com</li>
+                                <li>Telephone : +221 76 280 88 39</li>
+                                <li>Whatsapp : <a href="https://wa.me/+221783739364" class="btn btn-outline-success" title="cliquer" target="_blank"><i class="fa-brands fa-whatsapp" ></i></a></li>
+                                <li></li>
+                                <li></li>
+                            </ul>
+                        </div>
                         </div>
 
                         <!-- COLONNE GAUCHE : FORMULAIRE DE CONTACT -->
@@ -706,6 +723,7 @@ use App\Models\Produit;
                             </form>                
                         </div>
                     </div>
+                    
                 </div>
             </section>
         </div>

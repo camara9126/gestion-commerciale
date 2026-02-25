@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="{{asset('asset/style.css')}}">
 
     <!-- Icon Image -->
-     <link rel="shortcut icon" href="{{asset('asset/logo/logo bas.png')}}"/>
+     <link rel="shortcut icon" href="{{asset('asset/logo/Logo B.Manager.png')}}"/>
     
     <style>
         

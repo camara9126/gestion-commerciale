@@ -41,6 +41,7 @@ class RegisteredUserController extends Controller
             'role' => ['string', 'max:250'],
             'entreprise_nom' => ['required'],
             'taux_tva' ,
+            'telephone' => ['required'],
             'pack_id' => ['required'],
         ]);
         //dd($request);
@@ -49,6 +50,7 @@ class RegisteredUserController extends Controller
             'nom' =>$request->entreprise_nom,
             'pack_id' => $request->pack_id,
             'taux_tva' => $request->taux_tva ?? 18,
+            'telephone' => $request->telephone,
             'trial_actif' =>true,
             'trial_fin' => now()->addDay(12),
             'abonnement_expire_le' => now()->addMonth(),
@@ -67,8 +69,8 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         // Envoi de notification après création du user
-        $admin = User::where('id', '==', 2)->first();
-
+        $admin = User::where('id', 2)->first();
+//dd($admin);
         $admin->notify(new NewUserNotification($user));
 
         return redirect(route('dashboard.index', absolute: false));

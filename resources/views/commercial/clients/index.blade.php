@@ -48,7 +48,7 @@
                                                         <th>Telephone</th>
                                                         <th>Email</th>
                                                         <th>Adresse</th>
-                                                        <th>Statut</th>
+                                                        <th>Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -59,18 +59,22 @@
                                                         <td>{{$c->email ?? 'Vide'}}</td>
                                                         <td>{{$c->adresse ?? 'Vide'}}</td>
                                                         <td>
-                                                            <a href="{{route('clients.edit', $c->id)}}">
-                                                                <i class="fa fa-eye text-primary"></i>
-                                                            </a>
-                                                        </td>
-                                                        <td>
-                                                             <form action="{{route('clients.destroy', $c->id)}}" type="button" method="post" onsubmit="return confirm('Supprimer ?')">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit" class="btn btn-outline-danger">
-                                                                    <i class="fa fa-trash" aria-hidden="true"></i>
-                                                                </button>
-                                                            </form>
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <a href="{{route('clients.edit', $c->id)}}">
+                                                                        <i class="fa fa-eye text-primary"></i>
+                                                                    </a>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <form action="{{route('clients.destroy', $c->id)}}" type="button" method="post" onsubmit="return confirm('Supprimer ?')">
+                                                                     @csrf
+                                                                    @method('DELETE')
+                                                                        <button type="submit" class="btn btn-outline-danger">
+                                                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                     @empty

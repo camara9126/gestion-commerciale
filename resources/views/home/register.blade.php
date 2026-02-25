@@ -394,9 +394,19 @@
                                 <label for="company">Nom de l'entreprise &nbsp;<span style="color: red;">*</span></label>
                                 <div class="input-with-icon">
                                     <i class="fas fa-building"></i>
-                                    <input type="text" id="company" name="entreprise_nom" placeholder="Exp : Bmanger" required>
+                                    <input type="text" id="company" name="entreprise_nom" placeholder="Exp : Bmanager" required>
                                 </div>
                                 <div class="error-message" id="companyError">Veuillez saisir le nom de votre entreprise</div>
+                            </div>
+                        </div>
+                         <div class="col-6">
+                            <div class="form-group">
+                                <label for="company">Telephone &nbsp;<span style="color: red;">*</span></label>
+                                <div class="input-with-icon">
+                                    <i class="fas fa-building"></i>
+                                    <input type="number" id="telephone" name="telephone" placeholder="771234567" required>
+                                </div>
+                                <div class="error-message" id="companyError">Veuillez saisir le num de telephone de votre entreprise</div>
                             </div>
                         </div>
                     </div>

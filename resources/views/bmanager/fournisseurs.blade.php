@@ -1,6 +1,9 @@
 <?php
 
+use App\Models\Support;
+
     $entreprise = request()->user()->entreprise;
+    $supports = Support::where('statut', false)->get();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -60,7 +63,7 @@
                 </li>
                 <li class="nav-item mb-0 mt-0">
                     <a href="{{ route('entreprise.entreprises') }}" class="nav-link">
-                    <i class="fas fa-building" style="color: #ff9d1b;"></i> Entreprises
+                        <i class="fas fa-building" style="color: #ff9d1b;"></i> Entreprises
                     </a>
                 </li>
                 <li class="nav-item mb-0 mt-0">
@@ -75,7 +78,7 @@
                 </li>
                 <li class="nav-item mb-0 mt-0">
                     <a href="{{ route('entreprise.support') }}" class=" nav-link">
-                        <i class="fas fa-tools" style="color: #ff9d1b;"></i> Supports
+                        <i class="fas fa-tools" style="color: #ff9d1b;"></i> Supports ({{$supports->count()}})
                     </a>
                 </li>
             </ul>
@@ -184,15 +187,13 @@
                     @endif
                         <!-- Section Produits -->
                         <h3 class="mb-0">Fournisseurs</h3>
-                        <a href="{{route('fournisseurs.create')}}" class="btn btn-success">
-                            <i class="fas fa-plus me-1"></i> Nouveau fournisseur
-                        </a>
+                        
                         <div class="stat-card">        
                             <div class="card shadow-sm">
                                 <div class="card-body">
                                     <div class="table-responsive">
                                         <!--<nav class="navbar navbar-light bg-light">-->
-                                            <form method="get" action="{{route('fournisseurs.search')}}" class="form-inline">
+                                            <form method="get" action="{{route('entreprise.search')}}" class="form-inline">
                                                 
                                                 <input class="form-control mr-sm-2" type="search" name="search" placeholder="Rechercher par nom ou telephone..." aria-label="Search">                                                            
                                             

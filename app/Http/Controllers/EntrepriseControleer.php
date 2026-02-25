@@ -26,6 +26,7 @@ class EntrepriseControleer extends Controller
         return view('bmanager.index', compact('users','entreprise')); 
     }
 
+
     public function search(Request $request)
     {
         $search = $request->query('search');
@@ -60,7 +61,7 @@ class EntrepriseControleer extends Controller
 
         })->latest()->paginate(10)->withQueryString();
 
-         return view('bmanager.index', compact('users','fournisseurs','produits','search','entreprises')); 
+         return view('bmanager.search', compact('users','fournisseurs','produits','search','entreprises')); 
     }
 
     /**
@@ -96,7 +97,7 @@ class EntrepriseControleer extends Controller
 
     public function support()
     {
-        $supports = Support::latest()->simplePaginate(10);
+        $supports = Support::latest()->simplePaginate(5);
 
         return view('bmanager.supports', compact('supports'));
     }

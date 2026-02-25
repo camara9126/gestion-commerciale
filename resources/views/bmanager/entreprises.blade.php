@@ -1,6 +1,9 @@
 <?php
 
+use App\Models\Support;
+
     $entreprise = request()->user()->entreprise;
+    $supports = Support::where('statut', false)->get();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -42,7 +45,7 @@
         </div>
 
         <div class="px-3 py-4">
-            <ul class="nav flex-column">
+           <ul class="nav flex-column">
                 <li class="nav-item">
                     <a href="{{ route('entreprise.index') }}" class=" nav-link" data-section="dashboard">
                         <i class="fas fa-circle-check" style="color: #ff9d1b;"></i> Webmaster
@@ -75,7 +78,7 @@
                 </li>
                 <li class="nav-item mb-0 mt-0">
                     <a href="{{ route('entreprise.support') }}" class=" nav-link">
-                        <i class="fas fa-tools" style="color: #ff9d1b;"></i> Supports
+                        <i class="fas fa-tools" style="color: #ff9d1b;"></i> Supports ({{$supports->count()}})
                     </a>
                 </li>
             </ul>

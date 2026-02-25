@@ -75,7 +75,7 @@
                 </li>
                 <li class="nav-item mb-0 mt-0">
                     <a href="{{ route('entreprise.support') }}" class=" nav-link">
-                        <i class="fas fa-tools" style="color: #ff9d1b;"></i> Supports
+                        <i class="fas fa-tools" style="color: #ff9d1b;"></i> Supports ({{$supports->count()}})
                     </a>
                 </li>
             </ul>
@@ -188,7 +188,7 @@
                     <div class="stat-card">
                         <div class="col-lg-12">
                             <div class="d-flex justify-content-between align-items-center mb-0">                          
-                                <h5 class="mb-0">Entreprises</h5>
+                                <h5 class="mb-0">Support Client</h5>
                                 <a href="{{route('entreprise.index')}}" class="btn btn-outline-danger">
                                         Retour
                                 </a>
@@ -196,15 +196,6 @@
                             <div class="card shadow-sm">
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <!--<nav class="navbar navbar-light bg-light">-->
-                                            <form method="get" action="{{route('entreprise.search')}}" class="form-inline">
-                                            
-                                                <input class="form-control mr-sm-2" type="search" name="search" placeholder="Rechercher entreprise..." aria-label="Search">                                                            
-                                            
-                                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>                                                    
-                                            
-                                            </form>
-                                        <!--</nav>-->
                                         <table class="table data-table">
                                             <thead>
                                                 <tr>

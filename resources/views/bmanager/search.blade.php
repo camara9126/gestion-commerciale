@@ -45,7 +45,7 @@ use App\Models\Support;
         </div>
 
         <div class="px-3 py-4">
-           <ul class="nav flex-column">
+            <ul class="nav flex-column">
                 <li class="nav-item">
                     <a href="{{ route('entreprise.index') }}" class=" nav-link" data-section="dashboard">
                         <i class="fas fa-circle-check" style="color: #ff9d1b;"></i> Webmaster
@@ -185,25 +185,170 @@ use App\Models\Support;
                             {{ Session::get('danger') }}
                         </div>
                     @endif
+                <!-- Recent Orders -->
+       
+                <!-- Section Entreprise -->
+                @if($entreprises->count() > 0)
+                    <div class="row mb-5">
+                        <div class="stat-card">
+                            <div class="col-lg-12">
+                                <div class="d-flex justify-content-between align-items-center mb-0">                          
+                                    <h5 class="mb-0">Entreprises</h5>
+                                    <a href="{{route('entreprise.index')}}" class="btn btn-outline-danger">
+                                            Retour
+                                    </a>
+                                </div>
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                           
+                                            <table class="table data-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Nom</th>
+                                                        <th>Telephone</th>
+                                                        <th>Adresse</th>
+                                                        <th>Pack</th>
+                                                        <th>Date d'expiration</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($entreprises as $e)
+                                                    <tr>
+                                                        <td>{{$e->id}}</td>
+                                                        <td>{{$e->nom}}</td>
+                                                        <td>{{$e->telephone}}</td>
+                                                        <td>{{$e->adresse ?? 'vide'}}</td>
+                                                        <td>{{$e->pack->nom}}</td>
+                                                        <td>{{$e->abonnement_expire_le}}</td>
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>                                   
+                                        <div class="d-flex justify-content-center mt-4">
+                                            {{$entreprises->links()}}
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>
+                        </div>
+                    </div>
+               @endif
+
+                <!-- Section Fournisseur -->
+                @if($fournisseurs->count() > 0)
+                    <div class="row">
+                            <h3 class="mb-0">Fournisseurs</h3> 
+                            <div class="stat-card">        
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                           
+                                            <table class="table data-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nom</th>
+                                                        <th>Telephone</th>
+                                                        <th>Adresse</th>
+                                                        <th>Email</th>
+                                                        <th>Statut</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @forelse($fournisseurs as $f)
+                                                    <tr>
+                                                        <td>{{$f->nom}}</td>
+                                                        <td>{{$f->telephone}}</td>
+                                                        <td>{{$f->adresse}}</td>
+                                                        <td>{{$f->email}}</td>
+                                                        <td>
+                                                            @if($f->statut)
+                                                                <span class="badge bg-success">Activé</span>
+                                                                @else
+                                                                <span class="badge bg-danger">Desactivé</span>
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                    @empty
+                                                        <tr>
+                                                            <td colspan="7" align="center">Donnee vide !</td>
+                                                        </tr>
+                                                    @endforelse
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="d-flex justify-content-center mt-4">
+                                            {{$fournisseurs->links()}}
+                                        </div>                                   
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+                    <!-- Section utilisateurs -->
+                    @if($users->count() > 0)
+                    <div class="row mb-5">
+                        <div class="stat-card">
+                            <div class="col-lg-12">
+                                <div class="d-flex justify-content-between align-items-center mb-0">                          
+                                    <h5 class="mb-0">Utilisateur</h5>
+                                    <a href="{{route('entreprise.index')}}" class="btn btn-outline-danger">
+                                            Retour
+                                    </a>
+                                </div>
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                           
+                                            <table class="table data-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nom</th>
+                                                        <th>Email</th>
+                                                        <th>ID Entreprise</th>
+                                                        <th>Role</th>
+                                                        <th>Date de creation</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($users as $u)
+                                                    <tr>
+                                                        <td>{{$u->name}}</td>
+                                                        <td>{{$u->email}}</td>
+                                                        <td>{{$u->entreprise_id}}</td>
+                                                        <td>{{$u->role}}</td>
+                                                        <td>{{$u->created_at}}</td>
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="d-flex justify-content-center mt-4">
+                                            {{$users->links()}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+                @if($produits->count() > 0)
                     <!-- Section Produits -->
                     <div class="d-flex justify-content-between align-items-center mb-4">                          
                         <h3 class="mb-0">Produits</h3>
                         <a href="{{route('produits.create')}}" class="btn btn-success">
-                            <i class="fas fa-plus me-1"></i> Nouveau produit
+                            <i class="fas fa-plus me-1"></i> Produit
                         </a>
                     </div>
                     <div class="card shadow-sm">
                         <div class="card-body">       
                             <div class="table-responsive">
-                                <!--<nav class="navbar navbar-light bg-light">-->
-                                    <form method="get" action="{{route('entreprise.search')}}" class="form-inline">
-                                        
-                                        <input class="form-control mr-sm-2" type="search" name="search" placeholder="Rechercher par nom produit ou fournisseur..." aria-label="Search">                                                            
-                                    
-                                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>                                                    
-                                            
-                                    </form>
-                                <!--</nav> -->
+                                
                                 <table class="table data-table">
                                     <thead>
                                         <tr>
@@ -244,5 +389,9 @@ use App\Models\Support;
                             </div>                                 
                         </div>
                     </div>
+                @endif
             </section>
-  @include('partials.footer')
+        
+        </div>
+        
+@include('partials.footer')

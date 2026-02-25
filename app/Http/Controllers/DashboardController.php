@@ -245,8 +245,6 @@ class DashboardController extends Controller
             $filename = time().$request->file('image')->getClientOriginalName();
             $path = $request->file('image')->storeAs('images', $filename, 'public');
             $request['image'] = '/storage/' . $path;
-        } else {
-            dd('Aucun fichier image reçu');
         }
 
         Support::create([
@@ -257,7 +255,7 @@ class DashboardController extends Controller
         'telephone' => $request->telephone,
         'urgence' => $request->urgence,
         'description' => $request->description,
-        'image' => $path,
+        'image' => $path ?? null,
         ]);
 
         return redirect()->back()->with('success', '✅ Demande envoyée. Merci ! Notre équipe va traiter votre requête.');
