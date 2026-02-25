@@ -35,13 +35,17 @@ class PackController extends Controller
             config('services.paytech.api_key'),
             config('services.paytech.api_secret'));
 
+
+        // Calcule pourcentage Paytech (2%)
+        $prix_ht= $pack->prix *(2/100);
         $response = $paytech
+
             ->setCurrency('XOF')
              ->setCustomeField(['type_paiement' => 'changement_pack'])
             ->setRefCommand($refCommande)
             ->setQuery([
                 'item_name' => $pack->nom,
-                'item_price' => $pack->prix,
+                'item_price' => $prix_ht,
                 'command_name' => "Changement Pack - {$pack->nom} via PayTech"
             ])
 
