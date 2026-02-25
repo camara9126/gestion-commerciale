@@ -102,7 +102,7 @@ class PayTech
             "API_KEY: {$this->apiKey}",
             "API_SECRET: {$this->apiSecret}"
         ]);
-dd( $params);
+//dd( $params);
 
         /**
          * @var array
