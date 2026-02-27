@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\Entreprise;
 use App\Models\Fournisseur;
+use App\Models\Message;
 use App\Models\Produit;
 use App\Models\StockMouvement;
 use App\Models\Support;
@@ -32,9 +33,12 @@ class EntrepriseControleer extends Controller
         $search = $request->query('search');
 
         // Recherche Liste Entreprise
-        $entreprises = Entreprise::with('users')->when($search, function ($query, $search) {
+        $entreprises = Entreprise::with('client')->when($search, function ($query, $search) {
 
-                $query->where('nom', 'like', "%{$search}%");
+                $query->where('nom', 'like', "%{$search}%")->orWhereHas('pack', function ($q) use ($search) {
+
+                        $q->where('nom', 'like', "%{$search}%");
+                });
 
         })->latest()->paginate(10)->withQueryString();
 
@@ -49,7 +53,10 @@ class EntrepriseControleer extends Controller
         // Recherche Liste  Fournisseurs
          $fournisseurs = Fournisseur::with('produit')->where('entreprise_id', '!=', $request->user()->entreprise_id)->when($search, function ($query, $search) {
 
-                $query->where('nom', 'like', "%{$search}%");
+                $query->where('nom', 'like', "%{$search}%")->orWhereHas('entreprise', function ($q) use ($search) {
+
+                        $q->where('nom', 'like', "%{$search}%");
+                });
 
         })->latest()->paginate(10)->withQueryString();
 
@@ -57,7 +64,10 @@ class EntrepriseControleer extends Controller
         // Recherche Liste Produits
         $produits = Produit::with('fournisseur')->where('entreprise_id', '!=', $request->user()->entreprise_id)->when($search, function ($query, $search) {
 
-                $query->where('nom', 'like', "%{$search}%");
+                $query->where('nom', 'like', "%{$search}%")->orWhereHas('entreprise', function ($q) use ($search) {
+
+                        $q->where('nom', 'like', "%{$search}%");
+                });
 
         })->latest()->paginate(10)->withQueryString();
 
@@ -69,7 +79,7 @@ class EntrepriseControleer extends Controller
      */
     public function utilisateurs()
     {
-        $users = User::where('id', '!=', 2)->latest()->simplePaginate(10);
+        $users = User::where('entreprise_id', '!=', 2)->latest()->simplePaginate(10);
 
         return view('bmanager.utilisateurs', compact('users'));
     }
@@ -102,6 +112,13 @@ class EntrepriseControleer extends Controller
         return view('bmanager.supports', compact('supports'));
     }
 
+    public function message()
+    {
+        $messages = Message::latest()->simplePaginate(5);
+
+        return view('bmanager.messages', compact('messages'));
+    }
+
 
 
     /**
@@ -125,9 +142,12 @@ class EntrepriseControleer extends Controller
      */
     public function edit(string $s)
     {
+        // Variable cree pour echapper la racontre sur la page Edit
+        $message= Message::where('id', 0)->get();
+        
         $support= Support::findOrFail($s);
        //dd($support); 
-        return view('bmanager.edit', compact('support'));
+        return view('bmanager.edit', compact('support', 'message'));
     }
 
     /**
@@ -166,11 +186,33 @@ class EntrepriseControleer extends Controller
      */
     public function destroy(string $id)
     {
+         $entreprise= Entreprise::findOrFail($id);
+
+         $entreprise->destroy($id);
+
+        return redirect()->route('entreprise.entreprises')->with('success', 'Entreprise supprimée avec succès');        
+
+    }
+
+    // Suppression Support
+    public function sDestroy(string $id)
+    {
          $support= Support::findOrFail($id);
 
          $support->destroy($id);
 
-        return redirect()->route('entreprise.support')->with('success', 'supprimée avec succès');        
+        return redirect()->route('entreprise.support')->with('success', ' Support supprimée avec succès');        
+
+    }
+
+    // Suppression Utilisateur
+    public function uDestroy(string $id)
+    {
+         $user= User::findOrFail($id);
+
+         $user->destroy($id);
+
+        return redirect()->route('entreprise.utilisateurs')->with('success', 'Utilisateur supprimée avec succès');        
 
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EntrepriseControleer;
 use App\Http\Controllers\Finance\DepenseController;
 use App\Http\Controllers\Finance\RecetteController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Inventaire\FournisseurController;
 use App\Http\Controllers\Inventaire\ProduitController;
 use App\Http\Controllers\NotificationController;
@@ -54,7 +55,13 @@ Route::get('rapport', function () {
     return view('rapport', compact('produits','fournisseurs'));
 });
 
-
+// Form Message Client
+Route::middleware('auth')->group(function () {
+    Route::post('message',[HomeController::class, 'store'])->name('message.store');
+    Route::delete('/mesage/{m}', [HomeController::class, 'destroy'])->name('message.destroy');
+    Route::get('/mesage/{m}/edit', [HomeController::class, 'edit'])->name('message.edit');
+    Route::put('/mesage/{message}', [HomeController::class, 'update'])->name('message.update');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -106,7 +113,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/entreprise.produits', [EntrepriseControleer::class, 'produits'])->name('entreprise.produits');
     Route::get('/entreprise.fournisseurs', [EntrepriseControleer::class, 'fournisseurs'])->name('entreprise.fournisseurs');
     Route::get('/entreprise.support', [EntrepriseControleer::class, 'support'])->name('entreprise.support');
+    Route::get('/entreprise.mesage', [EntrepriseControleer::class, 'message'])->name('entreprise.message');
     Route::get('/entreprise.search', [EntrepriseControleer::class, 'search'])->name('entreprise.search');
+    Route::delete('/support/{s}', [EntrepriseControleer::class, 'sDestroy'])->name('support.destroy');
+    Route::delete('/user/{u}', [EntrepriseControleer::class, 'uDestroy'])->name('user.destroy');
     // Ntification lus
     Route::get('/notification/read/{id}', [NotificationController::class, 'markAsRead'])->name('notification.read');
 });

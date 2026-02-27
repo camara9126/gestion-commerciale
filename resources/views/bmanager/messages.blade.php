@@ -4,9 +4,9 @@ use App\Models\Message;
 use App\Models\Support;
 
     $entreprise = request()->user()->entreprise;
-    $supports = Support::where('statut', false)->get();
-    $messages = Message::where('statut', false)->get();
-
+     $supports = Support::where('statut', false)->get();
+    $message = Message::where('statut', false)->get();
+    
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -48,7 +48,7 @@ use App\Models\Support;
         </div>
 
         <div class="px-3 py-4">
-           <ul class="nav flex-column">
+            <ul class="nav flex-column">
                 <li class="nav-item">
                     <a href="{{ route('entreprise.index') }}" class=" nav-link" data-section="dashboard">
                         <i class="fas fa-circle-check" style="color: #ff9d1b;"></i> Webmaster
@@ -86,7 +86,7 @@ use App\Models\Support;
                 </li>
                 <li class="nav-item mb-0 mt-0">
                     <a href="{{ route('entreprise.message') }}" class=" nav-link">
-                        <i class="fas fa-envelope" style="color: #ff9d1b;"></i> Messages ({{$messages->count()}})
+                        <i class="fas fa-envelope" style="color: #ff9d1b;"></i> Messages ({{$message->count()}})
                     </a>
                 </li>
             </ul>
@@ -193,65 +193,75 @@ use App\Models\Support;
                             {{ Session::get('danger') }}
                         </div>
                     @endif
-                    <!-- Section Produits -->
-                     <div class="row mb-5">
-                        <div class="stat-card">
-                            <div class="d-flex justify-content-between align-items-center mb-4">                          
-                                <h5 class="mb-0">Produits ({{$produits->count()}})</h5>
+                
+                <!-- Section utilisateurs -->
+                <div class="row mb-5">
+                    <div class="stat-card">
+                        <div class="col-lg-12">
+                            <div class="d-flex justify-content-between align-items-center mb-0">                          
+                                <h5 class="mb-0">Message Contact</h5>
+                                <a href="{{route('entreprise.index')}}" class="btn btn-outline-danger">
+                                        Retour
+                                </a>
                             </div>
                             <div class="card shadow-sm">
-                                <div class="card-body">       
+                                <div class="card-body">
                                     <div class="table-responsive">
-                                        <!--<nav class="navbar navbar-light bg-light">-->
-                                            <form method="get" action="{{route('entreprise.search')}}" class="form-inline">
-                                                
-                                                <input class="form-control mr-sm-2" type="search" name="search" placeholder="Rechercher par nom produit ou fournisseur..." aria-label="Search">                                                            
-                                            
-                                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>                                                    
-                                                    
-                                            </form>
-                                        <!--</nav> -->
                                         <table class="table data-table">
                                             <thead>
                                                 <tr>
-                                                    <th>Code</th>
-                                                    <th>Nom</th>
-                                                    <th>Fournisseur</th>
-                                                    <th>Prix d'achat</th>
-                                                    <th>Prix de vente</th>
-                                                    <th>Stock</th>
+                                                    <th>Nom Complet</th>
+                                                    <th>Email</th>
+                                                    <th>Entreprise</th>
+                                                    <th>Sujet</th>
+                                                    <th>Statut</th>
+                                                    <th>Date</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @forelse($produits as $p)
+                                                @foreach($messages as $m)
                                                 <tr>
-                                                    <td>{{$p->code}}</td>
-                                                    <td>{{$p->nom}}</td>
-                                                    <td>{{$p->fournisseur->nom}}</td>
-                                                    <td>{{number_format($p->prix_achat, 0,'',' ')}} XOF</td>
-                                                    <td>{{number_format($p->prix_vente, 0,'',' ')}} XOF</td>
+                                                    <td>{{$m->nom_complet}}</td>
+                                                    <td>{{$m->email}}</td>
+                                                    <td>{{$m->entreprise}}</td>
+                                                    <td>{{$m->sujet}}</td> 
                                                     <td>
-                                                        @if($p->stock_min >= $p->stock)
-                                                            <span class="badge bg-danger">Stock faible</span>
-                                                        @else
-                                                            {{$p->stock}}
+                                                        @if($m->statut)
+                                                            <span class="badge bg-success">Lus</span>
+                                                            @else
+                                                            <span class="badge bg-danger">Non Lus</span>
                                                         @endif
-                                                    </td>                                                    
+                                                    </td>
+                                                    <td>{{$m->created_at->format('j / M / Y')}}</td>
+                                                    <td>
+                                                        <a href="{{route('message.edit', $m->id)}}" class="btn btn-outline-primary">
+                                                            <i class="fa fa-eye"></i>
+                                                        </a>
+                                                        <form action="{{route('message.destroy', $m->id)}}" type="button" method="post" onsubmit="return confirm('Supprimer ?')">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-outline-danger">
+                                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                                            </button>
+                                                        </form>
+                                                    </td>
                                                 </tr>
-                                                @empty
-                                                    <tr>
-                                                        <td colspan="7" align="center">Donnee vide !</td>
-                                                    </tr>
-                                                @endforelse
+                                                @endforeach
                                             </tbody>
                                         </table>
-                                    </div>
+                                    </div>                                   
                                     <div class="d-flex justify-content-center mt-4">
-                                        {{$produits->links()}}
-                                    </div>                                 
+                                        {{$messages->links()}}
+                                    </div>
                                 </div>
-                            </div>
+                            </div>                                
                         </div>
-                     </div>
+                    </div>
+                </div>
+     
+                      
             </section>
-  @include('partials.footer')
+        </div>
+        
+@include('partials.footer')

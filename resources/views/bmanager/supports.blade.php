@@ -1,6 +1,10 @@
 <?php
 
+use App\Models\Message;
+
     $entreprise = request()->user()->entreprise;
+    $messages = Message::where('statut', false)->get();
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -76,6 +80,11 @@
                 <li class="nav-item mb-0 mt-0">
                     <a href="{{ route('entreprise.support') }}" class=" nav-link">
                         <i class="fas fa-tools" style="color: #ff9d1b;"></i> Supports ({{$supports->count()}})
+                    </a>
+                </li>
+                <li class="nav-item mb-0 mt-0">
+                    <a href="{{ route('entreprise.message') }}" class=" nav-link">
+                        <i class="fas fa-envelope" style="color: #ff9d1b;"></i> Messages ({{$messages->count()}})
                     </a>
                 </li>
             </ul>
@@ -229,11 +238,11 @@
                                                         <a href="{{route('entreprise.edit', $s->id)}}" class="btn btn-outline-primary">
                                                             <i class="fa fa-eye"></i>
                                                         </a>
-                                                        <form action="{{route('entreprise.destroy', $s->id)}}" type="button" method="post" onsubmit="return confirm('Supprimer ?')">
+                                                        <form action="{{route('support.destroy', $s->id)}}" type="button" method="post" onsubmit="return confirm('Supprimer ?')">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit" class="btn btn-outline-danger">
-                                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                                                <i class="fa fa-trash" aria-hidden="true"></i>
                                                             </button>
                                                         </form>
                                                     </td>

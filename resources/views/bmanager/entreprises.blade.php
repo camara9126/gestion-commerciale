@@ -1,9 +1,11 @@
 <?php
 
+use App\Models\Message;
 use App\Models\Support;
 
     $entreprise = request()->user()->entreprise;
     $supports = Support::where('statut', false)->get();
+    $messages = Message::where('statut', false)->get();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -79,6 +81,11 @@ use App\Models\Support;
                 <li class="nav-item mb-0 mt-0">
                     <a href="{{ route('entreprise.support') }}" class=" nav-link">
                         <i class="fas fa-tools" style="color: #ff9d1b;"></i> Supports ({{$supports->count()}})
+                    </a>
+                </li>
+                <li class="nav-item mb-0 mt-0">
+                    <a href="{{ route('entreprise.message') }}" class=" nav-link">
+                        <i class="fas fa-envelope" style="color: #ff9d1b;"></i> Messages ({{$messages->count()}})
                     </a>
                 </li>
             </ul>
@@ -191,7 +198,7 @@ use App\Models\Support;
                     <div class="stat-card">
                         <div class="col-lg-12">
                             <div class="d-flex justify-content-between align-items-center mb-0">                          
-                                <h5 class="mb-0">Entreprises</h5>
+                                <h5 class="mb-0">Entreprises ({{$entreprises->count()}})</h5>
                                 <a href="{{route('entreprise.index')}}" class="btn btn-outline-danger">
                                         Retour
                                 </a>
@@ -217,6 +224,7 @@ use App\Models\Support;
                                                     <th>Adresse</th>
                                                     <th>Pack</th>
                                                     <th>Date d'expiration</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -228,6 +236,15 @@ use App\Models\Support;
                                                     <td>{{$e->adresse ?? 'vide'}}</td>
                                                     <td>{{$e->pack->nom}}</td>
                                                     <td>{{$e->abonnement_expire_le}}</td>
+                                                    <td>
+                                                        <form action="{{route('entreprise.destroy', $e->id)}}" type="button" method="post" onsubmit="return confirm('Supprimer ?')">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-outline-danger">
+                                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                                            </button>
+                                                        </form>
+                                                    </td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>

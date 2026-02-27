@@ -1,9 +1,11 @@
 <?php
 
+use App\Models\Message;
 use App\Models\Support;
 
     $entreprise = request()->user()->entreprise;
     $supports = Support::where('statut', false)->get();
+    $messages = Message::where('statut', false)->get();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -79,6 +81,11 @@ use App\Models\Support;
                 <li class="nav-item mb-0 mt-0">
                     <a href="{{ route('entreprise.support') }}" class=" nav-link">
                         <i class="fas fa-tools" style="color: #ff9d1b;"></i> Supports ({{$supports->count()}})
+                    </a>
+                </li>
+                <li class="nav-item mb-0 mt-0">
+                    <a href="{{ route('entreprise.message') }}" class=" nav-link">
+                        <i class="fas fa-envelope" style="color: #ff9d1b;"></i> Messages ({{$messages->count()}})
                     </a>
                 </li>
             </ul>
@@ -190,9 +197,7 @@ use App\Models\Support;
                 <div class="row mb-5">
                     <div class="stat-card d-flex">
                         <div class="col-lg-8">
-                            <div class="d-flex justify-content-between align-items-center mb-0">                          
-                                <h5 class="mb-0">Support</h5>
-                            </div>
+                            
                             <div class="card shadow-sm">
                                 <div class="card-body">
                                     @if ($errors->any())
@@ -202,10 +207,24 @@ use App\Models\Support;
                                         @endforeach
                                     </div>
                                 @endif
-                                        <form method="post" action="{{route('entreprise.update', $support)}}" class="contact-form" enctype="multipart/form-data">
+
+                                <!-- Formulaire Edit Message -->
+                                @if($support->count() > 0)
+                                    <form method="post" action="{{route('entreprise.update', $support)}}" class="contact-form" enctype="multipart/form-data">
                                         @csrf
                                         @method('put')
-                                        <h2 class="text-center mb-4">Support Client</h2>
+                                        <div class="row mb-3">
+                                            <div class="col-10">
+                                                <h2 class="text-center mb-4">Support Client</h2>
+                                            </div>
+                                            <div class="col-2">
+                                                <a href="{{route('entreprise.support')}}" class="btn btn-danger">
+                                                    Retour
+                                                </a>
+                                            </div>
+                                        </div>
+                                        
+                                        
                                         <div class="row">
                                             <div class="col-6">
                                                 <div class="mb-3">
@@ -215,46 +234,115 @@ use App\Models\Support;
                                             </div>
                                             <div class="col-6">
                                                 <div class="mb-3">
-                                                    <label for="name" class="form-label">Statut</label>
-                                                    <select class="form-select" name="statut">
-                                                        <option value="0" class="badge bg-success" class="form-control">En attente</option>
-                                                        <option value="1" class="badge bg-danger" class="form-control">Confirmer</option>
-                                                    </select>
+                                                    <label for="name" class="form-label">Statut</label><br>
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <input type="radio" name="statut" value="0" class="form-radio">En Attente
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <input type="radio" name="statut" value="1" class="form-radio">Confirmer
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                         
                                         <div class="mb-3">
                                             <label for="name" class="form-label">Nom Complet</label>
-                                            <input type="text" class="form-control" name="nom_complet" value="{{$support->nom_complet}}" >
+                                            <input type="text" class="form-control" name="nom_complet" readonly value="{{$support->nom_complet}}" >
                                         </div>
+
                                         <div class="mb-3">
                                             <label for="telephone" class="form-label">Telephone</label>
-                                            <input type="text" class="form-control" name="telephone" value="{{$support->telephone}}" >
+                                            <input type="text" class="form-control" name="telephone" readonly value="{{$support->telephone}}" >
                                         </div>
+
                                         <div class="mb-3">
                                             <div class="row">
                                                 <div class="col-6">
                                                     <label for="email" class="form-label">Email</label>
-                                                    <input type="email" class="form-control" name="email" value="{{$support->email}}" >
+                                                    <input type="email" class="form-control" name="email" readonly value="{{$support->email}}" >
                                                 </div>
                                                 <div class="col-6">
                                                     <label for="name" class="form-label">Urgence</label>
-                                                    <input type="text" class="form-control" name="urgence" value="{{$support->urgence}}" >
+                                                    <input type="text" class="form-control" name="urgence" readonly value="{{$support->urgence}}" >
                                                 </div>
                                             </div>
-                                            
                                         </div>
+
                                         <div class="mb-3">
                                             <label for="adresse" class="form-label">Description</label>
-                                            <textarea class="form-control" name="description" rows="5" >{{$support->description}}</textarea>
+                                            <textarea class="form-control" name="description" rows="5" readonly>{{$support->description}}</textarea>
                                         </div>
                                         <div class="d-grid">
                                             <button type="submit" class="btn btn-warning btn-lg">Modifier</button>
                                         </div>
                                     </form>
-                                                                                         
-                                 
+                                @endif                                                        
+                                <!-- Formulaire Edit Message -->
+                                 @if($message->count() > 0)
+                                    <form method="post" action="{{route('message.update', $message)}}" class="contact-form">
+                                        @csrf
+                                        @method('put')
+                                        <div class="row">
+                                            <div class="col-10">
+                                                <h2 class="text-center mb-4">Message Contact</h2>
+                                            </div>
+                                            <div class="col-2">
+                                                <a href="{{route('entreprise.message')}}" class="btn btn-danger">
+                                                    Retour
+                                                </a>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="name" class="form-label">Statut</label><br>
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <input type="radio" name="statut" value="0" class="form-radio">Non Lus
+                                                </div>
+                                                <div class="col-6">
+                                                    <input type="radio" name="statut" value="1" class="form-radio">Lus
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                             <div class="row">
+                                                <div class="col-6">
+                                                    <label for="name" class="form-label">Nom Complet</label>
+                                                    <input type="text" class="form-control" name="nom_complet" readonly value="{{$message->nom_complet}}" >
+                                                </div>
+                                                <div class="col-6">
+                                                    <label for="telephone" class="form-label">Sujet</label>
+                                                    <input type="text" class="form-control" name="sujet" readonly value="{{$message->sujet}}" >
+                                                </div>
+                                             </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <label for="email" class="form-label">Email</label>
+                                                    <input type="email" class="form-control" name="email" readonly value="{{$message->email}}" >
+                                                </div>
+                                                <div class="col-6">
+                                                    <label for="name" class="form-label">Entreprise</label>
+                                                    <input type="text" class="form-control" name="urgence" readonly value="{{$message->entreprise}}" >
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="adresse" class="form-label">Description</label>
+                                            <textarea class="form-control" name="message" rows="5" readonly>{{$message->message}}</textarea>
+                                        </div>
+                                        <div class="d-grid">
+                                            <button type="submit" class="btn btn-warning btn-lg">Modifier</button>
+                                        </div>
+                                    </form>
+                                @endif  
+
                                 </div>
                             </div>                                
                         </div>

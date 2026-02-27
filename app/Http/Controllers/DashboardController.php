@@ -225,7 +225,7 @@ class DashboardController extends Controller
     }
 
 
-    // Changement de mois
+    // Demande de Support
     public function support(Request $request)
     {
         $entreprise = request()->user()->entreprise;

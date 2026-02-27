@@ -1,9 +1,11 @@
 <?php
 
+use App\Models\Message;
 use App\Models\Support;
 
     $entreprise = request()->user()->entreprise;
     $supports = Support::where('statut', false)->get();
+    $messages = Message::where('statut', false)->get();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -79,6 +81,11 @@ use App\Models\Support;
                 <li class="nav-item mb-0 mt-0">
                     <a href="{{ route('entreprise.support') }}" class=" nav-link">
                         <i class="fas fa-tools" style="color: #ff9d1b;"></i> Supports ({{$supports->count()}})
+                    </a>
+                </li>
+                <li class="nav-item mb-0 mt-0">
+                    <a href="{{ route('entreprise.message') }}" class=" nav-link">
+                        <i class="fas fa-envelope" style="color: #ff9d1b;"></i> Messages ({{$messages->count()}})
                     </a>
                 </li>
             </ul>
@@ -191,7 +198,7 @@ use App\Models\Support;
                     <div class="col-12">
                         <div class="stat-card">
                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h5 class="mb-0">Nouveau Utilisateur {{request()->user()->unreadNotifications->count()}}</h5>
+                                <h5 class="mb-0">Nouveau Utilisateur ({{request()->user()->unreadNotifications->count()}})</h5>
                             </div>
                             <div class="table-responsive">
                                 <table class="table data-table">

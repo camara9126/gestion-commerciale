@@ -310,13 +310,31 @@
             </section>
             
             <section class="contact-form">
+                @if(Session::has('success'))
+                    <div class="alert alert-success" role="alert">
+                        {{ Session::get('success') }}
+                    </div>
+                @elseif(Session::has('danger'))
+                    <div class="alert alert-danger" role="alert">
+                        {{ Session::get('danger') }}
+                    </div>
+                @endif
                 <h2>Envoyez-nous un message</h2>
                 <p>Remplissez le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais.</p>
                 
-                <form id="contactForm">
+                 @if ($errors->any())
+                    <div style="color: red; margin-bottom: 10px;">
+                        @foreach ($errors->all() as $error)
+                            <p>{{ $error }}</p>
+                        @endforeach
+                    </div>
+                @endif
+                 
+                <form id="contactForm" method="post" action="{{route('message.store')}}">
+                    @csrf
                     <div class="form-group">
                         <label for="name">Nom complet <span class="required">*</span></label>
-                        <input type="text" id="name" name="name" required>
+                        <input type="text" id="name" name="nom_complet" required>
                     </div>
                     
                     <div class="form-group">
@@ -326,18 +344,18 @@
                     
                     <div class="form-group">
                         <label for="company">Entreprise</label>
-                        <input type="text" id="company" name="company">
+                        <input type="text" id="company" name="entreprise">
                     </div>
                     
                     <div class="form-group">
                         <label for="subject">Sujet <span class="required">*</span></label>
-                        <select id="subject" name="subject" required>
+                        <select id="subject" name="sujet" required>
                             <option value="" disabled selected>Sélectionnez un sujet</option>
-                            <option value="demo">Demande de démonstration</option>
-                            <option value="pricing">Demande de tarifs</option>
-                            <option value="support">Support technique</option>
-                            <option value="partnership">Partenariat</option>
-                            <option value="other">Autre</option>
+                            <option value="demande de demostration">Demande de démonstration</option>
+                            <option value="demande de tarifs">Demande de tarifs</option>
+                            <option value="support tecnique">Support technique</option>
+                            <option value="partenariat">Partenariat</option>
+                            <option value="autre">Autre</option>
                         </select>
                     </div>
                     
@@ -363,34 +381,6 @@
         </footer>
     </div>
 
-    <script>
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Récupérer les valeurs du formulaire
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const subject = document.getElementById('subject').value;
-            
-            // Simulation d'envoi du formulaire
-            // Dans un cas réel, vous enverriez les données à un serveur
-            console.log('Formulaire soumis:');
-            console.log('Nom:', name);
-            console.log('Email:', email);
-            console.log('Sujet:', subject);
-            
-            // Afficher le message de succès
-            const successMessage = document.getElementById('successMessage');
-            successMessage.style.display = 'block';
-            
-            // Faire défiler jusqu'au message de succès
-            successMessage.scrollIntoView({ behavior: 'smooth' });
-            
-            // Réinitialiser le formulaire après 3 secondes
-            setTimeout(function() {
-                document.getElementById('contactForm').reset();
-            }, 3000);
-        });
-    </script>
+   
 </body>
 </html>
