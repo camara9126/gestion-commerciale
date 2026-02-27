@@ -39,12 +39,16 @@
                                         <input type="email" class="form-control" name="email" value="{{$fournisseur->email}}" >
                                         </div>
                                         <div class="col-6">
-                                            <label for="email" class="form-label">Statut</label>
-                                            <select class="form-select" name="statut">
-                                                <option value="{{$fournisseur->statut ? 0 : 1}}" class="badge {{$fournisseur->statut ? 'bg->success' : 'bg-danger'}}" >{{$fournisseur->statut ? 'Active' : 'Inactive'}}</option>
-                                                <option value="1" class="badge bg-success">Active</option>
-                                                <option value="0" class="badge bg-danger">Inactive</option>
-                                            </select>
+                                            
+                                            <div class="row text-center">
+                                                <label for="email" class="form-label">Statut</label>
+                                                <div class="col-6">
+                                                    <input type="radio" name="statut" value="0" class="form-radio">&nbsp;Inactive
+                                                </div>
+                                                <div class="col-6">
+                                                    <input type="radio" name="statut" value="1" class="form-radio">&nbsp;Active
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     

@@ -183,21 +183,11 @@ use App\Models\Support;
             <!-- Dashboard Section -->
             <section id="dashboard" class="content-section">
                 <!-- Stats Row -->
-                @if(Session::has('success'))
-                        <div class="alert alert-success" role="alert">
-                            {{ Session::get('success') }}
-                        </div>
-                    @elseif(Session::has('danger'))
-                        <div class="alert alert-danger" role="alert">
-                            {{ Session::get('danger') }}
-                        </div>
-                    @endif
-                
+    
                 <!-- Section utilisateurs -->
                 <div class="row mb-5">
                     <div class="stat-card d-flex">
-                        <div class="col-lg-8">
-                            
+                        <div class="col-lg-8">    
                             <div class="card shadow-sm">
                                 <div class="card-body">
                                     @if ($errors->any())
@@ -237,10 +227,10 @@ use App\Models\Support;
                                                     <label for="name" class="form-label">Statut</label><br>
                                                     <div class="row">
                                                         <div class="col-6">
-                                                            <input type="radio" name="statut" value="0" class="form-radio">En Attente
+                                                            <input type="radio" name="statut" value="0" class="form-radio">&nbsp;En Attente
                                                         </div>
                                                         <div class="col-6">
-                                                            <input type="radio" name="statut" value="1" class="form-radio">Confirmer
+                                                            <input type="radio" name="statut" value="1" class="form-radio">&nbsp;Confirmer
                                                         </div>
                                                     </div>
                                                 </div>
@@ -299,10 +289,10 @@ use App\Models\Support;
                                             <label for="name" class="form-label">Statut</label><br>
                                             <div class="row">
                                                 <div class="col-6">
-                                                    <input type="radio" name="statut" value="0" class="form-radio">Non Lus
+                                                    <input type="radio" name="statut" value="0" class="form-radio">&nbsp;Non Lus
                                                 </div>
                                                 <div class="col-6">
-                                                    <input type="radio" name="statut" value="1" class="form-radio">Lus
+                                                    <input type="radio" name="statut" value="1" class="form-radio">&nbsp;Lus
                                                 </div>
                                             </div>
                                         </div>

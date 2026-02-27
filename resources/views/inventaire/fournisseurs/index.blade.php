@@ -9,9 +9,7 @@
                 <!-- Recent Orders -->
                 <div class="row">
                     <div class="col-12">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-
-                            @if(Session::has('success'))
+                        @if(Session::has('success'))
                                 <div class="alert alert-success" role="alert">
                                     {{ Session::get('success') }}
                                 </div>
@@ -20,7 +18,8 @@
                                     {{ Session::get('danger') }}
                                 </div>
                             @endif
-                            <!-- Section Produits -->
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <!-- Section Fournisseur -->
                                 <h3 class="mb-0">Fournisseurs</h3>
                                 <a href="{{route('fournisseurs.create')}}" class="btn btn-success">
                                     <i class="fas fa-plus me-1"></i> Nouveau fournisseur

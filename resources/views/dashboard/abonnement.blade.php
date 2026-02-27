@@ -530,10 +530,14 @@
                         
                         <div class="subscription-actions">
                             @if(auth()->user()->entreprise->trialExpire())
-                            <a href="{{route('abonnement.payer')}}" class="btn btn-light"><i class="fa fa-card"></i>Abonnement expiré. Veuillez renouveler</a> 
-                            </form>
+                                <a href="{{route('abonnement.payer')}}" class="btn btn-light">
+                                    <i class="fa-solid fa-bag-shopping text-success"></i>Abonnement expiré. Veuillez renouveler
+                                </a> 
+
                             @elseif(auth()->user()->entreprise->abonnementActif())
-                                    <a href="{{route('abonnement.payer')}}" class="btn btn-light"><i class="fa fa-card"></i> Payer l'abonnement</a>
+                                <a href="{{route('abonnement.payer')}}" class="btn btn-light">
+                                    <i class="fa-solid fa-bag-shopping text-success"></i> Payer mon abonnement
+                                </a>
                             @endif
                         </div>
                     </div>

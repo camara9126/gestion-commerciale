@@ -52,7 +52,7 @@ class VenteController extends Controller
     {
         $clients = Client::where('entreprise_id', request()->user()->entreprise_id)->latest()->get();
         $entreprise= request()->user()->entreprise;
-        $produits = Produit::where( 'entreprise_id', request()->user()->entreprise_id)->latest()->get();
+        $produits = Produit::where( 'entreprise_id', request()->user()->entreprise_id)->where('statut', true)->latest()->get();
 
         return view('commercial.ventes.create', compact('clients', 'produits', 'entreprise'));
     }
