@@ -73,7 +73,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/compte', [ProfileController::class, 'compte'])->name('user.compte');
     Route::get('/adduser', [ProfileController::class, 'addUser'])->name('user.adduser');
     Route::post('/adduser', [ProfileController::class, 'store'])->name('user.store');
-    Route::delete('/adduser/delete/{user}', [ProfileController::class, 'destroy'])->name('user.destroy');
+    Route::delete('/adduser/delete/{user}', [ProfileController::class, 'destroy'])->name('users.destroy');
 });
 
 

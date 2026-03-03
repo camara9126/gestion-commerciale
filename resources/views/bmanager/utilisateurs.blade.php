@@ -236,7 +236,7 @@ use App\Models\Support;
                                                     <td>{{$u->role}}</td>
                                                     <td>{{$u->created_at}}</td>
                                                     <td>
-                                                        <form action="{{route('user.destroy', $u->id)}}" type="button" method="post" onsubmit="return confirm('Supprimer ?')">
+                                                        <form action="{{route('users.destroy', $u->id)}}" type="button" method="post" onsubmit="return confirm('Supprimer ?')">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit" class="btn btn-outline-danger">
