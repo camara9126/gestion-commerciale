@@ -640,7 +640,7 @@
                 </div>
             </div>
             <p style="text-align: center; margin-top: 40px; color: #666;">
-                Tous les plans incluent un essai gratuit de 12 jours. Aucune carte de crédit requise. <br><br>
+                Tous les plans incluent un essai gratuit de 25 jours. Aucune carte de crédit requise. <br><br>
                 <a href="{{route('register')}}" class="cta-button" style="width: 100%;">Commencer l'essai gratuit</a>
             </p>
         </div>

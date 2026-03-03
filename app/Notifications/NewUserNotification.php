@@ -41,7 +41,6 @@ class NewUserNotification extends Notification
                     ->line('Un nouvel utilisateur vient de creer un compte sur B-manager')
                     ->line('Nom : ' .$this->user->name)
                     ->line('Email : ' .$this->user->email)
-                    ->line('Telephone : ' .$this->user->telephone)
                     //->action('Notification Action', url('/'))
                     ->line('Responsable Informatique');
     }

@@ -52,7 +52,7 @@ class RegisteredUserController extends Controller
             'taux_tva' => $request->taux_tva ?? 18,
             'telephone' => $request->telephone,
             'trial_actif' =>true,
-            'trial_fin' => now()->addDay(12),
+            'trial_fin' => now()->addDay(25),
             'abonnement_expire_le' => now()->addMonth(),
         ]);
 
