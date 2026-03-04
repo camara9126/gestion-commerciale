@@ -1,6 +1,14 @@
 <?php
-
+    use App\Models\Recette;
     $entreprise = request()->user()->entreprise;
+
+    // chiffre d'affaire mois actuel ttc
+    $caMoisActuel = Recette::where('entreprise_id', request()->user()->entreprise_id)->where('statut', 'recu')->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->sum('montant');
+
+    //Chiffre d'affaire HT + montant TVA
+    $montant_tva = $caMoisActuel * ($entreprise->taux_tva / 100) /(1 + ($entreprise->taux_tva / 100));
+    $ca_ht = $caMoisActuel - $montant_tva;
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -649,7 +657,24 @@
                         </div>
                     </div>
                 </section>
-                
+                @if(request()->user()->entreprise->taux_tva !== 50)
+                    <div class="row mt-2 mb-3"
+                        <div class="col-md-12">
+                            <div class="stat-card">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <p class="text-muted mb-1">Montant TVA</p>
+                                        <h3 class="value fw-bold">{{ number_format($montant_tva, 0, ',', ' ') }} XOF</h3>
+                                    </div>
+                                    <div class="icon bg-primary bg-opacity-10 text-primary">
+                                        <!--<i class="fas fa-franc-sign"></i>-->
+                                        <span>💰</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
                 <!-- Charts Section avec Graphiques -->
                 <section class="charts-section">
                     <!-- Graphique 1: Évolution des Recettes et Dépenses -->

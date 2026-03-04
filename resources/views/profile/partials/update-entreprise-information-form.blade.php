@@ -39,6 +39,21 @@
                 <x-input-error class="mt-2" :messages="$errors->get('adresse')" />
             </div>
 
+            @if(request()->user()->entreprise->taux_tva !== 50)
+                <div>
+                    <x-input-label for="adresse" :value="__('TVA')" />
+                    <x-text-input id="" name="taux_tva" type="text" class="mt-1 block w-full" :value="old('taux_tva', $entreprise->taux_tva)" autofocus autocomplete="tva" />
+                    <x-input-error class="mt-2" :messages="$errors->get('taux_tva')" />
+                </div>
+            @else
+                <div>
+                    <x-input-label for="adresse" :value="__('TVA')" />
+                    <x-text-input id="" name="taux_tva" type="text" class="mt-1 block w-full" value="Null" autofocus autocomplete="tva" />
+                    <x-input-error class="mt-2" :messages="$errors->get('taux_tva')" />
+                </div>
+            
+            @endif                
+            
             <div>
                 <x-input-label for="pack" :value="__('Pack Abonnement')" />
                 <x-text-input id="nom" name="" readOnly type="text" class="mt-1 block w-full" :value="old('nom', $entreprise->pack->nom .' ('.$entreprise->pack->prix.'/mois)')" required autofocus autocomplete="nom" />

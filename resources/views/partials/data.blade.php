@@ -1,9 +1,9 @@
- <?php
+<?php
 
-use App\Models\Client;
-use App\Models\Produit;
-use App\Models\Recette;
-use App\Models\Vente;
+    use App\Models\Client;
+    use App\Models\Produit;
+    use App\Models\Recette;
+    use App\Models\Vente;
 
     // chiffre d'affaire mois actuel ttc
     $caMoisActuel = Recette::where('entreprise_id', request()->user()->entreprise_id)->where('statut', 'recu')->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->sum('montant');
@@ -70,7 +70,7 @@ use App\Models\Vente;
                             <i class="fas fa-arrow-down me-1"></i> {{number_format(abs($tauxCommandes), 1)}}% vs mois dernier
                         </small>
                         @endif
-                    <!--<p class="mt-1 mb-0">Montant TVA : <span class="value fw-bold">{{number_format($montant_tva, 0, ',', ' ')}} XOF</span></p>-->
+                    <p class="mt-1 mb-0">Montant TVA : <span class="value fw-bold">{{number_format($montant_tva, 0, ',', ' ')}} XOF</span></p>
 
                 </div>
                 <div class="icon bg-primary bg-opacity-10 text-primary">

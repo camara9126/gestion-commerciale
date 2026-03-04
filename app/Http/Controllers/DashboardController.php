@@ -25,7 +25,6 @@ class DashboardController extends Controller
     // Accueil
     public function index()
     {
-        $this->authorize('admin');
 
         $entreprise = request()->user()->entreprise;
 
