@@ -87,7 +87,7 @@
     
 <!--<h4>TVA ({{$item->taux_tva}} %) : {{ number_format($item->montant_tva) }} XOF</h4>-->
 
-<h2 style="color: red;">Sous-Total : {{ number_format($item->total, 0, ',', ' ') }} XOF</h2>
+<h2 style="color: red;">Total : {{ number_format($item->total, 0, ',', ' ') }} XOF</h2>
 
 <!--<h2 style="color: red;">Total-TVA : {{ number_format($item->total_ttc, 0, ',', ' ') }} XOF</h2>-->
 
