@@ -404,7 +404,7 @@
                                 <label for="company">Telephone &nbsp;<span style="color: red;">*</span></label>
                                 <div class="input-with-icon">
                                     <i class="fas fa-building"></i>
-                                    <input type="number" id="telephone" max="9" name="telephone" placeholder="771234567" required>
+                                    <input type="number" id="telephone" name="telephone" placeholder="771234567" required>
                                 </div>
                                 <div class="error-message" id="companyError">Veuillez saisir le num de telephone de votre entreprise</div>
                             </div>
