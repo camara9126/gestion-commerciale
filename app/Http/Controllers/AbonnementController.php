@@ -41,7 +41,7 @@ class AbonnementController extends Controller
         
         $response = $paytech->setQuery([
                 'item_name' => $pack->nom,
-                'item_price' => $prix_ht,
+                'item_price' => $pack->prix,
                 'command_name' => "Paiement Abonnement {$pack->nom} via PayTech",
             ])
             ->setCustomeField([

@@ -47,7 +47,7 @@ class PackController extends Controller
             ->setRefCommand($refCommande)
             ->setQuery([
                 'item_name' => $pack->nom,
-                'item_price' => $prix_ht,
+                'item_price' => $pack->prix,
                 'command_name' => "Changement Pack - {$pack->nom} via PayTech"
             ])
 

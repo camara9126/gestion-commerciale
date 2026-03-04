@@ -112,7 +112,7 @@ class PaiementController extends Controller
     {
         
         // Sécurité rôle
-        if ($request->user()->role !='admin' && $request->user()->role !='comptable') {
+        if ($request->user()->role !='admin' && $request->user()->role !='caissier') {
             abort(403);
         }
 

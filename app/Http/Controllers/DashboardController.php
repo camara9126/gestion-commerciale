@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
 use App\Models\Depense;
-use App\Models\Fournisseur;
 use App\Models\Pack;
 use App\Models\Produit;
 use App\Models\Recette;
-use App\Models\StockMouvement;
 use App\Models\Support;
 use App\Models\Vente;
 use App\Models\VenteItem;
@@ -25,6 +22,7 @@ class DashboardController extends Controller
     // Accueil
     public function index()
     {
+        
 
         $entreprise = request()->user()->entreprise;
 
