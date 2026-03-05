@@ -11,16 +11,16 @@
                 <div class="row">
                     
                     <div class="col-12">
+                        @if(Session::has('success'))
+                            <div class="alert alert-success" role="alert">
+                                {{ Session::get('success') }}
+                            </div>
+                        @elseif(Session::has('danger'))
+                            <div class="alert alert-danger" role="alert">
+                                {{ Session::get('danger') }}
+                            </div>
+                        @endif
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            @if(Session::has('success'))
-                                <div class="alert alert-success" role="alert">
-                                    {{ Session::get('success') }}
-                                </div>
-                            @elseif(Session::has('danger'))
-                                <div class="alert alert-danger" role="alert">
-                                    {{ Session::get('danger') }}
-                                </div>
-                            @endif
                         <!-- Section Produits -->
                         <h3 class="mb-0">Clients</h3>
                         <a href="{{route('clients.create')}}" class="btn btn-success">

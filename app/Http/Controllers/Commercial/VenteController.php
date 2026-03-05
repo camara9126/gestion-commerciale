@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Commercial;
 
 use App\Http\Controllers\Controller;
 use App\Models\Client;
+use App\Models\Paiements;
 use App\Models\Produit;
 use App\Models\Vente;
 use App\Models\VenteItem;
@@ -148,6 +149,27 @@ class VenteController extends Controller
     }
 
         return redirect()->route('ventes.index')->with('success','Vente effectue avec success');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        $vente= Vente::findOrFail($id);
+        $paiement= Paiements::where('vente_id', $vente->id)->get();
+        //dd($paiement);
+         $vente->destroy($id);
+
+        $paiement->update([
+            'statut' => 'annule',
+            'motif' => 'Annulation manuelle',
+            'annule_par' => request()->user()->id,
+            'annule_le' => now(),
+        ]);
+
+        return redirect()->route('ventes.index')->with('success', ' vente supprimé avec succès');        
+
     }
 
 

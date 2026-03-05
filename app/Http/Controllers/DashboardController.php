@@ -140,9 +140,9 @@ class DashboardController extends Controller
 
             for ($i = 1; $i <= 12; $i++) {
 
-                $recette = Recette::whereMonth('created_at', $i)->where('entreprise_id', $entreprise->id)->whereYear('created_at', now()->year)->sum('montant');
+                $recette = Recette::whereMonth('created_at', $i)->where('statut', 'recu')->where('entreprise_id', $entreprise->id)->whereYear('created_at', now()->year)->sum('montant');
 
-                $depense = Depense::whereMonth('created_at', $i)->where('entreprise_id', $entreprise->id)->whereYear('created_at', now()->year)->sum('montant');
+                $depense = Depense::whereMonth('created_at', $i)->where('statut', 'payee')->where('entreprise_id', $entreprise->id)->whereYear('created_at', now()->year)->sum('montant');
 
                 $months[] = Carbon::create()->month($i)->translatedFormat('F');
                 $revenues[] = round($recette, 2);
@@ -168,9 +168,9 @@ class DashboardController extends Controller
 
             for ($q = 1; $q <= 4; $q++) {
 
-                $recette = Recette::where('entreprise_id', $entreprise->id)->whereBetween(DB::raw('MONTH(created_at)'), [($q-1)*3+1, $q*3])->sum('montant');
+                $recette = Recette::where('entreprise_id', $entreprise->id)->where('statut', 'recu')->whereBetween(DB::raw('MONTH(created_at)'), [($q-1)*3+1, $q*3])->sum('montant');
 
-                $depense = Depense::where('entreprise_id', $entreprise->id)->whereBetween(DB::raw('MONTH(created_at)'), [($q-1)*3+1, $q*3])->sum('montant');
+                $depense = Depense::where('entreprise_id', $entreprise->id)->where('statut', 'payee')->whereBetween(DB::raw('MONTH(created_at)'), [($q-1)*3+1, $q*3])->sum('montant');
 
                 $quarterlyData['revenues'][] = $recette;
                 $quarterlyData['expenses'][] = $depense;
@@ -186,9 +186,9 @@ class DashboardController extends Controller
 
             for ($y = now()->year - 2; $y <= now()->year; $y++) {
 
-                $r = Recette::where('entreprise_id', $entreprise->id)->whereYear('created_at', $y)->sum('montant');
+                $r = Recette::where('entreprise_id', $entreprise->id)->where('statut', 'recu')->whereYear('created_at', $y)->sum('montant');
 
-                $d = Depense::where('entreprise_id', $entreprise->id)->whereYear('created_at', $y)->sum('montant');
+                $d = Depense::where('entreprise_id', $entreprise->id)->where('statut', 'payee')->whereYear('created_at', $y)->sum('montant');
 
                 $years[] = $y;
                 $yearRevenue[] = $r;
@@ -206,14 +206,14 @@ class DashboardController extends Controller
 
             // Top produit mois
             $monthTopProduits = DB::table('vente_items')->join('produits', 'vente_items.produit_id', '=', 'produits.id')->select('produits.nom as produit',
-                        DB::raw('SUM(vente_items.quantite * vente_items.prix_unitaire) as total'))->where('vente_items.entreprise_id', $entreprise->id)->whereMonth('vente_items.created_at', now()->month)->groupBy('produits.nom')->orderByDesc('total')->limit(10)->get();
+                        DB::raw('SUM(vente_items.total_ttc) as total'))->where('vente_items.entreprise_id', $entreprise->id)->whereMonth('vente_items.created_at', now()->month)->groupBy('produits.nom')->orderByDesc('total')->limit(10)->get();
 
                 $categories = $monthTopProduits->pluck('produit');
                 $amounts = $monthTopProduits->pluck('total');
 
                 
             // Top produit annee
-            $yearTopProduits = DB::table('vente_items')->join('produits', 'vente_items.produit_id', '=', 'produits.id')->select('produits.nom as produit', DB::raw('SUM(vente_items.quantite * vente_items.prix_unitaire) as total'))->where('vente_items.entreprise_id', $entreprise->id)->whereYear('vente_items.created_at', now()->year)->groupBy('produits.nom')->orderByDesc('total')->limit(10)->get();
+            $yearTopProduits = DB::table('vente_items')->join('produits', 'vente_items.produit_id', '=', 'produits.id')->select('produits.nom as produit', DB::raw('SUM(vente_items.total_ttc) as total'))->where('vente_items.entreprise_id', $entreprise->id)->whereYear('vente_items.created_at', now()->year)->groupBy('produits.nom')->orderByDesc('total')->limit(10)->get();
 
             $yearCategories = $yearTopProduits->pluck('produit');
             $yearAmounts = $yearTopProduits->pluck('total');

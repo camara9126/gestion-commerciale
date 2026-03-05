@@ -1033,7 +1033,7 @@
                                     let value = context.raw || 0;
                                     let total = context.dataset.data.reduce((a, b) => a + b, 0);
                                     let percentage = ((value / total) * 100).toFixed(1);
-                                    return `${label}: XOF ${value.toLocaleString('fr-FR')} (${percentage}%)`;
+                                    return `${label}: XOF ${value.toLocaleString('fr-FR')} (${percentage} %)`;
                                 }
                             }
                         },

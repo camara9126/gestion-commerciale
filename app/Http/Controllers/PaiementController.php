@@ -61,7 +61,7 @@ class PaiementController extends Controller
 
         
         $totalPaye = $vente->paiements()->where('statut','valide')->sum('montant');
-        $reste = $vente->total - $totalPaye;
+        $reste = $vente->total_ttc - $totalPaye;
 
         if ($request->montant > $reste) {
             return back()->withErrors([
@@ -85,7 +85,7 @@ class PaiementController extends Controller
 
         $totalPaye = $vente->paiements()->where('statut','valide')->sum('montant');
 
-        $vente->statut = $totalPaye == 0 ? 'impayee' : ($totalPaye < $vente->total ? 'partielle' : 'payee');
+        $vente->statut = $totalPaye == 0 ? 'impayee' : ($totalPaye < $vente->total_ttc ? 'partielle' : 'payee');
 
         $vente->save();
 
