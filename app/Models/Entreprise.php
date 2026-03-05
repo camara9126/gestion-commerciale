@@ -22,6 +22,7 @@ class Entreprise extends Model
         'abonnement_expire_le',
         'trial_fin',
         'trial_actif',
+        'ninea',
     ];
 
     public function users()

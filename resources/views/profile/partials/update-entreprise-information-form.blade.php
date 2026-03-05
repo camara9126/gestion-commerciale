@@ -39,21 +39,24 @@
                 <x-input-error class="mt-2" :messages="$errors->get('adresse')" />
             </div>
 
-            @if(request()->user()->entreprise->taux_tva !== 50)
-                <div>
-                    <x-input-label for="adresse" :value="__('TVA')" />
-                    <x-text-input id="" name="taux_tva" type="text" class="mt-1 block w-full" :value="old('taux_tva', $entreprise->taux_tva)" autofocus autocomplete="tva" />
-                    <x-input-error class="mt-2" :messages="$errors->get('taux_tva')" />
-                </div>
-            @else
-                <div>
-                    <x-input-label for="adresse" :value="__('TVA')" />
-                    <x-text-input id="" name="taux_tva" type="text" class="mt-1 block w-full" value="Null" autofocus autocomplete="tva" />
-                    <x-input-error class="mt-2" :messages="$errors->get('taux_tva')" />
-                </div>
+            <div>
+                <x-input-label for="ninea" :value="__('Ninea')" />
+                <x-text-input id="" name="ninea" type="text" class="mt-1 block w-full" :value="old('ninea', $entreprise->ninea)" autofocus autocomplete="ninea" />
+                <x-input-error class="mt-2" :messages="$errors->get('ninea')" />
+            </div>
+
+            <div>
+                <x-input-label for="adresse" :value="__('TVA')" />
+                <x-text-input id="" name="taux_tva" type="text" class="mt-1 block w-full" :value="old('taux_tva', $entreprise->taux_tva)" autofocus autocomplete="tva" />
+                <x-input-error class="mt-2" :messages="$errors->get('taux_tva')" />
+            </div>              
             
-            @endif                
-            
+            <!--<div>
+                <x-input-label for="logo" :value="__('Logo')" />
+                <x-text-input id="" name="logo" type="file" class="mt-1 block w-full" :value="old('logo', $entreprise->logo)" autofocus autocomplete="logo" />
+                <x-input-error class="mt-2" :messages="$errors->get('logo')" />
+            </div>-->
+
             <div>
                 <x-input-label for="pack" :value="__('Pack Abonnement')" />
                 <x-text-input id="nom" name="" readOnly type="text" class="mt-1 block w-full" :value="old('nom', $entreprise->pack->nom .' ('.$entreprise->pack->prix.'/mois)')" required autofocus autocomplete="nom" />

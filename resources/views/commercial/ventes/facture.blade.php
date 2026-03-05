@@ -43,8 +43,9 @@
 </head>
 <body>
 
-<h1 class="mb-0">{{ $vente->entreprise->nom }}</h1>
+<h1 class="mb-0 text-cneter">{{ $vente->entreprise->nom }}</h1>
 <p>
+    Ninea : {{ $vente->entreprise->ninea }} <br>
     Telephone : {{ $vente->entreprise->telephone }} <br>
     Adresse : {{ $vente->entreprise->adresse }}
 </p>
@@ -83,12 +84,14 @@
 </table>
 
 <br>
-    
-<!--<h4>TVA ({{$item->taux_tva}} %) : {{ number_format($item->montant_tva) }} XOF</h4>-->
+    @if($vente->entreprise->taux_tva > 1)
+        <h4>TVA ({{$item->taux_tva}} %) : {{ number_format($item->montant_tva) }} XOF</h4>
+    @endif
+    <h2 style="color: red;">Total-HT : {{ number_format($item->total, 0, ',', ' ') }} XOF</h2>
 
-<h2 style="color: red;">Total : {{ number_format($item->total, 0, ',', ' ') }} XOF</h2>
-
-<!--<h2 style="color: red;">Total-TVA : {{ number_format($item->total_ttc, 0, ',', ' ') }} XOF</h2>-->
+    @if($vente->entreprise->taux_tva > 1)
+        <h2 style="color: red;">Total-TTC : {{ number_format($item->total_ttc, 0, ',', ' ') }} XOF</h2>-->
+    @endif
 
         <!-- Pied de page -->
         <div class="invoice-footer">

@@ -1,6 +1,6 @@
 <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-                @if(Auth::user()->entreprise?->logo)
+                @if(Auth::user()->entreprise->logo)
                     <img src="{{ asset('storage/' . Auth::user()->entreprise->logo) }}" alt="Logo entreprise" class="w-50">
                 @else
                     <h3 class="fw-bold text-warning mb-0">{{ ucfirst(Auth::user()->entreprise->nom) }}</h3>

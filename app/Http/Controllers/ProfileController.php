@@ -86,7 +86,8 @@ class ProfileController extends Controller
             'telephone' => 'nullable|string|max:50',
             'taux_tva' => 'numeric|max:100',
             'adresse' => 'nullable|string',
-            'logo',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'ninea' => 'nullable',
         ]);
 
         // Gestion des logo
@@ -94,14 +95,16 @@ class ProfileController extends Controller
             $filename = time().$request->file('logo')->getClientOriginalName();
             $path = $request->file('logo')->storeAs('logo', $filename, 'public');
             $request['logo'] = '/storage/' . $path;
+           
         }
-
         $entreprise->update([
             'telephone' => $request->telephone,
             'taux_tva' => $request->taux_tva,
             'adresse' => $request->adresse,
             'logo' => $path  ?? null,
+            'ninea' => $request->ninea  ?? null,
         ]);
+
 
         // Lier l'utilisateur a l'entreprise
         $user= $request->user();
