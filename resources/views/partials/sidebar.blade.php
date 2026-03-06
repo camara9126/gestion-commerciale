@@ -1,11 +1,11 @@
 <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
                 @if(Auth::user()->entreprise->logo)
-                    <img src="{{ asset('storage/' . Auth::user()->entreprise->logo) }}" alt="Logo entreprise" class="w-50">
+                    <img src="{{ asset('storage/' . Auth::user()->entreprise->logo) }}" style="width: 100px; height: 50px;" alt="Logo entreprise" class="">
                 @else
                     <h3 class="fw-bold text-warning mb-0">{{ ucfirst(Auth::user()->entreprise->nom) }}</h3>
                 @endif
-            <small class="text-white">{{ Auth::user()->entreprise->adresse }}</small>
+            <small class="text-white mb-0">NINEA : {{ Auth::user()->entreprise->ninea }}</small>
         </div>
 
         @if(! auth()->user()->entreprise->abonnementActif() || auth()->user()->entreprise->trialExpire()) 
@@ -21,7 +21,7 @@
                     @endif
                     <li class="nav-item">
                         <a href="#" class=" disabled nav-link" data-section="dashboard">
-                            <i class="fas fa-home" style="color: #ff9d1b;"></i> Dashboard
+                            <i class="fas fa-home" style="color: #ff9d1b;"></i> Accueil
                         </a>
                     </li>
                     <li class="nav-item mb-0 mt-0">
@@ -89,7 +89,7 @@
                     @endif
                     <li class="nav-item">
                         <a href="{{ route('dashboard.index') }}" class="nav-link" data-section="dashboard">
-                            <i class="fas fa-home" style="color: #ff9d1b;"></i> Dashboard
+                            <i class="fas fa-home" style="color: #ff9d1b;"></i> Accueil
                         </a>
                     </li>
                     @can('gerer-stock')
@@ -108,8 +108,9 @@
                                 <i class="fas fa-bars-staggered" style="color: #ff9d1b;"></i> Stocks
                             </a>
                         </li>
+                        <hr>
                     @endcan
-                    <hr>
+                    
                     @can('gerer-ventes')
                         <li class="nav-item mb-0 mt-0">
                             <a href="{{ route('clients.index') }}" class="nav-link">
@@ -120,9 +121,10 @@
                             <a href="{{ route('ventes.index') }}" class="nav-link">
                                 <i class="fas fa-cart-arrow-down" style="color: #ff9d1b;"></i> Ventes & Factures
                             </a>
-                        </li> 
+                        </li>
+                        <hr> 
                     @endcan
-                    <hr>
+                    
                     <li class="nav-item mb-0 mt-0">
                         <a href="{{ route('paiements.index') }}" class="nav-link" data-section="invoices">
                             <i class="fas fa-money-bill-1-wave" style="color: #ff9d1b;"></i> Paiements
@@ -144,18 +146,11 @@
                             <i class="fas fa-chart-bar" style="color: #ff9d1b;"></i> Rapports
                         </a>
                     </li>
-                    @can('admin')
-                    <!--<li class="nav-item mb-0 mt-0">
-                        <a href="{{ route('dashboard.comptabilite') }}" class="nav-link" data-section="reports">
-                            <i class="fas fa-chart-bar" style="color: #ff9d1b;"></i> Comptabilite
+                    <li class="nav-item">
+                        <a href="{{ route('user.compte') }}" class="nav-link" data-section="settings">
+                            <i class="fas fa-user" style="color: #ff9d1b;"></i> Utilisateurs
                         </a>
-                    </li>-->
-                        <li class="nav-item">
-                            <a href="{{ route('user.compte') }}" class="nav-link" data-section="settings">
-                                <i class="fas fa-user" style="color: #ff9d1b;"></i> Utilisateurs
-                            </a>
-                        </li>
-                    @endcan
+                    </li>
             
         @endif
                 </ul>

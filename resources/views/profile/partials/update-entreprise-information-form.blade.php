@@ -16,7 +16,7 @@
         </header>
 
         @foreach($entreprise as $entreprise)
-        <form method="post" action="{{ route('entreprise.eUpdate', $entreprise) }}" class="mt-6 space-y-6">
+        <form method="post" action="{{ route('entreprise.eUpdate', $entreprise) }}" enctype="multipart/form-data" class="mt-6 space-y-6">
             @csrf
             @method('patch')
 
@@ -51,11 +51,13 @@
                 <x-input-error class="mt-2" :messages="$errors->get('taux_tva')" />
             </div>              
             
-            <!--<div>
+            <div>
                 <x-input-label for="logo" :value="__('Logo')" />
+                <img src="{{asset('storage/'.$entreprise->logo)}}" name="logo" class="mt-1 block w-full" style="width: 150px; height: 60px;" alt="Aucun Logo" autofocus autocomplete="logo">
+
                 <x-text-input id="" name="logo" type="file" class="mt-1 block w-full" :value="old('logo', $entreprise->logo)" autofocus autocomplete="logo" />
                 <x-input-error class="mt-2" :messages="$errors->get('logo')" />
-            </div>-->
+            </div>
 
             <div>
                 <x-input-label for="pack" :value="__('Pack Abonnement')" />

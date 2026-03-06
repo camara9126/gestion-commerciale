@@ -657,7 +657,7 @@
                         </div>
                     </div>
                 </section>
-                @if(request()->user()->entreprise->taux_tva !== 50)
+                @if(request()->user()->entreprise->taux_tva == 18)
                     <div class="row mt-2 mb-3"
                         <div class="col-md-12">
                             <div class="stat-card">

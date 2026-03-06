@@ -1,8 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Facture N° : {{ $vente->reference }}</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    
     <style>
         body { font-family: DejaVu Sans; font-size: 12px; }
         table { width:100%; border-collapse: collapse; }
@@ -43,7 +56,11 @@
 </head>
 <body>
 
-<h1 class="mb-0 text-center">{{ $vente->entreprise->nom }}</h1>
+    @if($vente->entreprise->logo)
+        <img src="{{ public_path('storage/'. $vente->entreprise->logo) }}" style="width: 150px; height: 100px;" alt="Logo entreprise" class="">
+    @else
+        <h1 class="mb-0 text-center">{{ $vente->entreprise->nom }}</h1>
+    @endif
 <p>
     Ninea : {{ $vente->entreprise->ninea }} <br>
     Telephone : {{ $vente->entreprise->telephone }} <br>

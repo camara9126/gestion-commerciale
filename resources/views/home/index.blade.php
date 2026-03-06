@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>B-manager | Solution de Gestion Commerciale Intelligente</title>
+    
+    <!-- Indexation Google Search -->
+    <meta name="google-site-verification" content="VvfP8cx3OjDI0xdEQAn7-lqZIgoaSZ4YaxZt2njFJsw" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Icon Image -->
      <link rel="shortcut icon" href="{{asset('asset/logo/Logo B.Manager.png')}}"/>

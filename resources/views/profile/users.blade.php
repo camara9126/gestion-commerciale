@@ -17,9 +17,11 @@
                         <!-- Section Produits -->
                          <div class="d-flex justify-content-between align-items-center mb-4">                          
                             <h3 class="mb-0">Utilisateurs</h3>
-                            <a href="{{route('user.adduser')}}" class="btn btn-success">
-                                <i class="fas fa-plus me-1"></i> Nouveau utilisateur
-                            </a>
+                            @can('admin')
+                                <a href="{{route('user.adduser')}}" class="btn btn-success">
+                                    <i class="fas fa-plus me-1"></i> Nouveau utilisateur
+                                </a>
+                            @endcan
                         </div>
                         <div class="card shadow-sm">
                             <div class="card-body">
