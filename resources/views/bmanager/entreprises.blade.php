@@ -223,8 +223,9 @@ use App\Models\Support;
                                                     <th>Telephone</th>
                                                     <th>Adresse</th>
                                                     <th>Pack</th>
+                                                    <th>Date de creation</th>
                                                     <th>Date d'expiration</th>
-                                                    <th>Action</th>
+                                                    <!--<th>Action</th>-->
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -235,8 +236,9 @@ use App\Models\Support;
                                                     <td>{{$e->telephone}}</td>
                                                     <td>{{$e->adresse ?? 'vide'}}</td>
                                                     <td>{{$e->pack->nom}}</td>
+                                                    <td>{{$e->created_at->format('d-m-y')}}</td>
                                                     <td>{{$e->abonnement_expire_le}}</td>
-                                                    <td>
+                                                    <!--<td>
                                                         <form action="{{route('entreprise.destroy', $e->id)}}" type="button" method="post" onsubmit="return confirm('Supprimer ?')">
                                                             @csrf
                                                             @method('DELETE')
@@ -244,7 +246,7 @@ use App\Models\Support;
                                                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                                             </button>
                                                         </form>
-                                                    </td>
+                                                    </td>-->
                                                 </tr>
                                                 @endforeach
                                             </tbody>
