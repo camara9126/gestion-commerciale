@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
@@ -92,16 +93,24 @@ class ProfileController extends Controller
 
         // Gestion des logo
         if ($request->hasFile('logo')) {
+            
+            if($entreprise->logo){
+                Storage::delete('public/logo/'.$entreprise->logo);
+            }
+
             $filename = time().$request->file('logo')->getClientOriginalName();
             $path = $request->file('logo')->storeAs('logo', $filename, 'public');
             $request['logo'] = '/storage/' . $path;
            
+        } else {
+            $entreprise->logo;
         }
+
         $entreprise->update([
             'telephone' => $request->telephone,
             'taux_tva' => $request->taux_tva,
             'adresse' => $request->adresse,
-            'logo' => $path  ?? null,
+            'logo' => $path  ?? $entreprise->logo,
             'ninea' => $request->ninea  ?? null,
         ]);
 

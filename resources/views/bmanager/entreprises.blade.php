@@ -224,6 +224,8 @@ use App\Models\Support;
                                                     <th>Adresse</th>
                                                     <th>Pack</th>
                                                     <th>Date de creation</th>
+                                                    <th>Abonnement</th>
+                                                    <th>Fin essai</th>
                                                     <th>Date d'expiration</th>
                                                     <!--<th>Action</th>-->
                                                 </tr>
@@ -237,6 +239,8 @@ use App\Models\Support;
                                                     <td>{{$e->adresse ?? 'vide'}}</td>
                                                     <td>{{$e->pack->nom}}</td>
                                                     <td>{{$e->created_at->format('d-m-y')}}</td>
+                                                    <td>{{$e->abonnementValide() ? "Actif" : "Inactif"}}</td>
+                                                    <td>{{$e->trial_fin}}</td>
                                                     <td>{{$e->abonnement_expire_le}}</td>
                                                     <!--<td>
                                                         <form action="{{route('entreprise.destroy', $e->id)}}" type="button" method="post" onsubmit="return confirm('Supprimer ?')">
