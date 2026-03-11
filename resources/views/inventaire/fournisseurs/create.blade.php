@@ -11,7 +11,7 @@
                         <i class="fas fa-bar me-1"></i> Annuler
                     </a>
                 </div>
-                <div class="card col-md-10 shadow-sm">
+                <div class="card col-md-10 mx-auto shadow-sm">
                     <div class="card-body">
                         @if ($errors->any())
                             <div style="color: red; margin-bottom: 10px;">
@@ -28,15 +28,15 @@
                                     <input type="text" class="form-control" name="nom" >
                                 </div>
                                 <div class="mb-3">
-                                    <label for="telephone" class="form-label">Telephone</label>
+                                    <label for="phone" class="form-label">Telephone</label>
                                     <input type="text" class="form-control" name="telephone" >
                                 </div>
                                 <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
+                                    <label for="mail" class="form-label">Email</label>
                                     <input type="email" class="form-control" name="email" >
                                 </div>
                                 <div class="mb-3">
-                                    <label for="adresse" class="form-label">Adresse</label>
+                                    <label for="adress" class="form-label">Adresse</label>
                                     <textarea class="form-control" name="adresse" rows="5" ></textarea>
                                 </div>
                                 <div class="d-grid">

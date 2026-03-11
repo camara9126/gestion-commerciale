@@ -202,9 +202,6 @@ use App\Models\Support;
                             <div class="col-lg-12">
                                 <div class="d-flex justify-content-between align-items-center mb-0">                          
                                     <h5 class="mb-0">Entreprises ({{$entreprises->count()}})</h5>
-                                    <a href="{{route('entreprise.index')}}" class="btn btn-outline-danger">
-                                            Retour
-                                    </a>
                                 </div>
                                 <div class="card shadow-sm">
                                     <div class="card-body">
@@ -248,7 +245,7 @@ use App\Models\Support;
                 <!-- Section Fournisseur -->
                 @if($fournisseurs->count() > 0)
                     <div class="row">
-                            <h3 class="mb-0">Fournisseurs</h3> 
+                            <h3 class="mb-0">Fournisseurs ({{$fournisseurs->count()}})</h3> 
                             <div class="stat-card">        
                                 <div class="card shadow-sm">
                                     <div class="card-body">
@@ -303,10 +300,7 @@ use App\Models\Support;
                         <div class="stat-card">
                             <div class="col-lg-12">
                                 <div class="d-flex justify-content-between align-items-center mb-0">                          
-                                    <h5 class="mb-0">Utilisateur</h5>
-                                    <a href="{{route('entreprise.index')}}" class="btn btn-outline-danger">
-                                            Retour
-                                    </a>
+                                    <h5 class="mb-0">Utilisateur ({{$users->count()}})</h5>
                                 </div>
                                 <div class="card shadow-sm">
                                     <div class="card-body">
@@ -348,10 +342,7 @@ use App\Models\Support;
                 @if($produits->count() > 0)
                     <!-- Section Produits -->
                     <div class="d-flex justify-content-between align-items-center mb-4">                          
-                        <h3 class="mb-0">Produits</h3>
-                        <a href="{{route('produits.create')}}" class="btn btn-success">
-                            <i class="fas fa-plus me-1"></i> Produit
-                        </a>
+                        <h3 class="mb-0">Produits ({{$produits->count()}})</h3>
                     </div>
                     <div class="card shadow-sm">
                         <div class="card-body">       

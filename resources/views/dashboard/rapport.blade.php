@@ -658,7 +658,7 @@
                     </div>
                 </section>
                 @if(request()->user()->entreprise->taux_tva == 18)
-                    <div class="row mt-2 mb-3"
+                    <div class="row mt-2 mb-3">
                         <div class="col-md-12">
                             <div class="stat-card">
                                 <div class="d-flex justify-content-between align-items-center">
@@ -707,14 +707,17 @@
                     </div>
                 </section>  
 
-                <h1>Solvabilité de l’entreprise</h1>
-                <div class="col-12">
-                    @if( $entreprise->statut_solvabilite == 'solvable')
-                        <h5><span class="text-success" style="text-decoration: underline;">NB :</span> Votre entreprise est solvable .</h5>
-                    @else
-                        <h5><span class="text-danger"style="text-decoration: underline;">NB :</span> Votre entreprise est insolvable .</h5>
-                    @endif
-
+                <div class="stat-card">
+                    <div class="col-12">
+                    <h1 class="mb-2">Solvabilité de l’entreprise</h1>
+                      
+                        @if( $entreprise->statut_solvabilite == 'solvable')
+                            <h4><span class="text-success" style="text-decoration: underline;">NB</span> : Votre entreprise est solvable .</h4>
+                        @else
+                            <h4><span class="text-danger"style="text-decoration: underline;">NB</span> : Votre entreprise est insolvable .</h4>
+                        @endif
+                    </div>
+                </div>
             </section>
 
         </div>

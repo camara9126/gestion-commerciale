@@ -38,11 +38,11 @@ use App\Models\Support;
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            @if(Auth::user()->entreprise?->logo)
-                <img src="{{ asset('storage/' . Auth::user()->entreprise->logo) }}" alt="Logo entreprise" class="w-50">
-            @else
-                <h3 class="fw-bold text-warning mb-0">{{ ucfirst(Auth::user()->entreprise->nom) }}</h3>
-            @endif
+           @if(Auth::user()->entreprise->logo)
+                    <img src="{{ asset('storage/' . Auth::user()->entreprise->logo) }}" style="width: 100px; height: 50px;" alt="Logo entreprise" class="">
+                @else
+                    <h3 class="fw-bold text-warning mb-0">{{ ucfirst(Auth::user()->entreprise->nom) }}</h3>
+                @endif
             <small class="text-white">{{ Auth::user()->entreprise->adresse }}</small>
         </div>
 
