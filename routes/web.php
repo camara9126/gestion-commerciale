@@ -56,8 +56,9 @@ Route::get('rapport', function () {
 });
 
 // Form Message Client
+Route::post('message',[HomeController::class, 'store'])->name('message.store');
+
 Route::middleware('auth')->group(function () {
-    Route::post('message',[HomeController::class, 'store'])->name('message.store');
     Route::delete('/mesage/{m}', [HomeController::class, 'destroy'])->name('message.destroy');
     Route::get('/mesage/{m}/edit', [HomeController::class, 'edit'])->name('message.edit');
     Route::put('/mesage/{message}', [HomeController::class, 'update'])->name('message.update');
