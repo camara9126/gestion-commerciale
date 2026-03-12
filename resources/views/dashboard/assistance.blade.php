@@ -673,16 +673,16 @@ use App\Models\Produit;
                                 </div>
 
                                 <!-- Email -->
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label><i class="fas fa-envelope"></i> Adresse email</label>
                                     <input type="email" name="email" placeholder="prenom@exemple.com" required>
-                                </div>
+                                </div> -->
 
                                 <!-- Telephone -->
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label><i class="fas fa-phone"></i> Telephone</label>
                                     <input type="text" name="telephone" placeholder="77 123 45 67" required>
-                                </div>
+                                </div> -->
 
                                 <!-- Priorité avec 3 boutons radio stylisés -->
                                 <div class="form-group">
