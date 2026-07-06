@@ -92,17 +92,13 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <a href="{{route('ventes.show', $v->id)}}" class="btn btn-outline-warning mr-2" title="afficher la facture">
-                                                                    <i class="fa fa-eye text-warning"></i>
-                                                                </a>
-                                                            
-                                                                <a href="{{route('ventes.facture', $v->id)}}" class="btn btn-outline-primary ml-2" title="telecharger la facture">
-                                                                    <i class="fas fa-file-invoice text-primary"></i>
-                                                                </a>
-                                                            </div>
-                                                        </div>
+                                                        <a href="{{route('ventes.show', $v->id)}}" class="btn btn-outline-warning mr-2" title="afficher la facture">
+                                                            Afficher la facture
+                                                        </a>
+                                                    
+                                                        <!--<a href="{{route('ventes.facture', $v->id)}}" class="btn btn-outline-primary ml-2" title="telecharger la facture">
+                                                            <i class="fas fa-file-invoice text-primary"></i>
+                                                        </a>-->
                                                     </td>
                                                 </tr>
                                                 @empty

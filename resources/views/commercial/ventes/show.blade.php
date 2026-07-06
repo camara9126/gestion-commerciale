@@ -105,10 +105,10 @@
     @if($vente->entreprise->taux_tva > 1)
         <h4>TVA ({{$item->taux_tva}} %) : {{ number_format($item->montant_tva) }} XOF</h4>
     @endif
-    <h2 style="color: red;">Total-HT : {{ number_format($item->total, 0, ',', ' ') }} XOF</h2>
+    <h2 style="color: red;">Total-HT : {{ number_format($vente->total, 0, ',', ' ') }} XOF</h2>
 
     @if($vente->entreprise->taux_tva > 1)
-        <h2 style="color: red;">Total-TTC : {{ number_format($item->total_ttc, 0, ',', ' ') }} XOF</h2>
+        <h2 style="color: red;">Total-TTC : {{ number_format($vente->total_ttc, 0, ',', ' ') }} XOF</h2>
     @endif
         <!-- Pied de page -->
         <div class="invoice-footer">
@@ -117,7 +117,7 @@
                 <div>RCS Paris 123 456 789 - TVA intracommunautaire FR 12 123456789</div>
             </div>-->
             <div class="footer-right">
-                <div class="status-paid">FACTURE PAYÉE</div>
+                <div class="status-paid">FACTURE COMPLETE</div>
                 <div style="margin-top: 10px; font-size: 12px;">Date de paiement: {{ $vente->created_at->format('d/m/Y') }}</div>
             </div>
         </div>

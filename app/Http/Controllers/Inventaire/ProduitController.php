@@ -8,18 +8,28 @@ use App\Models\Fournisseur;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\DB;
 
 class ProduitController extends Controller
 {
     use AuthorizesRequests;
 
-    public function index(Request $request)
+    public function index(Request $request, User $user)
     {
         $this->authorize('gerer-stock');
 
+        // Verification limite produit du pack
+        $user = request()->user();
         $produits = Produit::with('fournisseur')->where('entreprise_id', $request->user()->entreprise_id)->latest()->simplePaginate(10);
+        $pack = $user->entreprise->pack;
 
-        return view('inventaire.produits.index', compact('produits'));
+        if($produits->count() >= $pack->max_produit) {
+            return back()->with('warning', 'Limite du pack atteinte. Passez au pack supérieur.');
+
+        };
+              
+        $fournisseurs = Fournisseur::where('entreprise_id', $request->user()->entreprise_id)->where('statut', true)->get();
+        return view('inventaire.produits.index', compact('produits', 'fournisseurs'));
     }
     
 
@@ -63,24 +73,45 @@ class ProduitController extends Controller
     {
         $request->validate([
             'nom' => 'required|string|max:255',
-            'fournisseur_id' => 'required|exists:fournisseurs,id',
-            'prix_achat' => 'required|numeric|min:0',
+            'fournisseur_id' ,
+            'prix_achat' ,
             'prix_vente' => 'required|numeric|min:0',
-            'stock_min' => 'required|integer|min:0',
+            'stock_min' => 'integer|min:0',
+            'fournisseur' => 'string',
         ]);
 
-        Produit::create([
-            'entreprise_id' => $request->user()->entreprise_id,
-            'fournisseur_id' => $request->fournisseur_id,
-            'nom' => $request->nom,
-            'code' => $this->generateCode($request->user()->entreprise_id),
-            'prix_achat' => $request->prix_achat,
-            'prix_vente' => $request->prix_vente,
-            'stock_min' => $request->stock_min,
-            'stock' => 0,
-        ]);
+        DB::beginTransaction();
+    
+        try {
 
-        return redirect()->route('produits.index')->with('success', 'Produit ajouté avec succès, veuillez enregistrer un mouvement d"entree');
+                //Creation de fournisseur
+                if($request->fournisseur) {
+                    
+                    $fournisseur= Fournisseur::create([
+                        'nom' => $request->fournisseur,
+                        'entreprise_id' => $request->user()->entreprise_id,
+                    ]);
+                };
+
+                    
+                Produit::create([
+                    'entreprise_id' => $request->user()->entreprise_id,
+                    'fournisseur_id' => $request->fournisseur_id ?? $fournisseur->id ?? null,
+                    'nom' => $request->nom,
+                    'code' => $this->generateCode($request->user()->entreprise_id),
+                    'prix_achat' => $request->prix_achat ?? $request->prix_vente,
+                    'prix_vente' => $request->prix_vente,
+                    'stock_min' => $request->stock_min ?? 10,
+                    'stock' => 0,
+                ]);
+
+                DB::commit();
+
+                    return redirect()->route('produits.index')->with('success', 'Produit ajouté avec succès, veuillez enregistrer un mouvement d"entree');
+            } catch (\Exception $e) {
+                    DB::rollBack();
+                    return redirect()->back()->with('danger', 'Erreur lors de la conversion: ' . $e->getMessage());
+                }
     }
 
 
@@ -101,17 +132,15 @@ class ProduitController extends Controller
         $this->authorizeEntreprise($produit, $request);
 
         $request->validate([
-            'nom' => 'required|string|max:255',
-            'fournisseur_id' => 'required|exists:fournisseurs,id',
-            'prix_achat' => 'required|numeric|min:0',
-            'prix_vente' => 'required|numeric|min:0',
-            'stock_min' => 'required|integer|min:0',
+            'nom',
+            'fournisseur_id',
+            'prix_vente',
+            'stock_min',
         ]);
 
         $produit->update($request->only(
             'nom',
             'fournisseur_id',
-            'prix_achat',
             'prix_vente',
             'stock_min'
         ));

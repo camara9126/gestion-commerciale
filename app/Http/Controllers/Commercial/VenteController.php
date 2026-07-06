@@ -47,7 +47,15 @@ class VenteController extends Controller
         return view('commercial.ventes.index', compact('ventes', 'search'));
     }
     
+    // Recherche caisse
+    public function caisseSearch(Request $request)
+    {
+        $query = $request->q;
 
+        $produits = Produit::where('nom', 'LIKE', "%{$query}%")->limit(50)->get();
+
+        return response()->json($produits);
+    }
 
     public function create()
     {
@@ -62,12 +70,44 @@ class VenteController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'client_id' => 'required|exists:clients,id',
+            'client_id',
             'produits' => 'required|array|min:1',
             'statut',
             'produits.*.produit_id' => 'required|exists:produits,id',
+            'produits.*.prix_vente' => 'required|numeric|min:1',
             'produits.*.quantite' => 'required|numeric|min:1',
+            'newClient',
         ]);
+
+        
+         if (!$request->newClient && !$request->client_id) {
+                return redirect()->back()->with('danger','Veuillez selectionner ou saisir un client');
+            }
+        //Creation nouveau client
+        if($request->newClient) {
+            
+            $client= Client::create([
+                'nom' => $request->newClient,
+                'entreprise_id' => $request->user()->entreprise_id,
+            ]);
+        };
+
+        //dd($request->all());
+            $vente = Vente::create([
+                'client_id' => $request->client_id ?? $client->id,
+                'entreprise_id' => $request->user()->entreprise_id,
+                'reference' => 'VNT-' . time(),
+                'date' => now(),
+                'total' => 0,
+                'total_tva' => 0,
+                'total_ttc' => 0,
+                'statut' => 'impayee',
+                'user_id' => $request->user()->id,
+            ]);
+
+            $total = 0;
+            $total_tva = 0;
+            $total_ttc = 0;
 
 
         foreach ($request->produits as $item) {
@@ -78,7 +118,7 @@ class VenteController extends Controller
             }
 
             $produit = Produit::where('id', $item['produit_id'])->where('entreprise_id', $request->user()->entreprise_id)->lockForUpdate()
-                                ->firstOrFail(); // verrou stock
+                                ->first(); // verrou stock
 
             // Verification stock mouvement
             if ($produit->stock == 0) {
@@ -95,25 +135,8 @@ class VenteController extends Controller
             // Verification quantite de stock
             if ($produit->stock < $item['quantite']) {
                 
-                return redirect()->back()->with('danger','Stock insuffisant pour le produit : {$produit->nom}');
+                return redirect()->back()->with('danger','Stock insuffisant pour le produit ');
             }
-
-            //dd($request->all());
-            $vente = Vente::create([
-                'client_id' => $request->client_id,
-                'entreprise_id' => $request->user()->entreprise_id,
-                'reference' => 'VNT-' . time(),
-                'date' => now(),
-                'total' => 0,
-                'total_tva' => 0,
-                'total_ttc' => 0,
-                'statut' => 'impayee',
-                'user_id' => $request->user()->id,
-            ]);
-
-            $total = 0;
-            $total_tva = 0;
-            $total_ttc = 0;
 
 
             // Creation vente item
@@ -124,11 +147,11 @@ class VenteController extends Controller
                 'entreprise_id' => $request->user()->entreprise_id,
                 'produit_id' => $item['produit_id'],
                 'quantite' => $item['quantite'],
-                'prix_unitaire' => $produit->prix_vente,
+                'prix_unitaire' => $item['prix_vente'],
                 'taux_tva' => $entreprise->taux_tva,
-                'montant_tva' => ($item['quantite'] * $produit->prix_vente) * ($entreprise->taux_tva /100 ),
-                'total_ttc' => ($item['quantite'] * $produit->prix_vente) + (($item['quantite'] * $produit->prix_vente) * ($entreprise->taux_tva /100 )),
-                'total' => $item['quantite'] * $produit->prix_vente,
+                'montant_tva' => ($item['quantite'] * $item['quantite']) * ($entreprise->taux_tva /100 ),
+                'total_ttc' => ($item['quantite'] * $item['quantite']) + (($item['quantite'] * $item['quantite']) * ($entreprise->taux_tva /100 )),
+                'total' => $item['quantite'] * $item['quantite'],
             ]);
 
             // Mise a jour stock

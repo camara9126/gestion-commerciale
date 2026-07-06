@@ -154,6 +154,9 @@ Route::middleware('auth', 'entreprise.exists')->group(function () {
 
     Route::resource('ventes', VenteController::class);
     Route::get('/ventes.search', [VenteController::class, 'search'])->name('ventes.search');
+    // Route pour recherche article dans caisse
+    Route::get('caisseSearch', [VenteController::class, 'caisseSearch'])->name('caisse.search');
+
 
     
 
