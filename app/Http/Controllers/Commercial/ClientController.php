@@ -17,7 +17,7 @@ class ClientController extends Controller
     {
         $this->authorize('gerer-ventes');
 
-        $clients = Client::where( 'entreprise_id', request()->user()->entreprise_id)->latest()->simplePaginate(10);
+        $clients = Client::where( 'entreprise_id', request()->user()->entreprise_id)->latest()->paginate(10);
 
         return view('commercial.clients.index', compact('clients'));
     }

@@ -23,7 +23,7 @@
 
                            
                     <!-- Section Produits -->
-                        <h3 class="mb-0">Commandes</h3>
+                        <h3 class="mb-0">Paiements</h3>
                         <!--<a href="{{route('ventes.create')}}" class="btn btn-success">
                             <i class="fas fa-plus me-1"></i> Nouveau commande
                         </a>-->

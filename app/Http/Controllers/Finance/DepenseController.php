@@ -13,7 +13,7 @@ class DepenseController extends Controller
     public function index(Request $request)
     {
 
-        $depenses = Depense::with('categorie')->where( 'entreprise_id', request()->user()->entreprise_id)->latest()->simplePaginate(10);
+        $depenses = Depense::with('categorie')->where( 'entreprise_id', request()->user()->entreprise_id)->latest()->paginate(10);
         $categories = CategorieDepense::all();
 
         return view('finance.depenses.index', compact('depenses','categories'));

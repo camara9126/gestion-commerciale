@@ -14,7 +14,7 @@ class RecetteController extends Controller
      */
     public function index(Request $request)
     {
-        $recettes = Recette::with('categorie')->where( 'entreprise_id', $request->user()->entreprise_id)->latest()->simplePaginate(10);
+        $recettes = Recette::with('categorie')->where( 'entreprise_id', $request->user()->entreprise_id)->latest()->paginate(10);
 
         $paiements = Paiements::where('entreprise_id', $request->user()->entreprise_id)->where('statut', 'valide')
                                 ->with('vente.client')->orderBy('created_at', 'desc')->get();

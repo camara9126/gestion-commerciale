@@ -20,7 +20,7 @@ class ProduitController extends Controller
 
         // Verification limite produit du pack
         $user = request()->user();
-        $produits = Produit::with('fournisseur')->where('entreprise_id', $request->user()->entreprise_id)->latest()->simplePaginate(10);
+        $produits = Produit::with('fournisseur')->where('entreprise_id', $request->user()->entreprise_id)->latest()->paginate(10);
         $pack = $user->entreprise->pack;
 
         if($produits->count() >= $pack->max_produit) {

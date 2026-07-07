@@ -26,7 +26,7 @@ class VenteController extends Controller
         $this->authorize('gerer-ventes');
 
 
-        $ventes = Vente::with('client')->where('entreprise_id', $request->user()->entreprise_id)->latest()->simplePaginate(5); 
+        $ventes = Vente::with('client')->where('entreprise_id', $request->user()->entreprise_id)->latest()->paginate(10); 
 
         return view('commercial.ventes.index', compact('ventes'));
     }
@@ -79,7 +79,7 @@ class VenteController extends Controller
             'newClient',
         ]);
 
-        
+
          if (!$request->newClient && !$request->client_id) {
                 return redirect()->back()->with('danger','Veuillez selectionner ou saisir un client');
             }

@@ -18,9 +18,7 @@ class FournisseurController extends Controller
 
     $this->authorize('gerer-stock');
 
-        $fournisseurs = Fournisseur::where('entreprise_id', $request->user()->entreprise_id)
-            ->latest()
-            ->get();
+        $fournisseurs = Fournisseur::where('entreprise_id', $request->user()->entreprise_id)->latest()->paginate(10);
 
         return view('inventaire.fournisseurs.index', compact('fournisseurs'));
     }
@@ -117,7 +115,7 @@ class FournisseurController extends Controller
             'telephone' => $request->telephone,
             'email' => $request->email,
             'adresse' => $request->adresse,
-            'statut' => $request->statut,
+            'statut' => $request->statut ?? 1,
         ]);
 
         return redirect()->route('fournisseurs.index')

@@ -14,7 +14,7 @@ class PaiementController extends Controller
      */
     public function index(Request $request)
     {
-        $paiements = Paiements::with('vente.client')->where('entreprise_id', $request->user()->entreprise_id)->latest()->simplePaginate(10); 
+        $paiements = Paiements::with('vente.client')->where('entreprise_id', $request->user()->entreprise_id)->latest()->paginate(10); 
 
         return view('finance.paiements.index', compact('paiements'));
     }
