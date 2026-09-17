@@ -69,9 +69,12 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         // Envoi de notification après création du user
-        $admin = User::where('id', 2)->first();
+        $admin = User::where('email', 'amadoucamara@bcmgroupe.com')->first();
 //dd($admin);
+
+    if ($admin) {
         $admin->notify(new NewUserNotification($user));
+    }
 
         return redirect(route('dashboard.index', absolute: false));
     }

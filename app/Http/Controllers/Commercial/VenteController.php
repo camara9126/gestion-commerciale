@@ -210,8 +210,16 @@ class VenteController extends Controller
     }
 
 
-    // Facture
-    public function facture(Vente $vente)
+    // Liste des Factures
+    public function factures()
+    {
+        $factures = Vente::with('client')->where('entreprise_id', request()->user()->entreprise_id)->where('statut', 'payee')->latest()->paginate(10);
+
+        return view('commercial.factures.index', compact('factures'));
+    }
+
+    // facture en ligne
+    public function factureEnLigne(Vente $vente)
     {
         // Sécurité multi-entreprise
         if ($vente->entreprise_id !== request()->user()->entreprise_id) {

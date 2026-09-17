@@ -9,6 +9,7 @@ class StockMouvement extends Model
     protected $fillable = [
         'entreprise_id',
         'produit_id',
+        'designation',
         'type',
         'quantite',
         'reference',

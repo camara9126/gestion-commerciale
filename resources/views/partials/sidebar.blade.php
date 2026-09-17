@@ -47,7 +47,12 @@
                     </li>
                     <li class="nav-item mb-0 mt-0">
                         <a href="#" class=" disabled nav-link">
-                            <i class="fas fa-cart-arrow-down" style="color: #ff9d1b;"></i> Ventes & Factures
+                            <i class="fas fa-cart-arrow-down" style="color: #ff9d1b;"></i> Ventes
+                        </a>
+                    </li> 
+                    <li class="nav-item mb-0 mt-0">
+                        <a href="#" class=" disabled nav-link">
+                            <i class="fas fa-cart-arrow-down" style="color: #ff9d1b;"></i>  & Factures
                         </a>
                     </li> 
                     <hr>
@@ -99,6 +104,11 @@
                             </a>
                         </li>
                         <li class="nav-item mb-0 mt-0">
+                            <a href="{{ route('achats.index') }}" class="nav-link">
+                                <i class="fas fa-cart-plus" style="color: #ff9d1b;"></i> Achats
+                            </a>
+                        </li>
+                        <li class="nav-item mb-0 mt-0">
                             <a href="{{ route('fournisseurs.index') }}" class="nav-link">
                                 <i class="fas fa-truck" style="color: #ff9d1b;"></i> Fournisseurs
                             </a>
@@ -119,7 +129,12 @@
                         </li>
                         <li class="nav-item mb-0 mt-0">
                             <a href="{{ route('ventes.index') }}" class="nav-link">
-                                <i class="fas fa-cart-arrow-down" style="color: #ff9d1b;"></i> Ventes & Factures
+                                <i class="fas fa-cart-arrow-down" style="color: #ff9d1b;"></i> Ventes
+                            </a>
+                        </li>
+                        <li class="nav-item mb-0 mt-0">
+                            <a href="{{ route('factures') }}" class="nav-link">
+                                <i class="fas fa-file-invoice" style="color: #ff9d1b;"></i> Factures
                             </a>
                         </li>
                         <hr> 

@@ -64,7 +64,7 @@ class FournisseurController extends Controller
             'adresse' => $request->adresse,
         ]);
 
-        return redirect()->route('fournisseurs.index')
+        return redirect()->back()
             ->with('success', 'Fournisseur ajouté avec succès');
     }
 

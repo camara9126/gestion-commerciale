@@ -59,10 +59,11 @@
                                                     <th>Date</th>
                                                     <th>Statut</th>
                                                     <th>Actions</th>
+                                                    <th>Facture</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @forelse($ventes as $v)
+                                                @forelse($factures as $v)
                                                 <tr>
                                                     <td>{{$v->reference}}</td>
                                                     <td>{{$v->client->nom ?? 'Client supprimee'}}</td>
@@ -90,13 +91,15 @@
                                                         </button>
                                                         @endif
                                                     </td>
-                                                    <!-- <td>
-                                                        <a href="{{route('ventes.show', $v->id)}}" class="btn btn-outline-warning mr-2" title="afficher la facture">
+                                                    <td>
+                                                        <a href="{{route('factures.show', $v->id)}}" class="btn btn-outline-warning mr-2" title="afficher la facture">
                                                             Afficher la facture
                                                         </a>
                                                     
-                                                        
-                                                    </td> -->
+                                                        <!--<a href="{{route('factures.facture', $v->id)}}" class="btn btn-outline-primary ml-2" title="telecharger la facture">
+                                                            <i class="fas fa-file-invoice text-primary"></i>
+                                                        </a>-->
+                                                    </td>
                                                 </tr>
                                                 @empty
                                                     <tr>
@@ -108,7 +111,7 @@
                                     </div>
                                     
                                     <div class="d-flex justify-content-center mt-4">
-                                        {{$ventes->links()}}
+                                        {{$factures->links()}}
                                     </div>
                                 </div>                                                                    
                             </div>
