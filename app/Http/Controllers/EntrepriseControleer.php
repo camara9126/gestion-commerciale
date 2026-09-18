@@ -79,14 +79,14 @@ class EntrepriseControleer extends Controller
      */
     public function utilisateurs()
     {
-        $users = User::where('entreprise_id', '!=', 2)->latest()->simplePaginate(10);
+        $users = User::where('email', '!=', 'amadoucamara@bcmgroupe.com')->latest()->simplePaginate(10);
 
         return view('bmanager.utilisateurs', compact('users'));
     }
 
     public function entreprise()
     {
-        $entreprises = Entreprise::where('id', '!=', 2)->latest()->simplePaginate(10);
+        $entreprises = Entreprise::where('nom', '!=', 'Bmanager')->latest()->simplePaginate(10);
 
         return view('bmanager.entreprises', compact('entreprises'));
     }

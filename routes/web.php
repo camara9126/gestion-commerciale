@@ -113,13 +113,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('/entreprise', EntrepriseControleer::class);
     Route::get('/entreprise.utilisateurs', [EntrepriseControleer::class, 'utilisateurs'])->name('entreprise.utilisateurs');
     Route::get('/entreprise.entreprises', [EntrepriseControleer::class, 'entreprise'])->name('entreprise.entreprises');
+    Route::delete('/entreprise.destroy/{e}', [EntrepriseControleer::class, 'destroy'])->name('entreprise.destroy');
     Route::get('/entreprise.produits', [EntrepriseControleer::class, 'produits'])->name('entreprise.produits');
     Route::get('/entreprise.fournisseurs', [EntrepriseControleer::class, 'fournisseurs'])->name('entreprise.fournisseurs');
     Route::get('/entreprise.support', [EntrepriseControleer::class, 'support'])->name('entreprise.support');
     Route::get('/entreprise.mesage', [EntrepriseControleer::class, 'message'])->name('entreprise.message');
     Route::get('/entreprise.search', [EntrepriseControleer::class, 'search'])->name('entreprise.search');
     Route::delete('/support/{s}', [EntrepriseControleer::class, 'sDestroy'])->name('support.destroy');
-    Route::delete('/user/{u}', [EntrepriseControleer::class, 'uDestroy'])->name('user.destroy');
+    Route::delete('/entreprise.utilisateur/{u}', [EntrepriseControleer::class, 'uDestroy'])->name('utilisateur.destroy');
     // Ntification lus
     Route::get('/notification/read/{id}', [NotificationController::class, 'markAsRead'])->name('notification.read');
 });

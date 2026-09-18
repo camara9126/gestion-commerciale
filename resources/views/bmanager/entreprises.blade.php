@@ -227,7 +227,7 @@ use App\Models\Support;
                                                     <th>Abonnement</th>
                                                     <th>Fin essai</th>
                                                     <th>Date d'expiration</th>
-                                                    <!--<th>Action</th>-->
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -242,7 +242,7 @@ use App\Models\Support;
                                                     <td>{{$e->abonnementValide() ? "Actif" : "Inactif"}}</td>
                                                     <td>{{$e->trial_fin}}</td>
                                                     <td>{{$e->abonnement_expire_le}}</td>
-                                                    <!--<td>
+                                                    <td>
                                                         <form action="{{route('entreprise.destroy', $e->id)}}" type="button" method="post" onsubmit="return confirm('Supprimer ?')">
                                                             @csrf
                                                             @method('DELETE')
@@ -250,7 +250,7 @@ use App\Models\Support;
                                                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                                             </button>
                                                         </form>
-                                                    </td>-->
+                                                    </td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>
