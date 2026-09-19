@@ -47,7 +47,6 @@ class CustomVerifyEmail extends Notification
 
         return (new MailMessage)
             ->subject('Vérifiez votre adresse e-mail')
-            ->line('<img src="{{asset(\'asset/logo/Logo B.Manager.png\')}}" width="100" alt="Logo Bmanager">')
             ->greeting('Bonjour ' . $notifiable->name . ',')
             ->line('Merci d’avoir créé votre compte sur Bmanager.')
             ->line('Pour finaliser votre inscription et accéder à votre espace, veuillez confirmer votre adresse e-mail.')

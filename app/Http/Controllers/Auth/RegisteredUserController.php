@@ -40,10 +40,10 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'role' => ['string', 'max:250'],
             'entreprise_nom' => ['required'],
-            'taux_tva' ,
+            'taux_tva' => ['nullable', 'numeric', 'between:0,100'],
             'telephone' => ['required'],
             'pack_id' => ['required'],
-        ]);
+        ]); 
         //dd($request);
 
         $entreprise= Entreprise::create([

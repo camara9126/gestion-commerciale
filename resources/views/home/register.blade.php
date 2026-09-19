@@ -401,12 +401,12 @@
                         </div>
                          <div class="col-6">
                             <div class="form-group">
-                                <label for="company">Telephone &nbsp;<span style="color: red;">*</span></label>
+                                <label for="telephone">Telephone &nbsp;<span style="color: red;">*</span></label>
                                 <div class="input-with-icon">
                                     <i class="fas fa-building"></i>
                                     <input type="number" id="telephone" name="telephone" placeholder="771234567" required>
                                 </div>
-                                <div class="error-message" id="companyError">Veuillez saisir le num de telephone de votre entreprise</div>
+                                <div class="error-message" id="telephoneError">Veuillez saisir le num de telephone de votre entreprise</div>
                             </div>
                         </div>
                     </div>
@@ -414,7 +414,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="company">Choisisser votre pack &nbsp;<span style="color: red;">*</span></label>
+                                <label for="pack_id">Choisisser votre pack &nbsp;<span style="color: red;">*</span></label>
                                 <div class="row">
                                     @foreach($packs as $pack)
                                     <div class="col-4">
@@ -428,7 +428,7 @@
                                     </div>
                                     @endforeach
                                 </div>
-                                <div class="error-message" id="companyError">Veuillez saisir le nom de votre entreprise</div>
+                                <div class="error-message" id="packError">Veuillez sélectionner un pack</div>
                             </div>                            
                         </div>
                     </div>
